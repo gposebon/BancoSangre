@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="bancosangreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DestinoDonacion">
+          <Key>
+            <PropertyRef Name="IdDestino" />
+          </Key>
+          <Property Name="IdDestino" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionDestino" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="250" />
+          <Property Name="Ciudad" Type="nvarchar" MaxLength="100" />
+          <Property Name="Provincia" Type="nvarchar" MaxLength="100" />
+          <Property Name="Prefijo" Type="nvarchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donante">
+          <Key>
+            <PropertyRef Name="IdDonante" />
+          </Key>
+          <Property Name="IdDonante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTipoDoc" Type="int" Nullable="false" />
+          <Property Name="NroDoc" Type="int" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Domicilio" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IdProvincia" Type="int" Nullable="false" />
+          <Property Name="IdLocalidad" Type="int" Nullable="false" />
+          <Property Name="Telefono" Type="int" />
+          <Property Name="Ocupacion" Type="nvarchar" MaxLength="150" />
+          <Property Name="Edad" Type="int" />
+          <Property Name="GrupoSanguineo" Type="nvarchar" MaxLength="10" />
+          <Property Name="RegistroFHA" Type="bit" />
+          <Property Name="NumeroRegistroFHA" Type="int" />
+          <Property Name="RegistroRP" Type="bit" />
+          <Property Name="NumeroRegistroRP" Type="int" />
+          <Property Name="RegistroRR" Type="int" />
+          <Property Name="NumeroRegistroRR" Type="int" />
+          <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadoDonante">
+          <Key>
+            <PropertyRef Name="IdEstadoDonante" />
+          </Key>
+          <Property Name="IdEstadoDonante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionEstado" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="IdLocalidad" />
+          </Key>
+          <Property Name="IdLocalidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreLocalidad" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="IdProvincia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="IdProvincia" />
+          </Key>
+          <Property Name="IdProvincia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreProvincia" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TipoDocumento">
+          <Key>
+            <PropertyRef Name="IdTipoDoc" />
+          </Key>
+          <Property Name="IdTipoDoc" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionTipoDoc" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Donante_EstadoDonante">
+          <End Role="EstadoDonante" Type="Self.EstadoDonante" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoDonante">
+              <PropertyRef Name="IdEstadoDonante" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdEstadoDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="IdLocalidad" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdLocalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_TipoDoc">
+          <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumento">
+              <PropertyRef Name="IdTipoDoc" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdTipoDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidad_Provincia1">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Localidad">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bancosangreModelStoreContainer">
+          <EntitySet Name="DestinoDonacion" EntityType="Self.DestinoDonacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donante" EntityType="Self.Donante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
+            <End Role="EstadoDonante" EntitySet="EstadoDonante" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_Localidad" Association="Self.FK_Donante_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_Provincia" Association="Self.FK_Donante_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_TipoDoc" Association="Self.FK_Donante_TipoDoc">
+            <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidad_Provincia1" Association="Self.FK_Localidad_Provincia1">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Localidad" EntitySet="Localidad" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bancosangreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DestinoDonacion">
+          <Key>
+            <PropertyRef Name="IdDestino" />
+          </Key>
+          <Property Name="IdDestino" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionDestino" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Provincia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Prefijo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donante">
+          <Key>
+            <PropertyRef Name="IdDonante" />
+          </Key>
+          <Property Name="IdDonante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTipoDoc" Type="Int32" Nullable="false" />
+          <Property Name="NroDoc" Type="Int32" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdProvincia" Type="Int32" Nullable="false" />
+          <Property Name="IdLocalidad" Type="Int32" Nullable="false" />
+          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Ocupacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Edad" Type="Int32" />
+          <Property Name="GrupoSanguineo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="RegistroFHA" Type="Boolean" />
+          <Property Name="NumeroRegistroFHA" Type="Int32" />
+          <Property Name="RegistroRP" Type="Boolean" />
+          <Property Name="NumeroRegistroRP" Type="Int32" />
+          <Property Name="RegistroRR" Type="Int32" />
+          <Property Name="NumeroRegistroRR" Type="Int32" />
+          <NavigationProperty Name="Localidad" Relationship="Self.FK_Donante_Localidad" FromRole="Donante" ToRole="Localidad" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Donante_Provincia" FromRole="Donante" ToRole="Provincia" />
+          <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Donante_TipoDoc" FromRole="Donante" ToRole="TipoDocumento" />
+          <Property Name="IdEstadoDonante" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EstadoDonante" Relationship="bancosangreModel.FK_Donante_EstadoDonante" FromRole="Donante" ToRole="EstadoDonante" />
+        </EntityType>
+        <EntityType Name="EstadoDonante">
+          <Key>
+            <PropertyRef Name="IdEstadoDonante" />
+          </Key>
+          <Property Name="IdEstadoDonante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionEstado" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Donante_EstadoDonante" FromRole="EstadoDonante" ToRole="Donante" />
+        </EntityType>
+        <EntityType Name="Localidad">
+          <Key>
+            <PropertyRef Name="IdLocalidad" />
+          </Key>
+          <Property Name="IdLocalidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreLocalidad" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdProvincia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Donante" Relationship="Self.FK_Donante_Localidad" FromRole="Localidad" ToRole="Donante" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Localidad_Provincia1" FromRole="Localidad" ToRole="Provincia" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="IdProvincia" />
+          </Key>
+          <Property Name="IdProvincia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreProvincia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Donante" Relationship="Self.FK_Donante_Provincia" FromRole="Provincia" ToRole="Donante" />
+          <NavigationProperty Name="Localidad" Relationship="Self.FK_Localidad_Provincia1" FromRole="Provincia" ToRole="Localidad" />
+        </EntityType>
+        <EntityType Name="TipoDocumento">
+          <Key>
+            <PropertyRef Name="IdTipoDoc" />
+          </Key>
+          <Property Name="IdTipoDoc" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionTipoDoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Donante" Relationship="Self.FK_Donante_TipoDoc" FromRole="TipoDocumento" ToRole="Donante" />
+        </EntityType>
+        <Association Name="FK_Donante_Localidad">
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidad">
+              <PropertyRef Name="IdLocalidad" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdLocalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_TipoDoc">
+          <End Role="TipoDocumento" Type="Self.TipoDocumento" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumento">
+              <PropertyRef Name="IdTipoDoc" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdTipoDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidad_Provincia1">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Localidad">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bancosangreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DestinoDonacion" EntityType="Self.DestinoDonacion" />
+          <EntitySet Name="Donante" EntityType="Self.Donante" />
+          <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" />
+          <EntitySet Name="Localidad" EntityType="Self.Localidad" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" />
+          <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" />
+          <AssociationSet Name="FK_Donante_Localidad" Association="Self.FK_Donante_Localidad">
+            <End Role="Localidad" EntitySet="Localidad" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_Provincia" Association="Self.FK_Donante_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_TipoDoc" Association="Self.FK_Donante_TipoDoc">
+            <End Role="TipoDocumento" EntitySet="TipoDocumento" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidad_Provincia1" Association="Self.FK_Localidad_Provincia1">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Localidad" EntitySet="Localidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_EstadoDonante" Association="bancosangreModel.FK_Donante_EstadoDonante">
+            <End Role="EstadoDonante" EntitySet="EstadoDonante" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_Donante_EstadoDonante">
+          <End Type="bancosangreModel.EstadoDonante" Role="EstadoDonante" Multiplicity="1" />
+          <End Type="bancosangreModel.Donante" Role="Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoDonante">
+              <PropertyRef Name="IdEstadoDonante" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdEstadoDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bancosangreModelStoreContainer" CdmEntityContainer="bancosangreEntities">
+          <EntitySetMapping Name="DestinoDonacion">
+            <EntityTypeMapping TypeName="bancosangreModel.DestinoDonacion">
+              <MappingFragment StoreEntitySet="DestinoDonacion">
+                <ScalarProperty Name="IdDestino" ColumnName="IdDestino" />
+                <ScalarProperty Name="DescripcionDestino" ColumnName="DescripcionDestino" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+                <ScalarProperty Name="Prefijo" ColumnName="Prefijo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donante">
+            <EntityTypeMapping TypeName="bancosangreModel.Donante">
+              <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
+                <ScalarProperty Name="IdDonante" ColumnName="IdDonante" />
+                <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
+                <ScalarProperty Name="NroDoc" ColumnName="NroDoc" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Ocupacion" ColumnName="Ocupacion" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="GrupoSanguineo" ColumnName="GrupoSanguineo" />
+                <ScalarProperty Name="RegistroFHA" ColumnName="RegistroFHA" />
+                <ScalarProperty Name="NumeroRegistroFHA" ColumnName="NumeroRegistroFHA" />
+                <ScalarProperty Name="RegistroRP" ColumnName="RegistroRP" />
+                <ScalarProperty Name="NumeroRegistroRP" ColumnName="NumeroRegistroRP" />
+                <ScalarProperty Name="RegistroRR" ColumnName="RegistroRR" />
+                <ScalarProperty Name="NumeroRegistroRR" ColumnName="NumeroRegistroRR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoDonante">
+            <EntityTypeMapping TypeName="bancosangreModel.EstadoDonante">
+              <MappingFragment StoreEntitySet="EstadoDonante">
+                <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
+                <ScalarProperty Name="DescripcionEstado" ColumnName="DescripcionEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidad">
+            <EntityTypeMapping TypeName="bancosangreModel.Localidad">
+              <MappingFragment StoreEntitySet="Localidad">
+                <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
+                <ScalarProperty Name="NombreLocalidad" ColumnName="NombreLocalidad" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincia">
+            <EntityTypeMapping TypeName="bancosangreModel.Provincia">
+              <MappingFragment StoreEntitySet="Provincia">
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDocumento">
+            <EntityTypeMapping TypeName="bancosangreModel.TipoDocumento">
+              <MappingFragment StoreEntitySet="TipoDocumento">
+                <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
+                <ScalarProperty Name="DescripcionTipoDoc" ColumnName="DescripcionTipoDoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

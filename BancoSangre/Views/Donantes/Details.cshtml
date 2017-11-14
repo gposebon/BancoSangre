@@ -1,0 +1,162 @@
+﻿@model BancoSangre.Models.Donante
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Donante</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NroDoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NroDoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Domicilio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Domicilio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ocupacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ocupacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Edad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Edad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GrupoSanguineo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GrupoSanguineo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistroFHA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistroFHA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroRegistroFHA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroRegistroFHA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistroRP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistroRP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroRegistroRP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroRegistroRP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistroRR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistroRR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroRegistroRR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroRegistroRR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Localidad.NombreLocalidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Localidad.NombreLocalidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Provincia.NombreProvincia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Provincia.NombreProvincia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDocumento.DescripcionTipoDoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDocumento.DescripcionTipoDoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDonante.DescripcionEstado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDonante.DescripcionEstado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdDonante }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

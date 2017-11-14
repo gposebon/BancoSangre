@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoSangre", "BancoSangre\BancoSangre.csproj", "{8840B742-08C3-423A-ACE9-EFC908F01F29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BancoSangre.Tests", "BancoSangre.Tests\BancoSangre.Tests.csproj", "{508A3615-8876-487A-98DD-056FD55258A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8840B742-08C3-423A-ACE9-EFC908F01F29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8840B742-08C3-423A-ACE9-EFC908F01F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8840B742-08C3-423A-ACE9-EFC908F01F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8840B742-08C3-423A-ACE9-EFC908F01F29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{508A3615-8876-487A-98DD-056FD55258A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{508A3615-8876-487A-98DD-056FD55258A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{508A3615-8876-487A-98DD-056FD55258A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{508A3615-8876-487A-98DD-056FD55258A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D2A0D21-D1AA-4CDB-BA1A-3A2742A37A87}
+	EndGlobalSection
+EndGlobal
