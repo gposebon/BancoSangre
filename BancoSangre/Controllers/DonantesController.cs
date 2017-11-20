@@ -46,6 +46,17 @@ namespace BancoSangre.Controllers
             return View();
         }
 
+        public ActionResult TraerLocalidades(int? IdProvincia)
+        {
+            return Json(db.Localidad.Where(s => s.IdProvincia ==
+            IdProvincia).Select(s => new
+            {
+                IdLocalidad = s.IdLocalidad,
+                NombreLocalidad = s.NombreLocalidad,
+            }).ToList(), JsonRequestBehavior.AllowGet);
+
+        }
+
         // POST: Donantes/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
