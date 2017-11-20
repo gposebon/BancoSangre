@@ -199,6 +199,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BancoSangre.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,6 +225,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BancoSangre.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DestinoDonacion.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
@@ -231,6 +246,22 @@
     <Compile Include="Models\Provincia.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RolesUsuario.cs" />
+    <Compile Include="Models\SeguridadBancoSangre.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SeguridadBancoSangre.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SeguridadBancoSangre.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SeguridadBancoSangre.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\TipoDocumento.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
@@ -240,6 +271,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Imagenes\bancosangre.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -254,6 +286,16 @@
       <DependentUpon>BancoSangre.edmx</DependentUpon>
       <LastGenOutput>BancoSangre.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\SeguridadBancoSangre.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
+      <LastGenOutput>SeguridadBancoSangre.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SeguridadBancoSangre.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
+      <LastGenOutput>SeguridadBancoSangre.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -266,6 +308,13 @@
     <Content Include="Models\BancoSangre.edmx.diagram">
       <DependentUpon>BancoSangre.edmx</DependentUpon>
     </Content>
+    <EntityDeploy Include="Models\SeguridadBancoSangre.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SeguridadBancoSangre.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SeguridadBancoSangre.edmx.diagram">
+      <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Donantes\JavaScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -275,6 +324,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lanzamiento.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

@@ -12,12 +12,12 @@ namespace BancoSangre.Controllers
 {
     public class DonantesController : Controller
     {
-        private bancosangreEntities db = new bancosangreEntities();
+        private readonly bancosangreEntities _db = new bancosangreEntities();
 
         // GET: Donantes
         public ActionResult Index()
         {
-            var donante = db.Donante.Include(d => d.Localidad).Include(d => d.Provincia).Include(d => d.TipoDocumento).Include(d => d.EstadoDonante);
+            var donante = _db.Donante.Include(d => d.Localidad).Include(d => d.Provincia).Include(d => d.TipoDocumento).Include(d => d.EstadoDonante);
             return View(donante.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace BancoSangre.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Donante donante = db.Donante.Find(id);
+            Donante donante = _db.Donante.Find(id);
             if (donante == null)
             {
                 return HttpNotFound();
@@ -36,27 +36,14 @@ namespace BancoSangre.Controllers
             return View(donante);
         }
 
-        
         // GET: Donantes/Create
         public ActionResult Create()
         {
-            // List<Provincia> ListaProvincia = db.Provincia.ToList(); 
-            ViewBag.IdLocalidad = new SelectList(db.Localidad, "IdLocalidad", "NombreLocalidad");
-            ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "NombreProvincia");
-            ViewBag.IdTipoDoc = new SelectList(db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
-            ViewBag.IdEstadoDonante = new SelectList(db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
+            ViewBag.IdLocalidad = new SelectList(_db.Localidad, "IdLocalidad", "NombreLocalidad");
+            ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia");
+            ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
+            ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
             return View();
-        }
-
-        public ActionResult TraerLocalidades(int? IdProvincia)
-        {
-            return Json(db.Localidad.Where(s => s.IdProvincia ==
-            IdProvincia).Select(s => new
-            {
-                IdLocalidad = s.IdLocalidad,
-                NombreLocalidad = s.NombreLocalidad,
-            }).ToList(), JsonRequestBehavior.AllowGet);
-                       
         }
 
         // POST: Donantes/Create
@@ -68,15 +55,15 @@ namespace BancoSangre.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Donante.Add(donante);
-                db.SaveChanges();
+                _db.Donante.Add(donante);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IdLocalidad = new SelectList(db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
-            ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
-            ViewBag.IdTipoDoc = new SelectList(db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
-            ViewBag.IdEstadoDonante = new SelectList(db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
+            ViewBag.IdLocalidad = new SelectList(_db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
+            ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
+            ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
+            ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
             return View(donante);
         }
 
@@ -87,15 +74,15 @@ namespace BancoSangre.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Donante donante = db.Donante.Find(id);
+            Donante donante = _db.Donante.Find(id);
             if (donante == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdLocalidad = new SelectList(db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
-            ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
-            ViewBag.IdTipoDoc = new SelectList(db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
-            ViewBag.IdEstadoDonante = new SelectList(db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
+            ViewBag.IdLocalidad = new SelectList(_db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
+            ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
+            ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
+            ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
             return View(donante);
         }
 
@@ -108,14 +95,14 @@ namespace BancoSangre.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(donante).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(donante).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IdLocalidad = new SelectList(db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
-            ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
-            ViewBag.IdTipoDoc = new SelectList(db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
-            ViewBag.IdEstadoDonante = new SelectList(db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
+            ViewBag.IdLocalidad = new SelectList(_db.Localidad, "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
+            ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
+            ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
+            ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
             return View(donante);
         }
 
@@ -126,7 +113,7 @@ namespace BancoSangre.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Donante donante = db.Donante.Find(id);
+            Donante donante = _db.Donante.Find(id);
             if (donante == null)
             {
                 return HttpNotFound();
@@ -139,9 +126,9 @@ namespace BancoSangre.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Donante donante = db.Donante.Find(id);
-            db.Donante.Remove(donante);
-            db.SaveChanges();
+            Donante donante = _db.Donante.Find(id);
+            _db.Donante.Remove(donante);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -149,7 +136,7 @@ namespace BancoSangre.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
