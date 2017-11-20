@@ -36,14 +36,27 @@ namespace BancoSangre.Controllers
             return View(donante);
         }
 
+        
         // GET: Donantes/Create
         public ActionResult Create()
         {
+            // List<Provincia> ListaProvincia = db.Provincia.ToList(); 
             ViewBag.IdLocalidad = new SelectList(db.Localidad, "IdLocalidad", "NombreLocalidad");
             ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "NombreProvincia");
             ViewBag.IdTipoDoc = new SelectList(db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
             ViewBag.IdEstadoDonante = new SelectList(db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
             return View();
+        }
+
+        public ActionResult TraerLocalidades(int? IdProvincia)
+        {
+            return Json(db.Localidad.Where(s => s.IdProvincia ==
+            IdProvincia).Select(s => new
+            {
+                IdLocalidad = s.IdLocalidad,
+                NombreLocalidad = s.NombreLocalidad,
+            }).ToList(), JsonRequestBehavior.AllowGet);
+                       
         }
 
         // POST: Donantes/Create
