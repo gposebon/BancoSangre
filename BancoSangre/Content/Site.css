@@ -97,3 +97,24 @@ textarea {
 	bottom: 0; 
 	z-index: 9999
 }
+
+.botonMenu {
+	padding: .25em;
+	font-size: 6em;
+}
+
+@media screen and (max-width: 500px) {
+	.botonMenu {
+		font-size: 5em;
+	}
+}
+
+.divBotonMenu {
+	text-align: center;
+}
+
+@media screen and (max-width: 500px) {
+	.divBotonMenu h2 {
+		font-size: 1.2em;
+	}
+}

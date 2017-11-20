@@ -2101,7 +2101,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #3276b1;
+  background-color: #154d7d;
   border-color: #285e8e;
 }
 
@@ -4198,6 +4198,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
   line-height: 20px;
 }
 
+@media screen and (max-width: 500px) {
+	.navbar-brand {
+		font-size: 1.2em;
+	}
+}
+
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
@@ -4925,6 +4931,11 @@ a.list-group-item.active > .badge,
 
 .nav-pills > li > a > .badge {
   margin-left: 3px;
+}
+
+.jumbotronAgregado {
+	width: 99.7%;
+	display: inline-block;
 }
 
 .jumbotron {
