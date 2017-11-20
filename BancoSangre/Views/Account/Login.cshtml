@@ -52,9 +52,26 @@
 			}
 		</section>
 	</div>
-	
+
+</div>
+
+<div id="divLanzamiento" style="text-align: center; background-color: #ffffff; width: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999">
+	<div class="barraIngresoIzquierda barraIngreso"><div class="contenedorCentrar"><div class="divCentrar">Banco de solidaridad</div></div></div>
+	<div class="logoBancoSangre" id="logoBancoSangre"></div>
+	<div class="barraIngresoDerecha barraIngreso"><div class="contenedorCentrar"><div class="divCentrar">2.0</div></div></div>
 </div>
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
+
+	<script>
+		$(document).ready(function() {
+			$(".barraIngresoIzquierda").css({ 'right': '9%' });
+			$(".barraIngresoDerecha").css({ 'left': '49%' });
+			$("#logoBancoSangre").fadeIn(3000, function() {
+				$("#divLanzamiento").fadeOut(2000);
+			});
+		});
+	</script>
+
 }
