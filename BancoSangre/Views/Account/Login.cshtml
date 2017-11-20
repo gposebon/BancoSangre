@@ -63,15 +63,5 @@
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
-
-	<script>
-		$(document).ready(function() {
-			$(".barraIngresoIzquierda").css({ 'right': '9%' });
-			$(".barraIngresoDerecha").css({ 'left': '49%' });
-			$("#logoBancoSangre").fadeIn(3000, function() {
-				$("#divLanzamiento").fadeOut(2000);
-			});
-		});
-	</script>
-
+	@Scripts.Render("~/Scripts/lanzamiento.js")
 }
