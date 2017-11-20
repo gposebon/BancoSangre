@@ -57,6 +57,10 @@ namespace MetalSoft.Controllers
 		public ActionResult Login(string returnUrl)
 		{
 			ViewBag.ReturnUrl = returnUrl;
+
+			if(System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+				return RedirectToAction("Index", "Home");
+
 			return View();
 		}
 
