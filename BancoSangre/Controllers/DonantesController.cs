@@ -48,7 +48,7 @@ namespace BancoSangre.Controllers
 
         public ActionResult TraerLocalidades(int? IdProvincia)
         {
-            return Json(db.Localidad.Where(s => s.IdProvincia ==
+            return Json(_db.Localidad.Where(s => s.IdProvincia ==
             IdProvincia).Select(s => new
             {
                 IdLocalidad = s.IdLocalidad,
