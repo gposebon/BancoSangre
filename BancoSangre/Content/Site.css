@@ -26,8 +26,8 @@ textarea {
 .barraLateralDerecha {
 	background-color: #e03838;
 	position: absolute;
-	right: 0;
-	width: 8%;
+	right: .5%;
+	width: 5%;
 	top: 0;
 	bottom: 0;
 }
