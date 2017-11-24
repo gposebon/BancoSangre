@@ -33,23 +33,25 @@ textarea {
 }
 
 .barraIngresoIzquierda {
-	right: 110%;
+	right: 60%;
 	background: #e03838;
 	text-align: right;
 	margin-top: 5%;
 	padding-right: 0.3em;
+	z-index: 3;
 }
 
 .barraIngresoDerecha {
-	left: 110%;
+	left: 101%;
 	background: #428bca;
 	text-align: left;
-	margin-top: .5%;
+	margin-top: -0.1%;
 	padding-left: 0.3em;
+	z-index: 3;
 }
 
 .barraIngreso {
-	width: 60%;
+	width: 55%;
 	height: 7%;
 	transition: 2s;
 	-webkit-transition: 2s;
@@ -67,11 +69,12 @@ textarea {
 
 .logoBancoSangre {
 	display: none;
-	height: 200px;
 	background: url('../../Content/Imagenes/bancosangre.jpg') no-repeat center;
-	margin-top: .5%;
+	background-size:contain;
+	margin-top: -1.2%;
 	position: relative;
-	width: 100%;
+	height: 50%;
+	z-index: 1;
 }
 
 .contenedorCentrar {
@@ -89,12 +92,13 @@ textarea {
 .divLanzamiento {
 	text-align: center; 
 	background-color: #ffffff; 
-	width: 100%; 
+	width: 100%;
+	height: 100%;
 	position: absolute; 
 	top: 0; 
 	left: 0; 
 	right: 0; 
-	bottom: 0; 
+	bottom: 0;
 	z-index: 9999
 }
 
