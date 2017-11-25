@@ -4,11 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<link href="~/Content/estilosCreacion.css" rel="stylesheet" />
+
+<h3>Detalle</h3>
+<hr />
 
 <div>
-    <h4>Donante</h4>
-    <hr />
+  
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.NroDoc)
@@ -158,5 +160,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdDonante }) |
+    
     @Html.ActionLink("Back to List", "Index")
 </p>

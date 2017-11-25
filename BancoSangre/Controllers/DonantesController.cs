@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using BancoSangre.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BancoSangre.Controllers
 {
@@ -13,8 +14,8 @@ namespace BancoSangre.Controllers
 	{
 		private readonly bancosangreEntities _db = new bancosangreEntities();
 
-		// GET: Donantes
-		public ActionResult Index()
+        // GET: Donantes
+        public ActionResult Index()
 		{
 			var donante = _db.Donante.Include(d => d.Localidad).Include(d => d.Provincia).Include(d => d.TipoDocumento).Include(d => d.EstadoDonante);
 			return View(donante.ToList());
