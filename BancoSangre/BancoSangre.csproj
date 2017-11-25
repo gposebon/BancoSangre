@@ -298,6 +298,7 @@
       <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
       <LastGenOutput>SeguridadBancoSangre.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Auxiliares\barraLateral.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -326,7 +327,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\lanzamiento.js" />
+    <Content Include="Scripts\Auxiliares\lanzamiento.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

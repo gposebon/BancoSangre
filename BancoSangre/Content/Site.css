@@ -30,6 +30,7 @@ textarea {
 	width: 5%;
 	top: 0;
 	bottom: 0;
+	display: none;
 }
 
 .barraIngresoIzquierda {
