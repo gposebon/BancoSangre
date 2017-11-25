@@ -24,7 +24,7 @@ textarea {
 }
 
 .barraLateralDerecha {
-	background-color: #e03838;
+	background-color: #FA0F5B;
 	position: absolute;
 	right: .5%;
 	width: 5%;
@@ -34,36 +34,37 @@ textarea {
 
 .barraIngresoIzquierda {
 	right: 60%;
-	background: #e03838;
 	text-align: right;
 	margin-top: 5%;
 	padding-right: 0.3em;
 	z-index: 3;
+	border-bottom: #FA0F5B solid 2px;
 }
 
 .barraIngresoDerecha {
 	left: 101%;
-	background: #428bca;
 	text-align: left;
 	margin-top: -0.1%;
 	padding-left: 0.3em;
 	z-index: 3;
+	border-top: #323CC4 solid 2px;
 }
 
 .barraIngreso {
 	width: 55%;
-	height: 7%;
+	height: 5%;
 	transition: 2s;
 	-webkit-transition: 2s;
 	-moz-transition: 2s;
 	position: relative;
-	font: 1.7em bold roboto, arial, sans-serif;
+	font: 1.6em roboto, arial, sans-serif;
 	color: #ffffff;
+	-webkit-font-smoothing: antialiased;
 }
 
 @media screen and (max-width: 500px) {
 	.barraIngreso {
-		font-size: 1.25em;
+		font-size: 1.2em;
 	}
 }
 
@@ -73,7 +74,7 @@ textarea {
 	background-size:contain;
 	margin-top: -1.2%;
 	position: relative;
-	height: 50%;
+	height: 40%;
 	z-index: 1;
 }
 
@@ -91,7 +92,7 @@ textarea {
 
 .divLanzamiento {
 	text-align: center; 
-	background-color: #ffffff; 
+	background-color: #617286; 
 	width: 100%;
 	height: 100%;
 	position: absolute; 

@@ -763,6 +763,13 @@ pre code {
   margin-left: auto;
 }
 
+.containerNav {
+	padding-right: 15px;
+	padding-left: .5em;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 .container:before,
 .container:after {
   display: table;
@@ -4056,14 +4063,13 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 
-.navbar-header:before,
-.navbar-header:after {
-  display: table;
-  content: " ";
-}
-
-.navbar-header:after {
-  clear: both;
+.navbar-header:before{
+  background:url(Imagenes/logo.png) no-repeat center;
+	background-size:contain;
+  width: 3em;
+  height: 3em;
+	float: left;
+	margin-top: .25em;
 }
 
 .navbar-header:before,
@@ -4200,7 +4206,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 @media screen and (max-width: 500px) {
 	.navbar-brand {
-		font-size: 1.1em;
+		font-size: 1.3em;
 	}
 }
 
@@ -4507,7 +4513,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #428bca;
+  background-color: #617286;
   border-color: #080808;
 }
 
