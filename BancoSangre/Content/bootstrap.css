@@ -867,6 +867,7 @@ pre code {
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
+ 
 }
 
 .col-xs-1,
@@ -1659,9 +1660,11 @@ legend {
 }
 
 label {
-  display: inline-block;
-  margin-bottom: 5px;
-  font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  
+
 }
 
 input[type="search"] {
@@ -1728,7 +1731,7 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 100%;
   height: 34px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.428571429;
   color: #555555;
   vertical-align: middle;
@@ -1971,6 +1974,8 @@ textarea.input-lg {
   padding-top: 7px;
   margin-top: 0;
   margin-bottom: 0;
+  
+  
 }
 
 .form-horizontal .form-group {
@@ -2001,6 +2006,7 @@ textarea.input-lg {
 @media (min-width: 768px) {
   .form-horizontal .control-label {
     text-align: right;
+    
   }
 }
 
