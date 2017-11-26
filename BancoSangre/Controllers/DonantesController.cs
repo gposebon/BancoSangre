@@ -1,12 +1,10 @@
 ﻿
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using BancoSangre.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace BancoSangre.Controllers
 {
@@ -14,21 +12,23 @@ namespace BancoSangre.Controllers
 	{
 		private readonly bancosangreEntities _db = new bancosangreEntities();
 
-        // GET: Donantes
-        public ActionResult Index()
+		// GET: Donantes
+		[Authorize]
+		public ActionResult Index()
 		{
 			var donante = _db.Donante.Include(d => d.Localidad).Include(d => d.Provincia).Include(d => d.TipoDocumento).Include(d => d.EstadoDonante);
 			return View(donante.ToList());
 		}
 
 		// GET: Donantes/Details/5
+		[Authorize]
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Donante donante = _db.Donante.Find(id);
+			var donante = _db.Donante.Find(id);
 			if (donante == null)
 			{
 				return HttpNotFound();
@@ -37,6 +37,7 @@ namespace BancoSangre.Controllers
 		}
 
 		// GET: Donantes/Create
+		[Authorize]
 		public ActionResult Create()
 		{
 			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(0), "IdLocalidad", "NombreLocalidad");
@@ -61,6 +62,7 @@ namespace BancoSangre.Controllers
 		// POST: Donantes/Create
 		// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
 		// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "IdDonante,IdTipoDoc,NroDoc,Apellido,Nombre,Domicilio,IdProvincia,IdLocalidad,Telefono,Ocupacion,Edad,GrupoSanguineo,RegistroFHA,NumeroRegistroFHA,RegistroRP,NumeroRegistroRP,RegistroRR,NumeroRegistroRR,IdEstadoDonante")] Donante donante)
@@ -87,6 +89,7 @@ namespace BancoSangre.Controllers
 		}
 
 		// GET: Donantes/Edit/5
+		[Authorize]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -108,6 +111,7 @@ namespace BancoSangre.Controllers
 		// POST: Donantes/Edit/5
 		// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
 		// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "IdDonante,IdTipoDoc,NroDoc,Apellido,Nombre,Domicilio,IdProvincia,IdLocalidad,Telefono,Ocupacion,Edad,GrupoSanguineo,RegistroFHA,NumeroRegistroFHA,RegistroRP,NumeroRegistroRP,RegistroRR,NumeroRegistroRR,IdEstadoDonante")] Donante donante)
@@ -126,6 +130,7 @@ namespace BancoSangre.Controllers
 		}
 
 		// GET: Donantes/Delete/5
+		[Authorize]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -141,6 +146,7 @@ namespace BancoSangre.Controllers
 		}
 
 		// POST: Donantes/Delete/5
+		[Authorize]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)

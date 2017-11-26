@@ -334,45 +334,7 @@ namespace MetalSoft.Controllers
 
 			base.Dispose(disposing);
 		}
-
-		// GET: AsignarRoles
-		[Authorize(Roles = "Gerente")]
-		public ActionResult AsignarRoles()
-		{
-			var model = new RolesUsuarios
-			{
-				Roles = _db.AspNetRoles.ToList(),
-				Usuarios = _db.AspNetUsers.ToList()
-			};
-			return View(model);
-		}
-
-		// POST: Manage/AsignarRoles/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[Authorize(Roles = "Gerente")]
-		[ValidateAntiForgeryToken]
-		public ActionResult AsignarRoles([Bind(Include = "UsuarioId, RolId")] RolesUsuarios model)
-		{
-			if (ModelState.IsValid)
-			{
-				var usuario = _db.AspNetUsers.FirstOrDefault(x => x.Id.Equals(model.UsuarioId));
-				var rol = _db.AspNetRoles.FirstOrDefault(x => x.Id.Equals(model.RolId));
-				if (usuario != null && rol != null)
-				{
-					usuario.AspNetRoles.Clear();
-					usuario.AspNetRoles.Add(rol);
-					_db.Entry(usuario).State = EntityState.Modified;
-					_db.SaveChanges();
-				}
-			}
-
-			model.Roles = _db.AspNetRoles.ToList();
-			model.Usuarios = _db.AspNetUsers.ToList();
-			return View(model);
-		}
-
+		
 		#region Helpers
 		// Used for XSRF protection when adding external logins
 		private const string XsrfKey = "XsrfId";
