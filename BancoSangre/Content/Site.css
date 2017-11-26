@@ -125,3 +125,6 @@ textarea {
 	}
 }
 
+table.table-striped td.celdaGrillaAdmin {
+	text-align: center;
+}

@@ -1,6 +1,9 @@
 ﻿
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -10,14 +13,79 @@ namespace BancoSangre.Controllers
 {
 	public class DonantesController : Controller
 	{
-		private readonly bancosangreEntities _db = new bancosangreEntities();
+		private readonly bancosangreEntities _db;
+
+		public DonantesController()
+		{
+			_db = new bancosangreEntities();
+			_db.Configuration.ProxyCreationEnabled = false;
+		}
+
+		#region Api
+		[HttpGet]
+		[Authorize]
+		public ActionResult ObtenerDonantes(int pagina = 1, int itemsPorPagina = 30, bool reverse = false, string textoBusqueda = null)
+		{
+			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
+				.Where(x => string.IsNullOrEmpty(textoBusqueda.Trim()) || (x.Apellido + " " + x.Nombre).ToLower().Contains(textoBusqueda.ToLower()))
+				.Select(x => new
+				{
+					x.IdDonante,
+					x.TipoDocumento.DescripcionTipoDoc,
+					x.NroDoc,
+					x.Apellido,
+					x.Nombre,
+					x.GrupoSanguineo,
+					x.Localidad.NombreLocalidad,
+					x.Provincia.NombreProvincia,
+					x.EstadoDonante.DescripcionEstado
+				})
+				.ToList();
+
+			if (!donantes.Any())
+				return Json(null, JsonRequestBehavior.AllowGet);
+
+			var result = donantes.Skip((pagina - 1) * itemsPorPagina).Take(itemsPorPagina).ToList();
+			var json = new
+			{
+				count = donantes.Count,
+				data = result
+			};
+
+			return Json(json, JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpPost]
+		[Authorize]
+		public ActionResult RemoverDonante(int id)
+		{
+			try
+			{
+				var actual = _db.Donante
+					.FirstOrDefault(x => x.IdDonante == id);
+				if (actual == null)
+					return Json("El Donante que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
+
+				_db.Donante.Remove(actual);
+				_db.SaveChanges();
+				return Json(true, JsonRequestBehavior.AllowGet);
+			}
+			catch (DbUpdateException)
+			{
+				return Json("El Donante no puede ser removido porque ya ha realizado donaciones.", JsonRequestBehavior.AllowGet);
+			}
+			catch (Exception)
+			{
+				return Json("Se produjo un error al intentar remover el Donante.", JsonRequestBehavior.AllowGet);
+			}
+		}
+		#endregion
 
 		// GET: Donantes
 		[Authorize]
 		public ActionResult Index()
 		{
-			var donante = _db.Donante.Include(d => d.Localidad).Include(d => d.Provincia).Include(d => d.TipoDocumento).Include(d => d.EstadoDonante);
-			return View(donante.ToList());
+			return View();
 		}
 
 		// GET: Donantes/Details/5
