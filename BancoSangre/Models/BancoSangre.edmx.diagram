@@ -16,6 +16,8 @@
         <AssociationConnector Association="bancosangreModel.FK_Donante_TipoDoc" ManuallyRouted="false" />
         <AssociationConnector Association="bancosangreModel.FK_Localidad_Provincia1" ManuallyRouted="false" />
         <AssociationConnector Association="bancosangreModel.FK_Donante_EstadoDonante" />
+        <EntityTypeShape EntityType="bancosangreModel.GrupoFactor" Width="1.5" PointX="6.375" PointY="0.875" />
+        <AssociationConnector Association="bancosangreModel.FK_Donante_GrupoFactor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

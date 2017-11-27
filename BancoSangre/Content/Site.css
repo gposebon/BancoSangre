@@ -128,3 +128,31 @@ textarea {
 table.table-striped td.celdaGrillaAdmin {
 	text-align: center;
 }
+
+.contenedorTituloCrearEditar {
+	display: inline-block;
+	width: 100%;
+	padding-top: 1em;
+}
+
+.tituloCrearEditar {
+	font-family: roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 2em;
+	display: inline-block;
+	float: left;
+}
+
+.botonesCrearEditar {
+	display: inline-block;
+	float: right;
+}
+
+hr.hr {
+	height: 2px;
+	background-color: #FA0F5B;
+	margin-top: 0;
+}
+
+.otraLocalidad {
+	color: #FA0F5B;
+}

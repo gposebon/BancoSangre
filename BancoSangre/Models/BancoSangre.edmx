@@ -31,12 +31,12 @@
           <Property Name="Telefono" Type="int" />
           <Property Name="Ocupacion" Type="nvarchar" MaxLength="150" />
           <Property Name="Edad" Type="int" />
-          <Property Name="GrupoSanguineo" Type="nvarchar" MaxLength="10" />
-          <Property Name="RegistroFHA" Type="bit" />
+          <Property Name="IdGrupoFactor" Type="int" Nullable="false" />
+          <Property Name="RegistroFHA" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroFHA" Type="int" />
-          <Property Name="RegistroRP" Type="bit" />
+          <Property Name="RegistroRP" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroRP" Type="int" />
-          <Property Name="RegistroRR" Type="int" />
+          <Property Name="RegistroRR" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroRR" Type="int" />
           <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
         </EntityType>
@@ -46,6 +46,13 @@
           </Key>
           <Property Name="IdEstadoDonante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DescripcionEstado" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GrupoFactor">
+          <Key>
+            <PropertyRef Name="IdGrupoFactor" />
+          </Key>
+          <Property Name="IdGrupoFactor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionGrupoFactor" Type="nvarchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="Localidad">
           <Key>
@@ -78,6 +85,18 @@
             </Principal>
             <Dependent Role="Donante">
               <PropertyRef Name="IdEstadoDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donante_GrupoFactor">
+          <End Role="GrupoFactor" Type="Self.GrupoFactor" Multiplicity="1" />
+          <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GrupoFactor">
+              <PropertyRef Name="IdGrupoFactor" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdGrupoFactor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -133,11 +152,16 @@
           <EntitySet Name="DestinoDonacion" EntityType="Self.DestinoDonacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Donante" EntityType="Self.Donante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GrupoFactor" EntityType="Self.GrupoFactor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
             <End Role="EstadoDonante" EntitySet="EstadoDonante" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donante_GrupoFactor" Association="Self.FK_Donante_GrupoFactor">
+            <End Role="GrupoFactor" EntitySet="GrupoFactor" />
             <End Role="Donante" EntitySet="Donante" />
           </AssociationSet>
           <AssociationSet Name="FK_Donante_Localidad" Association="Self.FK_Donante_Localidad">
@@ -187,19 +211,20 @@
           <Property Name="Telefono" Type="Int32" />
           <Property Name="Ocupacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Edad" Type="Int32" />
-          <Property Name="GrupoSanguineo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="RegistroFHA" Type="Boolean" />
+          <Property Name="RegistroFHA" Type="Boolean" Nullable="false" />
           <Property Name="NumeroRegistroFHA" Type="Int32" />
-          <Property Name="RegistroRP" Type="Boolean" />
+          <Property Name="RegistroRP" Type="Boolean" Nullable="false" />
           <Property Name="NumeroRegistroRP" Type="Int32" />
-          <Property Name="RegistroRR" Type="Int32" />
+          <Property Name="RegistroRR" Type="Boolean" Nullable="false" />
           <Property Name="NumeroRegistroRR" Type="Int32" />
           <NavigationProperty Name="Localidad" Relationship="Self.FK_Donante_Localidad" FromRole="Donante" ToRole="Localidad" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Donante_Provincia" FromRole="Donante" ToRole="Provincia" />
           <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Donante_TipoDoc" FromRole="Donante" ToRole="TipoDocumento" />
           <Property Name="IdEstadoDonante" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EstadoDonante" Relationship="bancosangreModel.FK_Donante_EstadoDonante" FromRole="Donante" ToRole="EstadoDonante" />
-        </EntityType>
+          <Property Name="IdGrupoFactor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GrupoFactor" Relationship="bancosangreModel.FK_Donante_GrupoFactor" FromRole="Donante" ToRole="GrupoFactor" />
+          </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
             <PropertyRef Name="IdEstadoDonante" />
@@ -310,7 +335,16 @@
             <End Role="EstadoDonante" EntitySet="EstadoDonante" />
             <End Role="Donante" EntitySet="Donante" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_Donante_Donante1" Association="bancosangreModel.FK_Donante_Donante1">
+            <End Role="Donante" EntitySet="Donante" />
+            <End Role="Donante1" EntitySet="Donante" />
+          </AssociationSet>
+          <EntitySet Name="GrupoFactor" EntityType="bancosangreModel.GrupoFactor" />
+          <AssociationSet Name="FK_Donante_GrupoFactor" Association="bancosangreModel.FK_Donante_GrupoFactor">
+            <End Role="GrupoFactor" EntitySet="GrupoFactor" />
+            <End Role="Donante" EntitySet="Donante" />
+          </AssociationSet>
+          </EntityContainer>
         <Association Name="FK_Donante_EstadoDonante">
           <End Type="bancosangreModel.EstadoDonante" Role="EstadoDonante" Multiplicity="1" />
           <End Type="bancosangreModel.Donante" Role="Donante" Multiplicity="*" />
@@ -323,7 +357,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Donante_Donante1">
+          <End Type="bancosangreModel.Donante" Role="Donante" Multiplicity="1" />
+          <End Type="bancosangreModel.Donante" Role="Donante1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Donante">
+              <PropertyRef Name="IdDonante" />
+            </Principal>
+            <Dependent Role="Donante1">
+              <PropertyRef Name="IdDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GrupoFactor">
+          <Key>
+            <PropertyRef Name="IdGrupoFactor" />
+          </Key>
+          <Property Name="IdGrupoFactor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionGrupoFactor" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Donante_GrupoFactor" FromRole="GrupoFactor" ToRole="Donante" />
+        </EntityType>
+        <Association Name="FK_Donante_GrupoFactor">
+          <End Type="bancosangreModel.GrupoFactor" Role="GrupoFactor" Multiplicity="1" />
+          <End Type="bancosangreModel.Donante" Role="Donante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GrupoFactor">
+              <PropertyRef Name="IdGrupoFactor" />
+            </Principal>
+            <Dependent Role="Donante">
+              <PropertyRef Name="IdGrupoFactor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -344,6 +410,7 @@
           <EntitySetMapping Name="Donante">
             <EntityTypeMapping TypeName="bancosangreModel.Donante">
               <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="IdGrupoFactor" ColumnName="IdGrupoFactor" />
                 <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
                 <ScalarProperty Name="IdDonante" ColumnName="IdDonante" />
                 <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
@@ -356,7 +423,6 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Ocupacion" ColumnName="Ocupacion" />
                 <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="GrupoSanguineo" ColumnName="GrupoSanguineo" />
                 <ScalarProperty Name="RegistroFHA" ColumnName="RegistroFHA" />
                 <ScalarProperty Name="NumeroRegistroFHA" ColumnName="NumeroRegistroFHA" />
                 <ScalarProperty Name="RegistroRP" ColumnName="RegistroRP" />
@@ -396,6 +462,14 @@
               <MappingFragment StoreEntitySet="TipoDocumento">
                 <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
                 <ScalarProperty Name="DescripcionTipoDoc" ColumnName="DescripcionTipoDoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GrupoFactor">
+            <EntityTypeMapping TypeName="bancosangreModel.GrupoFactor">
+              <MappingFragment StoreEntitySet="GrupoFactor">
+                <ScalarProperty Name="DescripcionGrupoFactor" ColumnName="DescripcionGrupoFactor" />
+                <ScalarProperty Name="IdGrupoFactor" ColumnName="IdGrupoFactor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

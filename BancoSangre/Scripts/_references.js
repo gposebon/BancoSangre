@@ -21,6 +21,7 @@
 /// <reference path="angular-touch.min.js" />
 /// <reference path="auxiliares/barralateral.js" />
 /// <reference path="auxiliares/lanzamiento.js" />
+/// <reference path="auxiliares/provincialocalidad.js" />
 /// <reference path="bootstrap.js" />
 /// <reference path="Donantes/JavaScript.js" />
 /// <reference path="jquery.validate.js" />

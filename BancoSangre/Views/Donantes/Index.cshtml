@@ -15,7 +15,7 @@
 					<button class="btn btn-default" ng-click="buscar(textoBusqueda)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 				</form>
 			</div>
-			<div class="col-md-2">
+			<div class="col-md-pull-2">
 				<a ng-href="@Url.Action("Create")" class="btn btn-primary" title="Ingresar Donante">
 					<span>Ingresar Donante</span>
 				</a>
@@ -41,43 +41,41 @@
 			<tr ng-repeat="d in donantes">
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
-						{{ d.DescripcionTipoDoc || 'empty' }}
+						{{ d.DescripcionTipoDoc || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.NroDoc" e-name="NroDoc" e-form="rowform" e-required>
-						{{ d.NroDoc || 'empty' }}
+						{{ d.NroDoc || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.Apellido" e-name="Apellido" e-form="rowform" e-required>
-						{{ d.Apellido || 'empty' }}
+						{{ d.Apellido || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.Nombre" e-name="Nombre" e-form="rowform" e-required>
-						{{ d.Nombre || 'empty' }}
+						{{ d.Nombre || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.GrupoSanguineo" e-name="GrupoSanguineo" e-form="rowform" e-required>
-						{{ d.GrupoSanguineo || 'empty' }}
+						{{ d.DescripcionGrupoFactor || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.Localidad" e-name="Localidad" e-form="rowform" e-required>
-						{{ d.NombreLocalidad || 'empty' }}
+						{{ d.NombreLocalidad || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<span editable-text="d.Provincia" e-name="Provincia" e-form="rowform" e-required>
-						{{ d.NombreProvincia || 'empty' }}
+						{{ d.NombreProvincia || '-' }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">
-					<span editable-text="d.EstadoDonante" e-name="EstadoDonante" e-form="rowform" e-required>
-						{{ d.DescripcionEstado || 'empty' }}
-					</span>
+					<button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;" ng-click="verEstado(d.DescripcionEstado)" title="Ver estado"></button>
 				</td>
 				<td class="celdaGrillaAdmin" style="white-space: nowrap">
 					<!-- form -->
@@ -100,7 +98,7 @@
 	<div style="text-align:center">
 		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="infoPagina.totalItems" boundary-links="true" ng-model="infoPagina.pagina" ng-change="seleccionarPagina()" items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
 	</div>
-</div><br />
+</div>
 
 <div>
 	<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">

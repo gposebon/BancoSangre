@@ -31,5 +31,6 @@ namespace BancoSangre.Models
         public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public virtual DbSet<GrupoFactor> GrupoFactor { get; set; }
     }
 }

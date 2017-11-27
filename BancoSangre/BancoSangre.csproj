@@ -235,7 +235,11 @@
     <Compile Include="Models\Donante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DonanteOtraLocalidad.cs" />
     <Compile Include="Models\EstadoDonante.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GrupoFactor.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -278,7 +282,6 @@
     <Content Include="app\services\donantesServicio.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\estilosCreacion.css" />
     <Content Include="Content\Imagenes\bancosangre.jpg" />
     <Content Include="Content\Imagenes\logo.png" />
     <Content Include="favicon.ico" />
@@ -333,6 +336,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\Auxiliares\barraLateral.js" />
+    <Content Include="Scripts\Auxiliares\provinciaLocalidad.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

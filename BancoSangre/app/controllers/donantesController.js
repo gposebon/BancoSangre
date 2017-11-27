@@ -47,4 +47,9 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 		obtenerDonantes();
 	};
 
+	$scope.verEstado = function (descripcionEstado)
+	{
+		modalServicio.open("info", descripcionEstado + ": Aquí enumerará las razones si es que fue rechazado o diferido, y la fecha de fin del plazo en el segundo caso.");
+	}
+
 });
