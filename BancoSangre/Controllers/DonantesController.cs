@@ -136,28 +136,30 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "IdDonante,IdTipoDoc,NroDoc,Apellido,Nombre,IdGrupoFactor,Domicilio,IdProvincia,IdLocalidad,CampoOtraLocalidad,Telefono,Ocupacion,Edad,GrupoSanguineo,RegistroFHA,NumeroRegistroFHA,RegistroRP,NumeroRegistroRP,RegistroRR,NumeroRegistroRR,IdEstadoDonante")] Donante donante)
+		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad")] DonanteOtraLocalidad donanteConOtraLocalidad)
 		{
+			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
 			{
-				if (donante.IdLocalidad == 0)
+				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == 0)
 				{
-					_db.Localidad.Add(new Localidad { NombreLocalidad = ViewBag.CampoOtraLocalidad, IdProvincia = donante.IdProvincia });
+					_db.Localidad.Add(new Localidad { NombreLocalidad = donanteConOtraLocalidad.OtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();
-					//donante.IdLocalidad = _db.Localidad.Single(x => x.NombreLocalidad == otraLocalidad && x.IdProvincia == donante.IdProvincia).IdLocalidad;
+					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
+						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
 				}
 
-				_db.Donante.Add(donante);
+				_db.Donante.Add(donanteConOtraLocalidad.DonanteActual);
 				_db.SaveChanges();
 				return RedirectToAction("Index");
 			}
 
-			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(donante.IdProvincia), "IdLocalidad", "NombreLocalidad");
-			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
-			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
-			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
-			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donante.IdGrupoFactor);
-			return View(donante);
+			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(idProvincia), "IdLocalidad", "NombreLocalidad");
+			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", idProvincia);
+			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donanteConOtraLocalidad.DonanteActual.IdTipoDoc);
+			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donanteConOtraLocalidad.DonanteActual.IdEstadoDonante);
+			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donanteConOtraLocalidad.DonanteActual.IdGrupoFactor);
+			return View(donanteConOtraLocalidad);
 		}
 
 		// GET: Donantes/Edit/5
