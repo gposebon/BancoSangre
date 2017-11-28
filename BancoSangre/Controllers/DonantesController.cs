@@ -216,34 +216,6 @@ namespace BancoSangre.Controllers
 			return View(donanteConOtraLocalidad);
 		}
 
-		// GET: Donantes/Delete/5
-		[Authorize]
-		public ActionResult Delete(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			Donante donante = _db.Donante.Find(id);
-			if (donante == null)
-			{
-				return HttpNotFound();
-			}
-			return View(donante);
-		}
-
-		// POST: Donantes/Delete/5
-		[Authorize]
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeleteConfirmed(int id)
-		{
-			Donante donante = _db.Donante.Find(id);
-			_db.Donante.Remove(donante);
-			_db.SaveChanges();
-			return RedirectToAction("Index");
-		}
-
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
