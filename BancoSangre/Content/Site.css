@@ -142,6 +142,12 @@ table.table-striped td.celdaGrillaAdmin {
 	float: left;
 }
 
+@media screen and (max-width: 500px) {
+	.tituloCrearEditar {
+		font-size: 1.45em;
+	}
+}
+
 .botonesCrearEditar {
 	display: inline-block;
 	float: right;
@@ -155,4 +161,32 @@ hr.hr {
 
 .otraLocalidad {
 	color: #FA0F5B;
+}
+
+.cajaBusqueda {
+	width: 20%;
+}
+
+@media screen and (max-width: 991px) {
+	.cajaBusqueda {
+		margin: .4em 0 .4em 0;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.cajaBusqueda {
+		width: 70%;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.cajaBusqueda {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.noEnCelular {
+		display: none;
+	}
 }

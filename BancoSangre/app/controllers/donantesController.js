@@ -12,8 +12,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 			pagina: 1,
 			itemsPorPagina: 6,
 			reversa: false,
-			totalItems: 0,
-			textoBusqueda: ""
+			totalItems: 0
 		};
 	}
 
@@ -40,11 +39,6 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 					modalServicio.open("danger", result.data);
 				}
 			});
-	};
-
-	$scope.buscar = function (descripcion) {
-		$scope.infoPagina.textoBusqueda = descripcion;
-		obtenerDonantes();
 	};
 
 	$scope.verEstado = function (descripcionEstado)

@@ -24,10 +24,9 @@ namespace BancoSangre.Controllers
 		#region Api
 		[HttpGet]
 		[Authorize]
-		public ActionResult ObtenerDonantes(int pagina = 1, int itemsPorPagina = 30, bool reverse = false, string textoBusqueda = null)
+		public ActionResult ObtenerDonantes(int pagina = 1, int itemsPorPagina = 30, bool reverse = false)
 		{
 			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
-				.Where(x => string.IsNullOrEmpty(textoBusqueda.Trim()) || (x.Apellido + " " + x.Nombre).ToLower().Contains(textoBusqueda.ToLower()))
 				.Select(x => new
 				{
 					x.IdDonante,
