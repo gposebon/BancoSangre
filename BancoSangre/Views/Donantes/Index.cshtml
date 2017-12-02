@@ -40,65 +40,65 @@
 			</tr>
 		</thead>
 		<tbody ng-cloak>
-		<tr ng-repeat="d in donantes | filter: { Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad }">
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
-						{{ d.DescripcionTipoDoc || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.NroDoc" e-name="NroDoc" e-form="rowform" e-required>
-						{{ d.NroDoc || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.Apellido" e-name="Apellido" e-form="rowform" e-required>
-						{{ d.Apellido || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.Nombre" e-name="Nombre" e-form="rowform" e-required>
-						{{ d.Nombre || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.GrupoSanguineo" e-name="GrupoSanguineo" e-form="rowform" e-required>
-						{{ d.DescripcionGrupoFactor || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.Localidad" e-name="Localidad" e-form="rowform" e-required>
-						{{ d.NombreLocalidad || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.Provincia" e-name="Provincia" e-form="rowform" e-required>
-						{{ d.NombreProvincia || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;" ng-click="verEstado(d.DescripcionEstado)" title="Ver estado"></button>
-				</td>
-				<td class="celdaGrillaAdmin" style="white-space: nowrap">
-					<!-- form -->
-					<form editable-form name="rowform" onbeforesave="saveCategoria($data, cm.IdCategoria)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == cm">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-							Guardar
-						</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelCategoria(rowform, $index, cm.IdCategoria)" class="btn btn-default">
-							Cancelar
-						</button>
-					</form>
-					<div class="buttons" ng-show="!rowform.$visible">
-						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-primary glyphicon glyphicon-pencil" title="Editar"></a>
-						<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerDonante($index, d.IdDonante)" title="Remover"></button>
-					</div>
-				</td>
-			</tr>
+		<tr ng-repeat="d in filtrado = (donantes | filter: { Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad }) | limitTo:100:100*(infoPagina.pagina-1) ">
+			<td class="celdaGrillaAdmin noEnCelular">
+				<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
+					{{ d.DescripcionTipoDoc || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin noEnCelular">
+				<span editable-text="d.NroDoc" e-name="NroDoc" e-form="rowform" e-required>
+					{{ d.NroDoc || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<span editable-text="d.Apellido" e-name="Apellido" e-form="rowform" e-required>
+					{{ d.Apellido || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<span editable-text="d.Nombre" e-name="Nombre" e-form="rowform" e-required>
+					{{ d.Nombre || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<span editable-text="d.GrupoSanguineo" e-name="GrupoSanguineo" e-form="rowform" e-required>
+					{{ d.DescripcionGrupoFactor || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<span editable-text="d.Localidad" e-name="Localidad" e-form="rowform" e-required>
+					{{ d.NombreLocalidad || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin noEnCelular">
+				<span editable-text="d.Provincia" e-name="Provincia" e-form="rowform" e-required>
+					{{ d.NombreProvincia || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;" ng-click="verEstado(d.DescripcionEstado)" title="Ver estado"></button>
+			</td>
+			<td class="celdaGrillaAdmin" style="white-space: nowrap">
+				<!-- form -->
+				<form editable-form name="rowform" onbeforesave="saveCategoria($data, cm.IdCategoria)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == cm">
+					<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+						Guardar
+					</button>
+					<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelCategoria(rowform, $index, cm.IdCategoria)" class="btn btn-default">
+						Cancelar
+					</button>
+				</form>
+				<div class="buttons" ng-show="!rowform.$visible">
+					<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-primary glyphicon glyphicon-pencil" title="Editar"></a>
+					<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerDonante($index, d.IdDonante)" title="Remover"></button>
+				</div>
+			</td>
+		</tr>
 		</tbody>
 	</table>
 	<div style="text-align:center">
-		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="infoPagina.totalItems" boundary-links="true" ng-model="infoPagina.pagina" ng-change="seleccionarPagina()" items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrado.length" boundary-links="true" ng-model="infoPagina.pagina" ng-change="seleccionarPagina()" items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
 	</div>
 </div>
 

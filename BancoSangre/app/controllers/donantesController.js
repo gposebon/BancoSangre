@@ -10,7 +10,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 	function configPaginacion() {
 		$scope.infoPagina = {
 			pagina: 1,
-			itemsPorPagina: 6,
+			itemsPorPagina: 100,
 			reversa: false,
 			totalItems: 0
 		};
