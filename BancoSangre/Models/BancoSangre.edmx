@@ -39,6 +39,7 @@
           <Property Name="RegistroRR" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroRR" Type="int" />
           <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
+          <Property Name="DiferidoHasta" Type="datetime" />
         </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -224,6 +225,7 @@
           <NavigationProperty Name="EstadoDonante" Relationship="bancosangreModel.FK_Donante_EstadoDonante" FromRole="Donante" ToRole="EstadoDonante" />
           <Property Name="IdGrupoFactor" Type="Int32" Nullable="false" />
           <NavigationProperty Name="GrupoFactor" Relationship="bancosangreModel.FK_Donante_GrupoFactor" FromRole="Donante" ToRole="GrupoFactor" />
+          <Property Name="DiferidoHasta" Type="DateTime" Precision="3" />
           </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -410,6 +412,7 @@
           <EntitySetMapping Name="Donante">
             <EntityTypeMapping TypeName="bancosangreModel.Donante">
               <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="DiferidoHasta" ColumnName="DiferidoHasta" />
                 <ScalarProperty Name="IdGrupoFactor" ColumnName="IdGrupoFactor" />
                 <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
                 <ScalarProperty Name="IdDonante" ColumnName="IdDonante" />

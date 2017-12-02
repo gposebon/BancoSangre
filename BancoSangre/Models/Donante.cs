@@ -33,6 +33,8 @@ namespace BancoSangre.Models
         public Nullable<int> NumeroRegistroRR { get; set; }
         public int IdEstadoDonante { get; set; }
         public int IdGrupoFactor { get; set; }
+        public Nullable<System.DateTime> DiferidoHasta { get; set; }
+        
     
         public virtual Localidad Localidad { get; set; }
         public virtual Provincia Provincia { get; set; }
