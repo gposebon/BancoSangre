@@ -114,10 +114,14 @@ namespace BancoSangre.Controllers
 			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
 			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
 			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor");
-			return View();
+            return View();
 		}
 
-		public ActionResult TraerLocalidades(int? idProvincia)
+     
+
+        
+
+        public ActionResult TraerLocalidades(int? idProvincia)
 		{
 			return Json(ObtenerLocalidades(idProvincia), JsonRequestBehavior.AllowGet);
 
@@ -137,7 +141,7 @@ namespace BancoSangre.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad")] DonanteOtraLocalidad donanteConOtraLocalidad)
 		{
-			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
+            var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
 			{
 				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == 0)
@@ -223,5 +227,7 @@ namespace BancoSangre.Controllers
 			}
 			base.Dispose(disposing);
 		}
+
+
 	}
 }

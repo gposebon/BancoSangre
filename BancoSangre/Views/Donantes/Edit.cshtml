@@ -1,5 +1,9 @@
 ﻿@model BancoSangre.Models.DonanteOtraLocalidad
 
+<head>
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+</head>
+
 @{
 	ViewBag.Title = "Editar";
 }
@@ -112,6 +116,13 @@
 					</div>
 				</div>
 
+                <div id="DiferidoFecha" style="display: none" class="form-group">
+                    @Html.LabelFor(model => Model.DonanteActual.DiferidoHasta, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-offset-3">
+                        @Html.TextBoxFor(model => Model.DonanteActual.DiferidoHasta, new { id = "datepicker", @class = "form-control" })
+                    </div>
+                </div>
+
 			</div>
 		</div>
 
@@ -198,4 +209,5 @@
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
 	@Scripts.Render("~/Scripts/Auxiliares/provinciaLocalidad.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
 }

@@ -1,7 +1,10 @@
 ﻿
 $(document).ready(function () {
 	$("#DonanteActual_IdLocalidad").attr('disabled', $('#DonanteActual_IdProvincia option:selected').val() === "");
-	$("#OtraLocalidad").hide();
+    $("#OtraLocalidad").hide();
+    $("#DiferidoFecha").hide();
+    
+    
 
 	$("#DonanteActual_IdProvincia").on('change',
 		function () {
@@ -49,6 +52,23 @@ $(document).ready(function () {
 			} else {
 				$("#OtraLocalidad").hide();
 			}
-		});
+        });
+
+    $(function () {
+        $("#datepicker").datepicker({
+
+        });
+    });
+
+    $("#DonanteActual_IdEstadoDonante").on('change',
+        function () {
+            var idEstado = $('#DonanteActual_IdEstadoDonante option:selected').val();
+            alert(idEstado)
+            
+            if (idEstado === "3") {
+                $("#DiferidoFecha").show();
+            }
+                
+        }); 
 
 });
