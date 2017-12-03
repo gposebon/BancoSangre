@@ -3,7 +3,7 @@ app.factory("donantesRepositorio", function ($http) {
 	return {
 		obtenerDonantes: function (infoPagina) {
 			var url = "/Donantes/ObtenerDonantes";
-			return $http.get(url, { params: infoPagina });
+			return $http.get(url);
 		},
 		remover: function (id) {
 			var url = "/Donantes/RemoverDonante";

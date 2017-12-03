@@ -9,7 +9,7 @@
 
 	<div class="panel-heading">
 		<div class="row">
-			<div class="col-md-10">
+			<div class="col-md-9">
 				<form class="form-inline">
 					<input type="text" class="form-control cajaBusqueda" placeholder="Apellido" ng-model="busqApellido">
 					<input type="text" class="form-control cajaBusqueda" placeholder="Nombre" ng-model="busqNombre">
@@ -18,6 +18,8 @@
 				</form>
 			</div>
 			<div class="col-md-pull-2">
+				<label class="control-label" style="padding-left: 1%;">Donantes: </label>
+				<label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
 				<a ng-href="@Url.Action("Create")" class="btn btn-primary" title="Ingresar Donante">
 					<span>Ingresar Donante</span>
 				</a>
@@ -40,7 +42,8 @@
 			</tr>
 		</thead>
 		<tbody ng-cloak>
-		<tr ng-repeat="d in filtrado = (donantes | filter: { Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad }) | limitTo:100:100*(infoPagina.pagina-1) ">
+		<tr ng-repeat="d in filtrados = (donantes | filter:{Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad}) 
+				| limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
 			<td class="celdaGrillaAdmin noEnCelular">
 				<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
 					{{ d.DescripcionTipoDoc || '-' }}
@@ -90,7 +93,8 @@
 		</tbody>
 	</table>
 	<div style="text-align:center">
-		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrado.length" boundary-links="true" ng-model="infoPagina.pagina" ng-change="seleccionarPagina()" items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina" 
+										items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
 	</div>
 </div>
 

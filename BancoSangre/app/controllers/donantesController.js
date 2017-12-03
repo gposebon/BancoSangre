@@ -17,7 +17,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 	}
 
 	function obtenerDonantes() {
-		donantesRepositorio.obtenerDonantes($scope.infoPagina)
+		donantesRepositorio.obtenerDonantes()
 			.then(function (result) {
 				$scope.donantes = result.data.data;
 				$scope.infoPagina.totalItems = result.data.count;
@@ -25,7 +25,6 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 	}
 
 	$scope.seleccionarPagina = function () {
-		obtenerDonantes();
 	}
 
 	$scope.removerDonante = function (index, id) {

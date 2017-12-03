@@ -24,7 +24,7 @@ namespace BancoSangre.Controllers
 		#region Api
 		[HttpGet]
 		[Authorize]
-		public ActionResult ObtenerDonantes(int pagina = 1, int itemsPorPagina = 30, bool reverse = false)
+		public ActionResult ObtenerDonantes()
 		{
 			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
 				.OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
@@ -48,7 +48,7 @@ namespace BancoSangre.Controllers
 			if (!donantes.Any())
 				return Json(null, JsonRequestBehavior.AllowGet);
 
-			var result = donantes.Skip((pagina - 1) * itemsPorPagina).Take(itemsPorPagina).ToList();
+			var result = donantes;
 			var json = new
 			{
 				count = donantes.Count,
