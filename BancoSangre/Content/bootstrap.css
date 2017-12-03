@@ -2284,7 +2284,7 @@ textarea.input-lg {
 	.btn-primary.active,
 	.open .dropdown-toggle.btn-primary {
 		color: #ffffff;
-		background-color: #617286;
+		background-color: #637488;
 		border-color: #285e8e;
 	}
 
@@ -4754,7 +4754,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 	}
 
 .navbar-inverse {
-	background-color: #617286;
+	background-color: #637488;
 	border-color: #080808;
 }
 
