@@ -1,10 +1,7 @@
 ﻿
 $(document).ready(function () {
 	$("#DonanteActual_IdLocalidad").attr('disabled', $('#DonanteActual_IdProvincia option:selected').val() === "");
-    $("#OtraLocalidad").hide();
-    $("#DiferidoFecha").hide();
-    
-    
+	$("#OtraLocalidad").hide();
 
 	$("#DonanteActual_IdProvincia").on('change',
 		function () {
@@ -52,23 +49,58 @@ $(document).ready(function () {
 			} else {
 				$("#OtraLocalidad").hide();
 			}
-        });
+		});
 
-    $(function () {
-        $("#datepicker").datepicker({
+	function calcularEdad(fechaNac) {
+		var r = "";
+		if (fechaNac !== "") {
+			var anioHoy = new Date(Date.now()).getFullYear();
+			var mesHoy = new Date(Date.now()).getMonth();
+			var diaHoy = new Date(Date.now()).getDate();
+			var anioNac = new Date(fechaNac).getFullYear();
+			var mesNac = new Date(fechaNac).getMonth();
+			var diaNac = new Date(fechaNac).getDate();
+			var dif = anioHoy - anioNac;
+			if (mesNac > mesHoy) dif--;
+			else {
+				if (mesNac === mesHoy) {
+					if (diaNac > diaHoy) dif--;
+				}
+			}
+			if (dif !== -1)
+				r = dif;
+		}
+		$('#cajaEdad').val(r);
+	}
 
-        });
-    });
+	$(function () {
+		$("#calendarioFechaNacimiento").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			onClose: function (fechaNac) {
+				calcularEdad(fechaNac);
+			}
+		});
+	});
 
-    $("#DonanteActual_IdEstadoDonante").on('change',
-        function () {
-            var idEstado = $('#DonanteActual_IdEstadoDonante option:selected').val();
-            alert(idEstado)
-            
-            if (idEstado === "3") {
-                $("#DiferidoFecha").show();
-            }
-                
-        }); 
+	$(function () {
+		$("#calendarioDiferidoHasta").datepicker({
+			changeMonth: true,
+			changeYear: true
+		});
+	});
 
+	$("#DonanteActual_IdEstadoDonante").on('change',
+		function () {
+			var idEstado = $('#DonanteActual_IdEstadoDonante option:selected').val();
+
+			if (idEstado === "3") {
+				$("#DiferidoFecha").show();
+			} else {
+				$("#DiferidoFecha").hide();
+			}
+		});
+
+	$("#DonanteActual_IdEstadoDonante").trigger("change");
+	calcularEdad($("#calendarioFechaNacimiento").val());
 });

@@ -28,9 +28,9 @@
           <Property Name="Domicilio" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IdProvincia" Type="int" Nullable="false" />
           <Property Name="IdLocalidad" Type="int" Nullable="false" />
-          <Property Name="Telefono" Type="int" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
           <Property Name="Ocupacion" Type="nvarchar" MaxLength="150" />
-          <Property Name="Edad" Type="int" />
+          <Property Name="FechaNacimiento" Type="datetime" />
           <Property Name="IdGrupoFactor" Type="int" Nullable="false" />
           <Property Name="RegistroFHA" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroFHA" Type="int" />
@@ -39,6 +39,7 @@
           <Property Name="RegistroRR" Type="bit" Nullable="false" />
           <Property Name="NumeroRegistroRR" Type="int" />
           <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="DiferidoHasta" Type="datetime" />
         </EntityType>
         <EntityType Name="EstadoDonante">
@@ -209,9 +210,8 @@
           <Property Name="Domicilio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IdProvincia" Type="Int32" Nullable="false" />
           <Property Name="IdLocalidad" Type="Int32" Nullable="false" />
-          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Ocupacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Edad" Type="Int32" />
           <Property Name="RegistroFHA" Type="Boolean" Nullable="false" />
           <Property Name="NumeroRegistroFHA" Type="Int32" />
           <Property Name="RegistroRP" Type="Boolean" Nullable="false" />
@@ -226,6 +226,8 @@
           <Property Name="IdGrupoFactor" Type="Int32" Nullable="false" />
           <NavigationProperty Name="GrupoFactor" Relationship="bancosangreModel.FK_Donante_GrupoFactor" FromRole="Donante" ToRole="GrupoFactor" />
           <Property Name="DiferidoHasta" Type="DateTime" Precision="3" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="3" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -412,6 +414,8 @@
           <EntitySetMapping Name="Donante">
             <EntityTypeMapping TypeName="bancosangreModel.Donante">
               <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
                 <ScalarProperty Name="DiferidoHasta" ColumnName="DiferidoHasta" />
                 <ScalarProperty Name="IdGrupoFactor" ColumnName="IdGrupoFactor" />
                 <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
@@ -425,7 +429,6 @@
                 <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Ocupacion" ColumnName="Ocupacion" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
                 <ScalarProperty Name="RegistroFHA" ColumnName="RegistroFHA" />
                 <ScalarProperty Name="NumeroRegistroFHA" ColumnName="NumeroRegistroFHA" />
                 <ScalarProperty Name="RegistroRP" ColumnName="RegistroRP" />

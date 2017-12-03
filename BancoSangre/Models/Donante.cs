@@ -22,9 +22,8 @@ namespace BancoSangre.Models
         public string Domicilio { get; set; }
         public int IdProvincia { get; set; }
         public int IdLocalidad { get; set; }
-        public Nullable<int> Telefono { get; set; }
+        public string Telefono { get; set; }
         public string Ocupacion { get; set; }
-        public Nullable<int> Edad { get; set; }
         public bool RegistroFHA { get; set; }
         public Nullable<int> NumeroRegistroFHA { get; set; }
         public bool RegistroRP { get; set; }
@@ -34,7 +33,8 @@ namespace BancoSangre.Models
         public int IdEstadoDonante { get; set; }
         public int IdGrupoFactor { get; set; }
         public Nullable<System.DateTime> DiferidoHasta { get; set; }
-        
+        public Nullable<System.DateTime> FechaNacimiento { get; set; }
+        public System.DateTime Fecha { get; set; }
     
         public virtual Localidad Localidad { get; set; }
         public virtual Provincia Provincia { get; set; }

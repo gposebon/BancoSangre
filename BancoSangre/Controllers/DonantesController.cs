@@ -27,6 +27,7 @@ namespace BancoSangre.Controllers
 		public ActionResult ObtenerDonantes(int pagina = 1, int itemsPorPagina = 30, bool reverse = false)
 		{
 			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
+				.OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
 				.Select(x => new
 				{
 					x.IdDonante,
@@ -151,6 +152,7 @@ namespace BancoSangre.Controllers
 					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
 						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
 				}
+				donanteConOtraLocalidad.DonanteActual.Fecha = DateTime.Now;
 
 				_db.Donante.Add(donanteConOtraLocalidad.DonanteActual);
 				_db.SaveChanges();

@@ -1,7 +1,7 @@
 ﻿@model BancoSangre.Models.DonanteOtraLocalidad
 
 <head>
-    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
 </head>
 
 @{
@@ -69,7 +69,7 @@
 					@Html.LabelFor(model => Model.DonanteActual.IdGrupoFactor, "Grupo sanguíneo", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdGrupoFactor, (IEnumerable<SelectListItem>)ViewBag.IdGrupoFactor ?? new List<SelectListItem>(),
-							"Seleccione grupo y factor",  htmlAttributes: new { @class = "form-control" })
+							"Seleccione grupo y factor", htmlAttributes: new { @class = "form-control" })
 						@Html.ValidationMessageFor(model => Model.DonanteActual.IdGrupoFactor, "", new { @class = "text-danger" })
 					</div>
 				</div>
@@ -85,7 +85,7 @@
 				<div class="form-group">
 					@Html.LabelFor(model => Model.DonanteActual.IdProvincia, "Provincia", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
-						@Html.DropDownListFor(model => Model.DonanteActual.IdProvincia, (IEnumerable<SelectListItem>)ViewBag.IdProvincia ?? new List<SelectListItem>(), 
+						@Html.DropDownListFor(model => Model.DonanteActual.IdProvincia, (IEnumerable<SelectListItem>)ViewBag.IdProvincia ?? new List<SelectListItem>(),
 								"Seleccione Provincia", htmlAttributes: new { @class = "form-control" })
 						@Html.ValidationMessageFor(model => Model.DonanteActual.IdProvincia, "", new { @class = "text-danger" })
 					</div>
@@ -94,7 +94,7 @@
 				<div class="form-group">
 					@Html.LabelFor(model => Model.DonanteActual.IdLocalidad, "Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
-						@Html.DropDownListFor(model => Model.DonanteActual.IdLocalidad, (IEnumerable<SelectListItem>)ViewBag.IdLocalidad ?? new List<SelectListItem>(), 
+						@Html.DropDownListFor(model => Model.DonanteActual.IdLocalidad, (IEnumerable<SelectListItem>)ViewBag.IdLocalidad ?? new List<SelectListItem>(),
 								"Seleccione Localidad", htmlAttributes: new { @class = "form-control" })
 						@Html.ValidationMessageFor(model => Model.DonanteActual.IdLocalidad, "", new { @class = "text-danger" })
 					</div>
@@ -116,12 +116,12 @@
 					</div>
 				</div>
 
-                <div id="DiferidoFecha" style="display: none" class="form-group">
-                    @Html.LabelFor(model => Model.DonanteActual.DiferidoHasta, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-offset-3">
-                        @Html.TextBoxFor(model => Model.DonanteActual.DiferidoHasta, new { id = "datepicker", @class = "form-control" })
-                    </div>
-                </div>
+				<div id="DiferidoFecha" style="display: none" class="form-group">
+					@Html.LabelFor(model => Model.DonanteActual.DiferidoHasta, "Diferido Hasta", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						@Html.TextBoxFor(model => Model.DonanteActual.DiferidoHasta, new { id = "calendarioDiferidoHasta", @class = "form-control" })
+					</div>
+				</div>
 
 			</div>
 		</div>
@@ -130,10 +130,13 @@
 			<div class="container-fluid">
 
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.Edad, "Edad", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-offset-3">
-						@Html.EditorFor(model => Model.DonanteActual.Edad, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.Edad, "", new { @class = "text-danger" })
+					@Html.LabelFor(model => Model.DonanteActual.FechaNacimiento, "Fecha Nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div>
+						<div class="col-md-offset-3 contenedorEdad">
+							@Html.TextBoxFor(model => Model.DonanteActual.FechaNacimiento, new { id = "calendarioFechaNacimiento", @class = "form-control fechaNac" })
+							@Html.Label("Edad:", htmlAttributes: new { @class = "control-label" })
+							@Html.TextBox("Edad", "", new { id = "cajaEdad",  @class = "form-control edad", @disabled = "disabled" })
+						</div>
 					</div>
 				</div>
 
@@ -208,6 +211,5 @@
 
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
-	@Scripts.Render("~/Scripts/Auxiliares/provinciaLocalidad.js")
-    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
+	@Scripts.Render("~/Scripts/Auxiliares/donantes.js")
 }
