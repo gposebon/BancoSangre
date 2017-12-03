@@ -214,3 +214,13 @@ hr.hr {
 	display: inline-block;
 	width: 23%;
 }
+
+.field-validation-valid
+{
+	display: none;
+}
+
+.validation-summary-valid
+{
+	display: none;
+}

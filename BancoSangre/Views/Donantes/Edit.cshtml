@@ -37,7 +37,7 @@
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdTipoDoc, (IEnumerable<SelectListItem>)ViewBag.IdTipoDoc ?? new List<SelectListItem>(),
 							"Seleccione Tipo Doc.", htmlAttributes: new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdTipoDoc, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.IdTipoDoc, "Este campo es requerido.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -45,7 +45,7 @@
 					@Html.LabelFor(model => Model.DonanteActual.NroDoc, "Número Doc.", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.EditorFor(model => Model.DonanteActual.NroDoc, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.NroDoc, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.NroDoc, "Este campo es requerido y debe ser numérico.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -70,7 +70,7 @@
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdGrupoFactor, (IEnumerable<SelectListItem>)ViewBag.IdGrupoFactor ?? new List<SelectListItem>(),
 							"Seleccione grupo y factor", htmlAttributes: new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdGrupoFactor, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.IdGrupoFactor, "Este campo es requerido.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -87,7 +87,7 @@
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdProvincia, (IEnumerable<SelectListItem>)ViewBag.IdProvincia ?? new List<SelectListItem>(),
 								"Seleccione Provincia", htmlAttributes: new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdProvincia, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.IdProvincia, "Este campo es requerido.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -96,7 +96,7 @@
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdLocalidad, (IEnumerable<SelectListItem>)ViewBag.IdLocalidad ?? new List<SelectListItem>(),
 								"Seleccione Localidad", htmlAttributes: new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdLocalidad, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.IdLocalidad, "Este campo es requerido.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -112,7 +112,7 @@
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdEstadoDonante, (IEnumerable<SelectListItem>)ViewBag.IdEstadoDonante ?? new List<SelectListItem>(),
 							"Seleccione Estado", htmlAttributes: new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdEstadoDonante, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.IdEstadoDonante, "Este campo es requerido.", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -152,7 +152,7 @@
 					@Html.LabelFor(model => Model.DonanteActual.Ocupacion, "Ocupacion", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.EditorFor(model => Model.DonanteActual.Ocupacion, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.IdEstadoDonante, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.Ocupacion, "", new { @class = "text-danger" })
 					</div>
 				</div>
 

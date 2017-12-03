@@ -41,9 +41,13 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 			});
 	};
 
-	$scope.verEstado = function (descripcionEstado)
-	{
-		modalServicio.open("info", descripcionEstado + ": Aquí enumerará las razones si es que fue rechazado o diferido, y la fecha de fin del plazo en el segundo caso.");
+	$scope.verEstado = function (idEstadoDonante, descripcionEstado, diferidoHasta) {
+		var textoSecundario = "";
+		if (idEstadoDonante === 2)
+			textoSecundario = ": (Razones)";
+		if (idEstadoDonante === 3 && diferidoHasta != null)
+			textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ". (Razones)";
+		modalServicio.open("info", descripcionEstado + textoSecundario);
 	}
 
 });

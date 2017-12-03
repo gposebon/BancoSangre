@@ -40,7 +40,8 @@ namespace BancoSangre.Controllers
 					x.Localidad.NombreLocalidad,
 					x.Provincia.NombreProvincia,
 					x.IdEstadoDonante,
-					x.EstadoDonante.DescripcionEstado
+					x.EstadoDonante.DescripcionEstado,
+					x.DiferidoHasta
 				})
 				.ToList();
 
@@ -115,14 +116,10 @@ namespace BancoSangre.Controllers
 			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
 			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
 			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor");
-            return View();
+			return View();
 		}
 
-     
-
-        
-
-        public ActionResult TraerLocalidades(int? idProvincia)
+		public ActionResult TraerLocalidades(int? idProvincia)
 		{
 			return Json(ObtenerLocalidades(idProvincia), JsonRequestBehavior.AllowGet);
 
@@ -130,7 +127,7 @@ namespace BancoSangre.Controllers
 
 		private IList ObtenerLocalidades(int? idProvincia)
 		{
-			return _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == 0).OrderBy(x => x.NombreLocalidad)
+			return _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
 				.Select(x => new { x.IdLocalidad, x.NombreLocalidad }).ToList();
 		}
 
@@ -142,10 +139,10 @@ namespace BancoSangre.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad")] DonanteOtraLocalidad donanteConOtraLocalidad)
 		{
-            var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
+			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
 			{
-				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == 0)
+				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
 				{
 					_db.Localidad.Add(new Localidad { NombreLocalidad = donanteConOtraLocalidad.OtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();
@@ -176,7 +173,7 @@ namespace BancoSangre.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			var donante = _db.Donante.Find(id);
-			var donanteOtraLocalidad = new DonanteOtraLocalidad {DonanteActual = donante};
+			var donanteOtraLocalidad = new DonanteOtraLocalidad { DonanteActual = donante };
 
 			if (donante == null)
 			{
@@ -201,7 +198,7 @@ namespace BancoSangre.Controllers
 			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
 			{
-				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == 0)
+				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
 				{
 					_db.Localidad.Add(new Localidad { NombreLocalidad = donanteConOtraLocalidad.OtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();

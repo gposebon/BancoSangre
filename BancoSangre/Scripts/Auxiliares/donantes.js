@@ -24,7 +24,6 @@ $(document).ready(function () {
 				success: function (result) {
 
 					$('#DonanteActual_IdLocalidad').append($('<option>', {
-						value: -1,
 						text: 'Seleccione Localidad'
 					}));
 
@@ -35,7 +34,7 @@ $(document).ready(function () {
 						}));
 					}
 
-					$("#DonanteActual_IdLocalidad").val("-1");
+					$('#DonanteActual_IdLocalidad option').eq(0).prop('selected', true);
 				}
 			});
 		});
@@ -44,7 +43,7 @@ $(document).ready(function () {
 		function () {
 			var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
 
-			if (idLocalidad === "0") {
+			if (idLocalidad === "-1") {
 				$("#OtraLocalidad").show();
 			} else {
 				$("#OtraLocalidad").hide();
