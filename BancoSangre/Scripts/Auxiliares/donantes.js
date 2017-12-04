@@ -1,54 +1,64 @@
 ﻿
 $(document).ready(function () {
 	$("#DonanteActual_IdLocalidad").attr('disabled', $('#DonanteActual_IdProvincia option:selected').val() === "");
-	$("#OtraLocalidad").hide();
+	$("#ContenedorOtraLocalidad").hide();
 
-	$("#DonanteActual_IdProvincia").on('change',
-		function () {
-			var idProvincia = $('#DonanteActual_IdProvincia option:selected').val();
-			$("#DonanteActual_IdLocalidad").attr('disabled', idProvincia === "");
-			$("#OtraLocalidad").hide();
+	$("#DonanteActual_IdProvincia").on('change', function () {
+		var idProvincia = $('#DonanteActual_IdProvincia option:selected').val();
+		$("#DonanteActual_IdLocalidad").attr('disabled', idProvincia === "");
+		$("#ContenedorOtraLocalidad").hide();
+		$("#validacionOtraLocalidad").hide();
 
-			//Limpiamos el combo Localidad
-			$('#DonanteActual_IdLocalidad')
-					.find('option')
-					.remove()
-					.end();
+		//Limpiamos el combo Localidad
+		$('#DonanteActual_IdLocalidad')
+				.find('option')
+				.remove()
+				.end();
 
-			$.ajax({
-				type: 'GET',
-				url: 'TraerLocalidades',
-				contentType: 'application/json; charset=utf-8',
-				data: { idProvincia: idProvincia },
-				dataType: 'json',
-				success: function (result) {
+		$.ajax({
+			type: 'GET',
+			url: 'TraerLocalidades',
+			contentType: 'application/json; charset=utf-8',
+			data: { idProvincia: idProvincia },
+			dataType: 'json',
+			success: function (result) {
 
+				$('#DonanteActual_IdLocalidad').append($('<option>', {
+					text: 'Seleccione Localidad'
+				}));
+
+				for (var i = 0; i < result.length; i++) {
 					$('#DonanteActual_IdLocalidad').append($('<option>', {
-						text: 'Seleccione Localidad'
+						value: result[i].IdLocalidad,
+						text: result[i].NombreLocalidad
 					}));
-
-					for (var i = 0; i < result.length; i++) {
-						$('#DonanteActual_IdLocalidad').append($('<option>', {
-							value: result[i].IdLocalidad,
-							text: result[i].NombreLocalidad
-						}));
-					}
-
-					$('#DonanteActual_IdLocalidad option').eq(0).prop('selected', true);
 				}
-			});
-		});
 
-	$("#DonanteActual_IdLocalidad").on('change',
-		function () {
-			var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
-
-			if (idLocalidad === "-1") {
-				$("#OtraLocalidad").show();
-			} else {
-				$("#OtraLocalidad").hide();
+				$('#DonanteActual_IdLocalidad option').eq(0).prop('selected', true);
 			}
 		});
+	});
+
+	$("#DonanteActual_IdLocalidad").on('change', function () {
+		$("#validacionOtraLocalidad").hide();
+		var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
+
+		if (idLocalidad === "-1") {
+			$("#ContenedorOtraLocalidad").show();
+		} else {
+			$("#ContenedorOtraLocalidad").hide();
+		}
+	});
+
+	$("#formularioDonante").submit(function (event) {
+		var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
+
+		if (idLocalidad === "-1" && $.trim($("#OtraLocalidad").val()) === "") {
+			$("#validacionOtraLocalidad").show();
+			$("#OtraLocalidad").val(""); //Limpia espacios en blanco
+			return false;
+		}
+	});
 
 	function calcularEdad(fechaNac) {
 		var r = "";

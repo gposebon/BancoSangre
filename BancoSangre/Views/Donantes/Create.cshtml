@@ -8,8 +8,7 @@
 	ViewBag.Title = "Ingresar";
 }
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formularioDonante" }))
 {
 	@Html.AntiForgeryToken()
 
@@ -100,10 +99,11 @@
 						</div>
 					</div>
 
-					<div id="OtraLocalidad" style="display: none" class="form-group">
+					<div id="ContenedorOtraLocalidad" style="display: none" class="form-group">
 						@Html.LabelFor(model => Model.OtraLocalidad, "Otra Localidad", htmlAttributes: new { @class = "control-label col-md-2 otraLocalidad" })
 						<div class="col-md-offset-3">
 							@Html.EditorFor(model => Model.OtraLocalidad, new { htmlAttributes = new { @class = "form-control" } })
+							<span id="validacionOtraLocalidad" class="text-danger field-validation-error" style="display: none;">Este campo es requerido.</span>
 						</div>
 					</div>
 

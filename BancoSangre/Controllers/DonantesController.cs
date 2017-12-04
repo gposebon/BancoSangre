@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -144,7 +145,8 @@ namespace BancoSangre.Controllers
 			{
 				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
 				{
-					_db.Localidad.Add(new Localidad { NombreLocalidad = donanteConOtraLocalidad.OtraLocalidad, IdProvincia = idProvincia });
+					var nombreOtraLocalidad = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(donanteConOtraLocalidad.OtraLocalidad.Trim().ToLower());
+					_db.Localidad.Add(new Localidad { NombreLocalidad = nombreOtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();
 					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
 						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
@@ -200,7 +202,8 @@ namespace BancoSangre.Controllers
 			{
 				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
 				{
-					_db.Localidad.Add(new Localidad { NombreLocalidad = donanteConOtraLocalidad.OtraLocalidad, IdProvincia = idProvincia });
+					var nombreOtraLocalidad = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(donanteConOtraLocalidad.OtraLocalidad.Trim().ToLower());
+					_db.Localidad.Add(new Localidad { NombreLocalidad = nombreOtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();
 					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
 						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
