@@ -24,11 +24,17 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 			});
 	}
 
-	$scope.removerDonante = function (index, id) {
+	$scope.removerDonante = function (id) {
 		donantesRepositorio.remover(id)
 			.then(function (result) {
 				if (result.data.toString() === "true") {
-					$scope.filtrados.splice(index, 1);
+					var i;
+					for (i = 0; i < $scope.donantes.length; ++i) {
+						if ($scope.donantes[i].IdDonante === id) {
+							$scope.donantes.splice(i, 1);
+							break;
+						}
+					}
 					modalServicio.open("success", "El Donante ha sido removido correctamente.");
 				}
 				else {

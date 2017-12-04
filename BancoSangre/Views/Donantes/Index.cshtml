@@ -86,7 +86,7 @@
 			<td class="celdaGrillaAdmin" style="white-space: nowrap">
 				<div class="buttons" ng-show="!rowform.$visible">
 					<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-primary glyphicon glyphicon-pencil" title="Editar"></a>
-					<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerDonante($index, d.IdDonante)" title="Remover"></button>
+					<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
 				</div>
 			</td>
 		</tr>
