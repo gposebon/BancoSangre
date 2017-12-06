@@ -60,15 +60,18 @@ $(document).ready(function () {
 		}
 	});
 
-	function calcularEdad(fechaNac) {
-		var r = "";
+	function calcularEdad() {
+		var fechaNac = $("#calendarioFechaNacimiento").val();
+		var edad = "";
 		if (fechaNac !== "") {
-			var anioHoy = new Date(Date.now()).getFullYear();
-			var mesHoy = new Date(Date.now()).getMonth();
-			var diaHoy = new Date(Date.now()).getDate();
-			var anioNac = new Date(fechaNac).getFullYear();
-			var mesNac = new Date(fechaNac).getMonth();
-			var diaNac = new Date(fechaNac).getDate();
+			var hoy = new Date(Date.now());
+			var nac = $.datepicker.parseDate("dd/mm/yy", fechaNac);
+			var anioHoy = hoy.getFullYear();
+			var mesHoy = hoy.getMonth();
+			var diaHoy = hoy.getDate();
+			var anioNac = nac.getFullYear();
+			var mesNac = nac.getMonth();
+			var diaNac = nac.getDate();
 			var dif = anioHoy - anioNac;
 			if (mesNac > mesHoy) dif--;
 			else {
@@ -77,25 +80,35 @@ $(document).ready(function () {
 				}
 			}
 			if (dif !== -1)
-				r = dif;
+				edad = dif;
 		}
-		$('#cajaEdad').val(r);
+		$('#cajaEdad').val(edad);
+	}
+
+	function formatearFechaInicial() {
+		var fechaNac = $("#calendarioFechaNacimiento").val();
+		if (fechaNac !== "") {
+			var nac = new Date(fechaNac);
+			$("#calendarioFechaNacimiento").val(nac.getDate() + "/" + (nac.getMonth() + 1) + "/" + nac.getFullYear());
+		}
 	}
 
 	$(function () {
 		$("#calendarioFechaNacimiento").datepicker({
 			changeMonth: true,
 			changeYear: true,
-			onClose: function (fechaNac) {
-				calcularEdad(fechaNac);
-			}
+			dateFormat: "dd/mm/yy",
+			yearRange: "-90:c",
+			onClose: calcularEdad
 		});
 	});
 
 	$(function () {
 		$("#calendarioDiferidoHasta").datepicker({
 			changeMonth: true,
-			changeYear: true
+			changeYear: true,
+			dateFormat: "dd/mm/yy",
+			yearRange: "c:c+10"
 		});
 	});
 
@@ -110,6 +123,7 @@ $(document).ready(function () {
 			}
 		});
 
-	$("#DonanteActual_IdEstadoDonante").trigger("change");
-	calcularEdad($("#calendarioFechaNacimiento").val());
+	$("#DonanteActual_IdEstadoDonante").trigger("change"); //Si el estado es diferido muestra el calendario, de lo contrario no
+	formatearFechaInicial();
+	calcularEdad();
 });
