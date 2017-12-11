@@ -85,14 +85,6 @@ $(document).ready(function () {
 		$('#cajaEdad').val(edad);
 	}
 
-	function formatearFechaInicial() {
-		var fechaNac = $("#calendarioFechaNacimiento").val();
-		if (fechaNac !== "") {
-			var nac = new Date(fechaNac);
-			$("#calendarioFechaNacimiento").val(nac.getDate() + "/" + (nac.getMonth() + 1) + "/" + nac.getFullYear());
-		}
-	}
-
 	$(function () {
 		$("#calendarioFechaNacimiento").datepicker({
 			changeMonth: true,
@@ -124,6 +116,5 @@ $(document).ready(function () {
 		});
 
 	$("#DonanteActual_IdEstadoDonante").trigger("change"); //Si el estado es diferido muestra el calendario, de lo contrario no
-	formatearFechaInicial();
 	calcularEdad();
 });
