@@ -1,7 +1,7 @@
 ﻿"use strict";
 app.factory("donantesRepositorio", function ($http) {
 	return {
-		obtenerDonantes: function (infoPagina) {
+		obtenerDonantes: function () {
 			var url = "/Donantes/ObtenerDonantes";
 			return $http.get(url);
 		},
