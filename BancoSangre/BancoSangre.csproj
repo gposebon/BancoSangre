@@ -192,6 +192,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DestinoDonacionsController.cs" />
     <Compile Include="Controllers\DonantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1207,6 +1208,7 @@
     <Content Include="Views\Donantes\Details.cshtml" />
     <Content Include="Views\Donantes\Edit.cshtml" />
     <Content Include="Views\Donantes\Index.cshtml" />
+    <Content Include="Views\DestinoDonacions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
