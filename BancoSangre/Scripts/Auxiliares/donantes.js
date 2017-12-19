@@ -2,6 +2,7 @@
 $(document).ready(function () {
 	$("#DonanteActual_IdLocalidad").attr('disabled', $('#DonanteActual_IdProvincia option:selected').val() === "");
 	$("#ContenedorOtraLocalidad").hide();
+	var fechaNacFormatoGuardar;
 
 	$("#DonanteActual_IdProvincia").on('change', function () {
 		var idProvincia = $('#DonanteActual_IdProvincia option:selected').val();
@@ -58,14 +59,17 @@ $(document).ready(function () {
 			$("#OtraLocalidad").val(""); //Limpia espacios en blanco
 			return false;
 		}
+
+		return true;
 	});
 
 	function calcularEdad() {
 		var fechaNac = $("#calendarioFechaNacimiento").val();
 		var edad = "";
 		if (fechaNac !== "") {
-			var hoy = new Date(Date.now());
 			var nac = $.datepicker.parseDate("dd/mm/yy", fechaNac);
+
+			var hoy = new Date(Date.now());
 			var anioHoy = hoy.getFullYear();
 			var mesHoy = hoy.getMonth();
 			var diaHoy = hoy.getDate();
@@ -81,8 +85,10 @@ $(document).ready(function () {
 			}
 			if (dif !== -1)
 				edad = dif;
+
+			$("#DonanteActual_FechaNacimiento").val(mesNac + 1 + "/" + diaNac + "/" + anioNac); //Actualiza el nuevo valor en el hidden que se usa para guardar
 		}
-		$('#cajaEdad').val(edad);
+		$("#cajaEdad").val(edad);
 	}
 
 	$(function () {
@@ -116,5 +122,10 @@ $(document).ready(function () {
 		});
 
 	$("#DonanteActual_IdEstadoDonante").trigger("change"); //Si el estado es diferido muestra el calendario, de lo contrario no
+
+	if ($("#DonanteActual_FechaNacimiento").val() !== "") {
+		var fecNac = $.datepicker.parseDate("mm/dd/yy", $("#DonanteActual_FechaNacimiento").val()); //Sacamos la fecha del hidden y la parseamos
+		$("#calendarioFechaNacimiento").val(fecNac.getDate() + "/" + (fecNac.getMonth() + 1) + "/" + fecNac.getFullYear());
+	}
 	calcularEdad();
 });
