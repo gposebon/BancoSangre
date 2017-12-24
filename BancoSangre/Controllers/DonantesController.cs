@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
@@ -68,7 +67,7 @@ namespace BancoSangre.Controllers
 				var actual = _db.Donante
 					.FirstOrDefault(x => x.IdDonante == id);
 				if (actual == null)
-					return Json("El Donante que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
+					return Json("El donante que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
 
 				_db.Donante.Remove(actual);
 				_db.SaveChanges();
@@ -76,11 +75,11 @@ namespace BancoSangre.Controllers
 			}
 			catch (DbUpdateException)
 			{
-				return Json("El Donante no puede ser removido porque ya ha realizado donaciones.", JsonRequestBehavior.AllowGet);
+				return Json("El donante no puede ser removido porque ya ha realizado donaciones.", JsonRequestBehavior.AllowGet);
 			}
 			catch (Exception)
 			{
-				return Json("Se produjo un error al intentar remover el Donante.", JsonRequestBehavior.AllowGet);
+				return Json("Se produjo un error al intentar remover el donante.", JsonRequestBehavior.AllowGet);
 			}
 		}
 		#endregion

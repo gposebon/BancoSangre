@@ -1,57 +1,99 @@
-﻿@model IEnumerable<BancoSangre.Models.Pregunta>
-
+﻿
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Cuestionario";
 }
 
-<h2>Index</h2>
+<h2>Cuestionario</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TextoPregunta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EsCerrada)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CausalRechazo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mostrar)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Orden)
-        </th>
-        <th></th>
-    </tr>
+<div class="panel panel-default" ng-controller="preguntasController">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TextoPregunta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EsCerrada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CausalRechazo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Mostrar)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Orden)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdPregunta }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdPregunta }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdPregunta })
-        </td>
-    </tr>
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-md-9">
+				<form class="form-inline">
+					<input type="text" class="form-control" placeholder="Texto pregunta" ng-model="busqPregunta">
+				</form>
+			</div>
+			<div class="col-md-pull-2">
+				<label class="control-label" style="padding-left: 1%;">Preguntas: </label>
+				<label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
+				<button class="btn btn-primary" ng-click="agregarPregunta()">Agregar Pregunta</button>
+			</div>
+		</div>
+	</div>
+
+	<table id="tablaOrdenTrabajo" class="table table-striped table-bordered table-hover table-condensed">
+		<thead>
+		<tr class="text-uppercase">
+			<th width="40%" class="text-center">Texto</th>
+			<th width="10%" class="text-center">Es cerrada</th>
+			<th width="12%" class="text-center">Causal rechazo</th>
+			<th width="10%" class="text-center">Mostrar</th>
+			<th width="10%" class="text-center">Orden</th>
+			<th width="18%" class="text-center">Acciones</th>
+		</tr>
+		</thead>
+		<tbody ng-cloak>
+		<tr ng-repeat="p in filtrados = (preguntas | filter:{TextoPregunta: busqPregunta}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+			<td class="celdaGrillaAdmin noEnCelular">
+				<span editable-text="p.TextoPregunta" e-name="textoPregunta" e-form="rowform" e-required>
+					{{ p.TextoPregunta || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin noEnCelular">
+				<a href="#" editable-checkbox="p.EsCerrada" e-name="esCerrada" e-form="rowform" e-title="">
+					{{ p.EsCerrada && "Es cerrada" || "No es cerrada" }}
+				</a>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<a href="#" editable-checkbox="p.CausalRechazo" e-name="causalRechazo" e-form="rowform" e-title="">
+					{{ p.CausalRechazo && "Causal rechazo" || "No es causal rechazo" }}
+				</a>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<a href="#" editable-checkbox="p.Mostrar" e-name="mostrar" e-form="rowform" e-title="">
+					{{ p.Mostrar && "Mostrar" || "No mostrar" }}
+				</a>
+			</td>
+			<td class="celdaGrillaAdmin">
+				<span editable-text="p.Orden" e-name="orden" e-form="rowform" e-required>
+					{{ p.Orden || '-' }}
+				</span>
+			</td>
+			<td class="celdaGrillaAdmin" style="white-space: nowrap">
+				<!-- form -->
+				<form editable-form name="rowform" onbeforesave="guardarPregunta($data, p.IdPregunta)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
+					<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+						Guardar
+					</button>
+					<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelarPregunta(rowform, p.IdPregunta)" class="btn btn-default">
+						Cancelar
+					</button>
+				</form>
+				<div class="buttons" ng-show="!rowform.$visible">
+					<button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+					<button class="btn btn-warning glyphicon glyphicon-hand-up" ng-click="cambiarOrden(p.IdPregunta, p.Orden - 1)" title="Subir"></button>
+					<button class="btn btn-warning glyphicon glyphicon-hand-down" ng-click="cambiarOrden(p.IdPregunta, p.Orden + 1)" title="Bajar"></button>
+					<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerPregunta(p.IdPregunta)" title="Eliminar"></button>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div style="text-align:center">
+		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina" 
+		                items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+	</div>
+</div>
+
+<div>
+	<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+		Volver
+	</a>
+</div>
+
+@section scripts{
+	@Scripts.Render("~/app/services/preguntasServicio.js")
+	@Scripts.Render("~/app/controllers/preguntasController.js")
 }
-
-</table>

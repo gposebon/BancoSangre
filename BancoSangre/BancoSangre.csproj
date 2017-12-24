@@ -285,16 +285,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\preguntasController.js" />
     <Content Include="app\controllers\donantesController.js" />
     <Content Include="app\directivas\modalDirectiva.js" />
     <Content Include="app\modal\modalController.js" />
     <Content Include="app\modal\modalContenido.html" />
     <Content Include="app\modal\modalServicio.js" />
+    <Content Include="app\services\preguntasServicio.js" />
     <Content Include="app\services\donantesServicio.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Imagenes\bancosangre.jpg" />
     <Content Include="Content\Imagenes\logo.png" />
+    <Content Include="Content\loading-bar.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -336,6 +339,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\xeditable.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1171,12 +1175,15 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Auxiliares\lanzamiento.js" />
+    <Content Include="Scripts\loading-bar.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\smart-table.min.js" />
     <Content Include="Scripts\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\version.json" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\xeditable.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
