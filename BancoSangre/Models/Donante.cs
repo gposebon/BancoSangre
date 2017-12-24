@@ -14,6 +14,12 @@ namespace BancoSangre.Models
     
     public partial class Donante
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Donante()
+        {
+            this.Cuestionario = new HashSet<Cuestionario>();
+        }
+    
         public int IdDonante { get; set; }
         public int IdTipoDoc { get; set; }
         public int NroDoc { get; set; }
@@ -41,5 +47,7 @@ namespace BancoSangre.Models
         public virtual TipoDocumento TipoDocumento { get; set; }
         public virtual EstadoDonante EstadoDonante { get; set; }
         public virtual GrupoFactor GrupoFactor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cuestionario> Cuestionario { get; set; }
     }
 }

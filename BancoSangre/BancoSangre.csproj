@@ -196,6 +196,7 @@
     <Compile Include="Controllers\DonantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PreguntasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +228,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BancoSangre.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cuestionario.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
     </Compile>
@@ -248,6 +252,12 @@
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Pregunta.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PreguntaCuestionario.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Provincia.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
@@ -1209,6 +1219,7 @@
     <Content Include="Views\Donantes\Edit.cshtml" />
     <Content Include="Views\Donantes\Index.cshtml" />
     <Content Include="Views\DestinoDonacions\Index.cshtml" />
+    <Content Include="Views\Preguntas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

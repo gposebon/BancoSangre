@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3f32f8fe665c4c3289080b32b38f59d6" Name="Diagram1">
-        <EntityTypeShape EntityType="bancosangreModel.DestinoDonacion" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="bancosangreModel.Donante" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="bancosangreModel.EstadoDonante" Width="1.5" PointX="3.875" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="bancosangreModel.Localidad" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
@@ -18,6 +17,13 @@
         <AssociationConnector Association="bancosangreModel.FK_Donante_EstadoDonante" />
         <EntityTypeShape EntityType="bancosangreModel.GrupoFactor" Width="1.5" PointX="6.375" PointY="0.875" />
         <AssociationConnector Association="bancosangreModel.FK_Donante_GrupoFactor" />
+        <EntityTypeShape EntityType="bancosangreModel.Cuestionario" Width="1.5" PointX="7.5" PointY="7.625" />
+        <EntityTypeShape EntityType="bancosangreModel.Pregunta" Width="1.5" PointX="7.5" PointY="4.375" />
+        <EntityTypeShape EntityType="bancosangreModel.PreguntaCuestionario" Width="1.5" PointX="9.75" PointY="7" />
+        <AssociationConnector Association="bancosangreModel.FK_Cuestionario_Cuestionario" />
+        <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Cuestionario" />
+        <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Pregunta" />
+        <EntityTypeShape EntityType="bancosangreModel.DestinoDonacion" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
