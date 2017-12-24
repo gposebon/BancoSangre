@@ -1,4 +1,5 @@
 ﻿"use strict";
+
 app.controller("preguntasController", function ($scope, preguntasRepositorio, modalServicio) {
 	init();
 
@@ -10,7 +11,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	function configPaginacion() {
 		$scope.infoPagina = {
 			pagina: 1,
-			itemsPorPagina: 100,
+			itemsPorPagina: 20,
 			reversa: false,
 			totalItems: 0
 		};
@@ -96,7 +97,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	function actualizarOrden(preguntaMovida, preguntaSolapa) {
 		if (preguntaMovida != null) {
 			preguntasRepositorio.actualizarOrden(preguntaMovida, preguntaSolapa)
-				.then(function(result) {
+				.then(function (result) {
 					if (result) {
 						obtenerPreguntas();
 					} else {
@@ -129,4 +130,17 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 
 		actualizarOrden(preguntaMovida, preguntaSolapa);
 	}
+
+	$scope.filtrar = function (llamaDesdeCheckMostrar) {
+		// DESDE CHECK: Como el indeterminate se actualiza luego de filtrar no lo podemos usar en el if, tomamos el valor (tb desactualizado) de "data("checked")", si este es 2 sabemos que 
+		// indeterminado terminará en true. Estamos yendo del check deschequeado al indeterminado.
+		// DESDE CAJA DE TEXTO: Aquí el indeterminate está siempre actualizado pero utilizamos el mismo valor "data("checked")", tb actualizado.
+		var estadoCheckMostrar = $("#checkMostrar").data("checked");
+		if (llamaDesdeCheckMostrar && estadoCheckMostrar !== 2 || !llamaDesdeCheckMostrar && estadoCheckMostrar !== 0) {
+			$scope.filtro = { "TextoPregunta": $("#busqTextoPregunta").val(), "Mostrar": $("#checkMostrar").prop("checked") };
+		} else {
+			$scope.filtro = { "TextoPregunta": $("#busqTextoPregunta").val() };
+		}
+	};
+
 });

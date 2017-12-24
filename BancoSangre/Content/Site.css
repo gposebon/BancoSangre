@@ -224,3 +224,9 @@ hr.hr {
 {
 	display: none;
 }
+
+.volverArribaPagina {
+	display: inline-block;
+	float: right;
+	margin: 20px 0 10px 0;
+}

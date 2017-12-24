@@ -24,6 +24,7 @@
 /// <reference path="auxiliares/barralateral.js" />
 /// <reference path="auxiliares/donantes.js" />
 /// <reference path="auxiliares/lanzamiento.js" />
+/// <reference path="auxiliares/preguntas.js" />
 /// <reference path="bootstrap.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />

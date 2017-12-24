@@ -3,7 +3,17 @@
 	ViewBag.Title = "Cuestionario";
 }
 
-<h2>Cuestionario</h2>
+<div>
+	<div style="display: inline-block">
+		<h2>Cuestionario</h2>
+	</div>
+	<div class="volverArribaPagina">
+		<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+			Volver
+		</a>
+	</div>
+</div>
 
 <div class="panel panel-default" ng-controller="preguntasController">
 
@@ -11,7 +21,9 @@
 		<div class="row">
 			<div class="col-md-9">
 				<form class="form-inline">
-					<input type="text" class="form-control" placeholder="Texto pregunta" ng-model="busqPregunta">
+					<input type="text" id="busqTextoPregunta" class="form-control" placeholder="Texto pregunta" ng-model="busqTextoPregunta" ng-change="filtrar(false)">
+					<label class="control-label" style="padding-left: 1%; font-weight: normal;">Mostrar: </label>
+					<input type="checkbox" class="form-control" id="checkMostrar" ng-click="filtrar(true)">
 				</form>
 			</div>
 			<div class="col-md-pull-2">
@@ -34,7 +46,7 @@
 		</tr>
 		</thead>
 		<tbody ng-cloak>
-		<tr ng-repeat="p in filtrados = (preguntas | filter:{TextoPregunta: busqPregunta}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+		<tr ng-repeat="p in filtrados = (preguntas | filter: filtro) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
 			<td class="celdaGrillaAdmin noEnCelular">
 				<span editable-text="p.TextoPregunta" e-name="textoPregunta" e-form="rowform" e-required>
 					{{ p.TextoPregunta || '-' }}
@@ -86,14 +98,8 @@
 	</div>
 </div>
 
-<div>
-	<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">
-		<span class="glyphicon glyphicon-chevron-left"></span>
-		Volver
-	</a>
-</div>
-
 @section scripts{
 	@Scripts.Render("~/app/services/preguntasServicio.js")
 	@Scripts.Render("~/app/controllers/preguntasController.js")
+	@Scripts.Render("~/Scripts/Auxiliares/preguntas.js")
 }
