@@ -47,12 +47,12 @@
 		</thead>
 		<tbody ng-cloak>
 		<tr ng-repeat="p in filtrados = (preguntas | filter: filtro) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
-			<td class="celdaGrillaAdmin noEnCelular">
+			<td class="celdaGrillaAdmin">
 				<span editable-text="p.TextoPregunta" e-name="textoPregunta" e-form="rowform" e-required>
 					{{ p.TextoPregunta || '-' }}
 				</span>
 			</td>
-			<td class="celdaGrillaAdmin noEnCelular">
+			<td class="celdaGrillaAdmin">
 				<a href="#" editable-checkbox="p.EsCerrada" e-name="esCerrada" e-form="rowform" e-title="">
 					{{ p.EsCerrada && "Sí" || "No" }}
 				</a>

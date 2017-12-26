@@ -230,3 +230,24 @@ hr.hr {
 	float: right;
 	margin: 20px 0 10px 0;
 }
+
+.contenedorPreguntaRespuesta {
+	padding: 15px 0 15px 0;
+	border-bottom: #637488 solid 1px;
+}
+
+.preguntaRespuesta {
+	vertical-align: middle;
+	display: inline-block;
+	width: 48%;
+}
+
+.radioPregunta {
+	vertical-align: middle;
+	margin: 0 5px 0 5px;
+}
+
+.areaTextoRespuesta {
+	width: 100%;
+	max-width: none;
+}

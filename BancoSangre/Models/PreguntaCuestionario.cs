@@ -19,7 +19,7 @@ namespace BancoSangre.Models
         public int IdCuestionario { get; set; }
         public bool RespuestaCerrada { get; set; }
         public string RespuestaAbierta { get; set; }
-        public int Orden { get; set; }
+        public Nullable<int> Orden { get; set; }
         public bool EsCerrada { get; set; }
         public bool CausalRechazo { get; set; }
         public string TextoPregunta { get; set; }

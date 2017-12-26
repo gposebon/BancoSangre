@@ -1,7 +1,69 @@
-﻿
+﻿@model BancoSangre.Models.CuestionarioDonante
+
 @{
-    ViewBag.Title = "Cuestionario";
+	ViewBag.Title = "Cuestionario";
 }
 
-<h2>Cuestionario</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "cuestionario" }))
+{
+	@Html.AntiForgeryToken()
 
+	<div class="contenedorTituloCrearEditar">
+		<div class="tituloCrearEditar">Cuestionario</div>
+		<div class="botonesCrearEditar">
+			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Volver
+			</a>
+		</div>
+	</div>
+
+	<hr class="hr" />
+
+	<h4>Donante: @Model.NombreDonante | Fecha: @Model.Fecha</h4>
+
+	@Html.HiddenFor(modelItem => Model.IdDonante)
+
+	for (var i = 0; i < Model.Preguntas.Count(); i++)
+	{
+		@Html.HiddenFor(modelItem => Model.Preguntas[i].IdPregunta)
+		@Html.HiddenFor(modelItem => Model.Preguntas[i].TextoPregunta)
+		@Html.HiddenFor(modelItem => Model.Preguntas[i].EsCerrada)
+		@Html.HiddenFor(modelItem => Model.Preguntas[i].Orden)
+		@Html.HiddenFor(modelItem => Model.Preguntas[i].CausalRechazo)
+
+		<div class="contenedorPreguntaRespuesta">
+			<div class="preguntaRespuesta">
+				@Html.DisplayFor(modelItem => Model.Preguntas[i].TextoPregunta)
+			</div>
+			<div class="preguntaRespuesta">
+				@{
+					if (Model.Preguntas[i].EsCerrada)
+					{
+						<label class="radioPregunta">Sí</label>
+						@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, true, 
+							new { id = Model.Preguntas[i].IdPregunta + "-Si", Name = Model.Preguntas[i].IdPregunta.ToString(), Class = "radioPregunta", Value = true })
+						<label class="radioPregunta">No</label>
+						@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, false, 
+							new { id = Model.Preguntas[i].IdPregunta + "-No",  Name = Model.Preguntas[i].IdPregunta.ToString(), Class = "radioPregunta", Value = false })
+					}
+					else
+					{
+						@Html.TextAreaFor(modelItem => Model.Preguntas[i].RespuestaAbierta, new { Class = "areaTextoRespuesta", Placeholder = "Respuesta" })
+					}
+				}
+			</div>
+		</div>
+	}
+
+	<div class="contenedorTituloCrearEditar">
+		<div class="botonesCrearEditar">
+			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Volver
+			</a>
+		</div>
+	</div>
+}

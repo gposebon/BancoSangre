@@ -93,7 +93,7 @@
           <Property Name="IdCuestionario" Type="int" Nullable="false" />
           <Property Name="RespuestaCerrada" Type="bit" Nullable="false" />
           <Property Name="RespuestaAbierta" Type="nvarchar" MaxLength="450" />
-          <Property Name="Orden" Type="int" Nullable="false" />
+          <Property Name="Orden" Type="int" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
           <Property Name="CausalRechazo" Type="bit" Nullable="false" />
           <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" Nullable="false" />
@@ -514,7 +514,7 @@
           <Property Name="IdCuestionario" Type="Int32" Nullable="false" />
           <Property Name="RespuestaCerrada" Type="Boolean" Nullable="false" />
           <Property Name="RespuestaAbierta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="Orden" Type="Int32" Nullable="false" />
+          <Property Name="Orden" Type="Int32" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
           <Property Name="CausalRechazo" Type="Boolean" Nullable="false" />
           <Property Name="TextoPregunta" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
