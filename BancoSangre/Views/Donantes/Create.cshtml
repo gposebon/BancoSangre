@@ -15,7 +15,8 @@
 	<div class="contenedorTituloCrearEditar">
 		<div class="tituloCrearEditar">Ingresar Donante</div>
 		<div class="botonesCrearEditar">
-			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<input type="submit" value="Guardar y pasar a cuestionario" onClick="$('#AccionPosterior').val('cuestionario');" class="btn btn-success" />
+			<input type="submit" value="Guardar y salir" class="btn btn-primary"/>
 			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
@@ -26,7 +27,8 @@
 		<hr class="hr" />
 
 		<div class="form-horizontal">
-
+			
+			@Html.HiddenFor(model => Model.AccionPosterior)
 			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 			<div class="col-md-6">

@@ -137,7 +137,7 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad")] DonanteOtraLocalidad donanteConOtraLocalidad)
+		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad, AccionPosterior")] DonanteOtraLocalidad donanteConOtraLocalidad)
 		{
 			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
@@ -154,6 +154,10 @@ namespace BancoSangre.Controllers
 
 				_db.Donante.Add(donanteConOtraLocalidad.DonanteActual);
 				_db.SaveChanges();
+
+				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
+					return RedirectToAction("Cuestionario");
+
 				return RedirectToAction("Index");
 			}
 
@@ -194,7 +198,7 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "DonanteActual, OtraLocalidad")] DonanteOtraLocalidad donanteConOtraLocalidad)
+		public ActionResult Edit([Bind(Include = "DonanteActual, OtraLocalidad, AccionPosterior")] DonanteOtraLocalidad donanteConOtraLocalidad)
 		{
 			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
 			if (ModelState.IsValid)
@@ -210,6 +214,10 @@ namespace BancoSangre.Controllers
 
 				_db.Entry(donanteConOtraLocalidad.DonanteActual).State = EntityState.Modified;
 				_db.SaveChanges();
+
+				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
+					return RedirectToAction("Cuestionario");
+
 				return RedirectToAction("Index");
 			}
 			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(idProvincia), "IdLocalidad", "NombreLocalidad", donanteConOtraLocalidad.DonanteActual.IdLocalidad);
@@ -217,7 +225,15 @@ namespace BancoSangre.Controllers
 			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donanteConOtraLocalidad.DonanteActual.IdTipoDoc);
 			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donanteConOtraLocalidad.DonanteActual.IdEstadoDonante);
 			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donanteConOtraLocalidad.DonanteActual.IdGrupoFactor);
+
 			return View(donanteConOtraLocalidad);
+		}
+
+		// GET: Donantes/Details/5
+		[Authorize]
+		public ActionResult Cuestionario()
+		{
+			return View();
 		}
 
 		protected override void Dispose(bool disposing)

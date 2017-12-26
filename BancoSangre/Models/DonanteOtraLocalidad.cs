@@ -5,5 +5,6 @@ namespace BancoSangre.Models
 	{
 		public Donante DonanteActual { get; set; }
 		public string OtraLocalidad { get; set; }
+		public string AccionPosterior { get; set; }
 	}
 }
