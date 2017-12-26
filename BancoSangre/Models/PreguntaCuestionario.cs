@@ -23,6 +23,8 @@ namespace BancoSangre.Models
         public bool EsCerrada { get; set; }
         public bool CausalRechazo { get; set; }
         public string TextoPregunta { get; set; }
+        public bool EsTitulo { get; set; }
+        public bool LineaCompleta { get; set; }
     
         public virtual Cuestionario Cuestionario { get; set; }
         public virtual Pregunta Pregunta { get; set; }

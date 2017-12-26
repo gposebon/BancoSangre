@@ -247,7 +247,9 @@ namespace BancoSangre.Controllers
 				TextoPregunta = x.TextoPregunta,
 				Orden = x.Orden,
 				CausalRechazo = x.CausalRechazo,
-				EsCerrada = x.EsCerrada
+				EsCerrada = x.EsCerrada,
+				EsTitulo = x.EsTitulo,
+				LineaCompleta = x.LineaCompleta
 			}).ToList();
 
 			var cuestionarioDonante = new CuestionarioDonante
@@ -301,7 +303,9 @@ namespace BancoSangre.Controllers
 				TextoPregunta = x.TextoPregunta,
 				Orden = x.Orden,
 				CausalRechazo = x.CausalRechazo,
-				EsCerrada = x.EsCerrada
+				EsCerrada = x.EsCerrada,
+				EsTitulo = x.EsTitulo,
+				LineaCompleta = x.LineaCompleta
 			}).ToList();
 
 			var cuestionario = new CuestionarioDonante

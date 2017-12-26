@@ -20,7 +20,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	function obtenerPreguntas() {
 		preguntasRepositorio.obtenerPreguntas()
 			.then(function (result) {
-				$scope.preguntas = result.data.data;
+				$scope.preguntas = result.data !== "" ? result.data.data : [];
 				$scope.infoPagina.totalItems = result.data.count;
 			});
 	}
@@ -61,18 +61,22 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		$scope.inserted = {
 			IdPregunta: 0,
 			TextoPregunta: "",
+			EsTitulo: false,
+			LineaCompleta: false,
 			EsCerrada: false,
 			CausalRechazo: false,
 			Mostrar: false,
-			Orden: 0
+			Orden: $scope.preguntas.length + 1
 		};
 		$scope.preguntas.push($scope.inserted);
 	};
 
-	function crearPregunta(id, textoPregunta, esCerrada, causalRechazo, mostrar, orden) {
+	function crearPregunta(id, textoPregunta, esTitulo, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
 		return {
 			IdPregunta: id,
 			TextoPregunta: textoPregunta,
+			EsTitulo: esTitulo,
+			LineaCompleta: lineaCompleta,
 			EsCerrada: esCerrada,
 			CausalRechazo: causalRechazo,
 			Mostrar: mostrar,
@@ -81,7 +85,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	}
 
 	$scope.guardarPregunta = function (data, id) {
-		var pregunta = crearPregunta(id, data.textoPregunta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
+		var pregunta = crearPregunta(id, data.textoPregunta, data.esTitulo, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
 		preguntasRepositorio.guardar(pregunta)
 			.then(function (result) {
 				if (result) {

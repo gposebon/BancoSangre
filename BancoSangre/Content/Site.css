@@ -232,14 +232,34 @@ hr.hr {
 }
 
 .contenedorPreguntaRespuesta {
-	padding: 15px 0 15px 0;
-	border-bottom: #637488 solid 1px;
+	padding: 20px 0 20px 50px;
+	width: 49%;
+	display: inline-block;
+}
+
+@media screen and (max-width: 655px) {
+	.contenedorPreguntaRespuesta {
+		width: 100%;
+	}
+}
+
+.contenedorPreguntaRespuesta-LineaEntera
+{
+	padding: 20px 0 20px 50px;
+	width: 100%;
 }
 
 .preguntaRespuesta {
 	vertical-align: middle;
 	display: inline-block;
 	width: 48%;
+}
+
+.preguntaRespuesta-Titulo {
+	vertical-align: middle;
+	display: inline-block;
+	width: 100%;
+	text-align: center;
 }
 
 .radioPregunta {

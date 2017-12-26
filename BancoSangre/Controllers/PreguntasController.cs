@@ -27,6 +27,8 @@ namespace BancoSangre.Controllers
 				{
 					x.IdPregunta,
 					x.TextoPregunta,
+					x.EsTitulo,
+					x.LineaCompleta,
 					x.EsCerrada,
 					x.CausalRechazo,
 					x.Mostrar,
@@ -89,6 +91,8 @@ namespace BancoSangre.Controllers
 						throw new Exception();
 
 					preguntaActual.TextoPregunta = pregunta.TextoPregunta;
+					preguntaActual.EsTitulo = pregunta.EsTitulo;
+					preguntaActual.LineaCompleta = pregunta.LineaCompleta;
 					preguntaActual.EsCerrada = pregunta.EsCerrada;
 					preguntaActual.CausalRechazo = pregunta.CausalRechazo;
 					preguntaActual.Mostrar = pregunta.Mostrar;
