@@ -41,12 +41,14 @@
 				@{
 					if (Model.Preguntas[i].EsCerrada)
 					{
-						<label class="radioPregunta">Sí</label>
-						@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, true, 
-							new { id = Model.Preguntas[i].IdPregunta + "-Si", Name = Model.Preguntas[i].IdPregunta.ToString(), Class = "radioPregunta", Value = true })
-						<label class="radioPregunta">No</label>
-						@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, false, 
-							new { id = Model.Preguntas[i].IdPregunta + "-No",  Name = Model.Preguntas[i].IdPregunta.ToString(), Class = "radioPregunta", Value = false })
+						<label>
+							<span class="radioPregunta">Sí</span>
+							@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, true, new {  Class = "radioPregunta" })
+						</label>
+						<label>
+							<span class="radioPregunta">No</span>
+							@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, false, new { Class = "radioPregunta" })
+						</label>
 					}
 					else
 					{
