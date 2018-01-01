@@ -234,13 +234,13 @@
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CuestionarioDonante.cs" />
     <Compile Include="Models\DestinoDonacion.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Donante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CuestionarioDonante.cs" />
     <Compile Include="Models\DonanteOtraLocalidad.cs" />
     <Compile Include="Models\EstadoDonante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
@@ -286,12 +286,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\cuestionarioController.js" />
     <Content Include="app\controllers\preguntasController.js" />
     <Content Include="app\controllers\donantesController.js" />
     <Content Include="app\directivas\modalDirectiva.js" />
     <Content Include="app\modal\modalController.js" />
     <Content Include="app\modal\modalContenido.html" />
     <Content Include="app\modal\modalServicio.js" />
+    <Content Include="app\services\cuestionarioServicio.js" />
     <Content Include="app\services\preguntasServicio.js" />
     <Content Include="app\services\donantesServicio.js" />
     <Content Include="Content\bootstrap.css" />
@@ -399,13 +401,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Models\BancoSangre.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BancoSangre.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BancoSangre.edmx.diagram">
-      <DependentUpon>BancoSangre.edmx</DependentUpon>
     </Content>
     <EntityDeploy Include="Models\SeguridadBancoSangre.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1165,6 +1160,13 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <EntityDeploy Include="Models\BancoSangre.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BancoSangre.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BancoSangre.edmx.diagram">
+      <DependentUpon>BancoSangre.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />

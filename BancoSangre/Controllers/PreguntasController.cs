@@ -28,6 +28,7 @@ namespace BancoSangre.Controllers
 					x.IdPregunta,
 					x.TextoPregunta,
 					x.EsTitulo,
+					x.NuevaLinea,
 					x.LineaCompleta,
 					x.EsCerrada,
 					x.CausalRechazo,
@@ -92,6 +93,7 @@ namespace BancoSangre.Controllers
 
 					preguntaActual.TextoPregunta = pregunta.TextoPregunta;
 					preguntaActual.EsTitulo = pregunta.EsTitulo;
+					preguntaActual.NuevaLinea = pregunta.NuevaLinea;
 					preguntaActual.LineaCompleta = pregunta.LineaCompleta;
 					preguntaActual.EsCerrada = pregunta.EsCerrada;
 					preguntaActual.CausalRechazo = pregunta.CausalRechazo;

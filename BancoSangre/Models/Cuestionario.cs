@@ -20,7 +20,7 @@ namespace BancoSangre.Models
             this.PreguntaCuestionario = new HashSet<PreguntaCuestionario>();
         }
     
-        public int IdCuestionario { get; set; }
+        public System.Guid IdCuestionario { get; set; }
         public int IdDonante { get; set; }
         public System.DateTime Fecha { get; set; }
     

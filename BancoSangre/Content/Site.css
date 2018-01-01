@@ -113,13 +113,7 @@ textarea {
 
 .botonMenu {
 	padding: .25em;
-	font-size: 6em;
-}
-
-@media screen and (max-width: 500px) {
-	.botonMenu {
-		font-size: 5em;
-	}
+	font-size: 5.2em;
 }
 
 .divBotonMenu {
@@ -234,7 +228,12 @@ hr.hr {
 .contenedorPreguntaRespuesta {
 	padding: 20px 0 20px 50px;
 	width: 49%;
-	display: inline-block;
+	float: left;
+	height: 5em;
+}
+
+.nuevaLinea {
+	clear: left;
 }
 
 @media screen and (max-width: 655px) {
@@ -247,19 +246,21 @@ hr.hr {
 {
 	padding: 20px 0 20px 50px;
 	width: 100%;
+	float: left;
+	height: 5em;
 }
 
 .preguntaRespuesta {
 	vertical-align: middle;
-	display: inline-block;
 	width: 48%;
+	display: inline-block;
 }
 
 .preguntaRespuesta-Titulo {
 	vertical-align: middle;
-	display: inline-block;
 	width: 100%;
 	text-align: center;
+	display: inline-block;
 }
 
 .radioPregunta {

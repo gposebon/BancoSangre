@@ -1,17 +1,17 @@
-﻿@model BancoSangre.Models.CuestionarioDonante
-
+﻿
 @{
 	ViewBag.Title = "Cuestionario";
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "cuestionario" }))
-{
-	@Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
+
+<div class="panel panel-default" ng-controller="cuestionarioController" ng-cloak>
 
 	<div class="contenedorTituloCrearEditar">
 		<div class="tituloCrearEditar">Cuestionario</div>
 		<div class="botonesCrearEditar">
-			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
+			<button class="btn btn-success" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
 			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
@@ -19,66 +19,47 @@
 		</div>
 	</div>
 
-	<hr class="hr" />
+	<h4>Donante: {{ donante.Nombre + " " + donante.Apellido }} | Fecha: {{ fecha }}</h4>
 
-	<h4>Donante: @Model.NombreDonante | Fecha: @Model.Fecha</h4>
+	<div id="contenido">
 
-	@Html.HiddenFor(modelItem => Model.IdDonante)
+		<div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
-	<div class="form-horizontal">
+			<div ng-class="obtenerClasePregunta(pregunta)">
+				{{ pregunta.TextoPregunta }}
+			</div>
 
-		@{
-			for (var i = 0; i < Model.Preguntas.Count; i++)
-			{
-				@Html.HiddenFor(modelItem => Model.Preguntas[i].IdPregunta)
-				@Html.HiddenFor(modelItem => Model.Preguntas[i].TextoPregunta)
-				@Html.HiddenFor(modelItem => Model.Preguntas[i].EsCerrada)
-				@Html.HiddenFor(modelItem => Model.Preguntas[i].Orden)
-				@Html.HiddenFor(modelItem => Model.Preguntas[i].CausalRechazo)
-
-				var claseContenedor = "contenedorPreguntaRespuesta" + (Model.Preguntas[i].LineaCompleta ? "-LineaEntera" : "");
-				var clasePregunta = "preguntaRespuesta" + (Model.Preguntas[i].EsTitulo ? "-Titulo" : "");
-
-				<div class="@claseContenedor">
-					<div class="@clasePregunta">
-						@Html.DisplayFor(modelItem => Model.Preguntas[i].TextoPregunta)
-					</div>
-					@{
-						if (!Model.Preguntas[i].EsTitulo)
-						{
-							<div class="preguntaRespuesta">
-								@{
-									if (Model.Preguntas[i].EsCerrada)
-									{
-										<label>
-											<span class="radioPregunta">Sí</span>
-											@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, true, new { Class = "radioPregunta" })
-										</label>
-										<label>
-											<span class="radioPregunta">No</span>
-											@Html.RadioButtonFor(modelItem => Model.Preguntas[i].RespuestaCerrada, false, new { Class = "radioPregunta" })
-										</label>
-									}
-									else
-									{
-										@Html.TextAreaFor(modelItem => Model.Preguntas[i].RespuestaAbierta, new { Class = "areaTextoRespuesta", Placeholder = "Respuesta" })
-									}
-								}
-							</div>
-						}
-					}
+			<div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo">
+				<div ng-show="pregunta.EsCerrada">
+					<label>
+						<span class="radioPregunta">Sí</span>
+						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="true" Class="radioPregunta">
+					</label>
+					<label>
+						<span class="radioPregunta">No</span>
+						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="false" Class="radioPregunta">
+					</label>
 				</div>
-			}
-		}
+
+				<textarea ng-hide="pregunta.EsCerrada" ng-model="pregunta.RespuestaAbierta" Class="areaTextoRespuesta" placeholder="Respuesta"></textarea>
+			</div>
+		</div>
 	</div>
 
 	<div class="contenedorTituloCrearEditar">
 		<div class="botonesCrearEditar">
-			<input type="submit" value="Guardar" class="btn btn-primary" />
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
+			<button class="btn btn-success" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
 			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
 			</a>
 		</div>
 	</div>
-									}
+
+</div>
+
+@section scripts{
+	@Scripts.Render("~/app/services/cuestionarioServicio.js")
+	@Scripts.Render("~/app/controllers/cuestionarioController.js")
+}

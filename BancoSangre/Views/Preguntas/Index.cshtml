@@ -40,72 +40,78 @@
 
 	<table id="tablaOrdenTrabajo" class="table table-striped table-bordered table-hover table-condensed">
 		<thead>
-		<tr class="text-uppercase">
-			<th width="32%" class="text-center">Texto</th>
-			<th width="7%" class="text-center">Título</th>
-			<th width="9%" class="text-center">Línea entera</th>
-			<th width="7%" class="text-center">Cerrada</th>
-			<th width="11%" class="text-center">Causal rechazo</th>
-			<th width="9%" class="text-center">Mostrar</th>
-			<th width="9%" class="text-center">Orden</th>
-			<th width="16%" class="text-center">Acciones</th>
-		</tr>
+			<tr>
+				<th width="31%" class="text-center">Texto</th>
+				<th width="5%" class="text-center">Título</th>
+				<th width="8%" class="text-center">Nueva línea</th>
+				<th width="9%" class="text-center">Línea entera</th>
+				<th width="7%" class="text-center">Cerrada</th>
+				<th width="11%" class="text-center">Causal rechazo</th>
+				<th width="7%" class="text-center">Mostrar</th>
+				<th width="6%" class="text-center">Orden</th>
+				<th width="16%" class="text-center">Acciones</th>
+			</tr>
 		</thead>
 		<tbody ng-cloak>
-		<tr ng-repeat="p in filtrados = (preguntas | filter: filtro) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
-			<td class="celdaGrillaAdmin">
-				<span editable-text="p.TextoPregunta" e-name="textoPregunta" e-form="rowform" e-required>
-					{{ p.TextoPregunta || '-' }}
-				</span>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<a href="#" editable-checkbox="p.EsTitulo" e-name="esTitulo" e-form="rowform" e-title="">
-					{{ p.EsTitulo && "Sí" || "No" }}
-				</a>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<a href="#" editable-checkbox="p.LineaCompleta" e-name="lineaCompleta" e-form="rowform" e-title="">
-					{{ p.LineaCompleta && "Sí" || "No" }}
-				</a>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<a href="#" editable-checkbox="p.EsCerrada" e-name="esCerrada" e-form="rowform" e-title="">
-					{{ p.EsCerrada && "Sí" || "No" }}
-				</a>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<a href="#" editable-checkbox="p.CausalRechazo" e-name="causalRechazo" e-form="rowform" e-title="">
-					{{ p.CausalRechazo && "Sí" || "No" }}
-				</a>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<a href="#" editable-checkbox="p.Mostrar" e-name="mostrar" e-form="rowform" e-title="">
-					{{ p.Mostrar && "Sí" || "No" }}
-				</a>
-			</td>
-			<td class="celdaGrillaAdmin">
-				<span editable-text="p.Orden" e-name="orden" e-form="rowform" e-required>
-					{{ p.Orden || '-' }}
-				</span>
-			</td>
-			<td class="celdaGrillaAdmin" style="white-space: nowrap">
-				<!-- form -->
-				<form editable-form name="rowform" onbeforesave="guardarPregunta($data, p.IdPregunta)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
-					<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-						Guardar
-					</button>
-					<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelarPregunta(rowform, p.IdPregunta)" class="btn btn-default">
-						Cancelar
-					</button>
-				</form>
-				<div class="buttons" ng-show="!rowform.$visible">
-					<button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
-					<button class="btn btn-warning glyphicon glyphicon-hand-up" ng-click="cambiarOrden(p.IdPregunta, p.Orden - 1)" title="Subir"></button>
-					<button class="btn btn-warning glyphicon glyphicon-hand-down" ng-click="cambiarOrden(p.IdPregunta, p.Orden + 1)" title="Bajar"></button>
-					<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerPregunta(p.IdPregunta)" title="Eliminar"></button>
-				</div>
-			</td>
-		</tr>
+			<tr ng-repeat="p in filtrados = (preguntas | filter: filtro) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+				<td class="celdaGrillaAdmin">
+					<span editable-text="p.TextoPregunta" e-name="textoPregunta" e-form="rowform" e-required>
+						{{ p.TextoPregunta || '-' }}
+					</span>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.EsTitulo" e-name="esTitulo" e-form="rowform" e-title="">
+						{{ p.EsTitulo && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.NuevaLinea" e-name="nuevaLinea" e-form="rowform" e-title="">
+						{{ p.NuevaLinea && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.LineaCompleta" e-name="lineaCompleta" e-form="rowform" e-title="">
+						{{ p.LineaCompleta && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.EsCerrada" e-name="esCerrada" e-form="rowform" e-title="">
+						{{ p.EsCerrada && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.CausalRechazo" e-name="causalRechazo" e-form="rowform" e-title="">
+						{{ p.CausalRechazo && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<a href="#" editable-checkbox="p.Mostrar" e-name="mostrar" e-form="rowform" e-title="">
+						{{ p.Mostrar && "Sí" || "No" }}
+					</a>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<span editable-text="p.Orden" e-name="orden" e-form="rowform" e-required>
+						{{ p.Orden || '-' }}
+					</span>
+				</td>
+				<td class="celdaGrillaAdmin" style="white-space: nowrap">
+					<!-- form -->
+					<form editable-form name="rowform" onbeforesave="guardarPregunta($data, p.IdPregunta)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+							Guardar
+						</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelarPregunta(rowform, p.IdPregunta)" class="btn btn-default">
+							Cancelar
+						</button>
+					</form>
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+						<button class="btn btn-warning glyphicon glyphicon-hand-up" ng-click="cambiarOrden(p.IdPregunta, p.Orden - 1)" title="Subir"></button>
+						<button class="btn btn-warning glyphicon glyphicon-hand-down" ng-click="cambiarOrden(p.IdPregunta, p.Orden + 1)" title="Bajar"></button>
+						<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerPregunta(p.IdPregunta)" title="Eliminar"></button>
+					</div>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 	<div style="text-align:center">

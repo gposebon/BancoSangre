@@ -11,7 +11,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	function configPaginacion() {
 		$scope.infoPagina = {
 			pagina: 1,
-			itemsPorPagina: 20,
+			itemsPorPagina: 9,
 			reversa: false,
 			totalItems: 0
 		};
@@ -62,6 +62,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 			IdPregunta: 0,
 			TextoPregunta: "",
 			EsTitulo: false,
+			NuevaLinea: false,
 			LineaCompleta: false,
 			EsCerrada: false,
 			CausalRechazo: false,
@@ -71,10 +72,11 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		$scope.preguntas.push($scope.inserted);
 	};
 
-	function crearPregunta(id, textoPregunta, esTitulo, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
+	function crearPregunta(id, textoPregunta, esTitulo, nuevaLinea, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
 		return {
 			IdPregunta: id,
 			TextoPregunta: textoPregunta,
+			NuevaLinea: nuevaLinea,
 			EsTitulo: esTitulo,
 			LineaCompleta: lineaCompleta,
 			EsCerrada: esCerrada,
@@ -85,7 +87,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	}
 
 	$scope.guardarPregunta = function (data, id) {
-		var pregunta = crearPregunta(id, data.textoPregunta, data.esTitulo, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
+		var pregunta = crearPregunta(id, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
 		preguntasRepositorio.guardar(pregunta)
 			.then(function (result) {
 				if (result) {

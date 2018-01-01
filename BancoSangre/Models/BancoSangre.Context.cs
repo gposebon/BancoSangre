@@ -25,15 +25,15 @@ namespace BancoSangre.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Cuestionario> Cuestionario { get; set; }
+        public virtual DbSet<DestinoDonacion> DestinoDonacion { get; set; }
         public virtual DbSet<Donante> Donante { get; set; }
         public virtual DbSet<EstadoDonante> EstadoDonante { get; set; }
-        public virtual DbSet<Localidad> Localidad { get; set; }
-        public virtual DbSet<Provincia> Provincia { get; set; }
-        public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<GrupoFactor> GrupoFactor { get; set; }
-        public virtual DbSet<Cuestionario> Cuestionario { get; set; }
+        public virtual DbSet<Localidad> Localidad { get; set; }
         public virtual DbSet<Pregunta> Pregunta { get; set; }
         public virtual DbSet<PreguntaCuestionario> PreguntaCuestionario { get; set; }
-        public virtual DbSet<DestinoDonacion> DestinoDonacion { get; set; }
+        public virtual DbSet<Provincia> Provincia { get; set; }
+        public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
     }
 }

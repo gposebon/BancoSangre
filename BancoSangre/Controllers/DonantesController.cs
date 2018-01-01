@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
@@ -24,6 +23,7 @@ namespace BancoSangre.Controllers
 		}
 
 		#region Api
+
 		[HttpGet]
 		[Authorize]
 		public ActionResult ObtenerDonantes()
@@ -84,6 +84,77 @@ namespace BancoSangre.Controllers
 				return Json("Se produjo un error al intentar remover el donante.", JsonRequestBehavior.AllowGet);
 			}
 		}
+
+		[HttpGet]
+		[Authorize]
+		public ActionResult ObtenerCuestionarioParaDonante(int idDonante)
+		{
+			var preguntasCuestionarioActual = _db.Pregunta.Where(x => x.Mostrar).OrderBy(x => x.Orden).ToList();
+			var preguntas = preguntasCuestionarioActual.Select(x => new PreguntaCuestionario
+			{
+				IdPregunta = x.IdPregunta,
+				TextoPregunta = x.TextoPregunta,
+				Orden = x.Orden,
+				CausalRechazo = x.CausalRechazo,
+				EsCerrada = x.EsCerrada,
+				EsTitulo = x.EsTitulo,
+				LineaCompleta = x.LineaCompleta,
+				NuevaLinea = x.NuevaLinea
+			}).ToList();
+
+			var cuestionarioDonante = new CuestionarioDonante
+			{
+				Preguntas = preguntas,
+				Donante = _db.Donante.Find(idDonante),
+				Fecha = DateTime.Now.ToString("dd/MM/yyyy")
+			};
+
+			var json = new
+			{
+				data = cuestionarioDonante
+			};
+
+			return Json(json, JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpPost]
+		[Authorize]
+		public ActionResult GuardarCuestionarioParaDonante(CuestionarioDonante cuestionarioDonante)
+		{
+			try
+			{
+				var idDonante = cuestionarioDonante.Donante.IdDonante;
+
+				var nuevoCuestionario = new Cuestionario
+				{
+					IdCuestionario = Guid.NewGuid(),
+					IdDonante = cuestionarioDonante.Donante.IdDonante,
+					Fecha = DateTime.Now
+				};
+
+				_db.Cuestionario.Add(nuevoCuestionario);
+				_db.SaveChanges();
+
+				var ultimoCuestionario = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
+				if (ultimoCuestionario != null)
+				{
+					foreach (var pregunta in cuestionarioDonante.Preguntas)
+					{
+						pregunta.IdPreguntaCuestionario = Guid.NewGuid();
+						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
+						_db.PreguntaCuestionario.Add(pregunta);
+					}
+					_db.SaveChanges();
+				}
+
+				return Json(true, JsonRequestBehavior.AllowGet);
+			}
+			catch (Exception)
+			{
+				return Json(false, JsonRequestBehavior.AllowGet);
+			}
+		}
+
 		#endregion
 
 		// GET: Donantes
@@ -91,22 +162,6 @@ namespace BancoSangre.Controllers
 		public ActionResult Index()
 		{
 			return View();
-		}
-
-		// GET: Donantes/Details/5
-		[Authorize]
-		public ActionResult Details(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			var donante = _db.Donante.Find(id);
-			if (donante == null)
-			{
-				return HttpNotFound();
-			}
-			return View(donante);
 		}
 
 		// GET: Donantes/Create
@@ -240,81 +295,7 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		public ActionResult Cuestionario(int idDonante)
 		{
-			var preguntasCuestionarioActual = _db.Pregunta.Where(x => x.Mostrar).OrderBy(x => x.Orden).ToList();
-			var preguntas = preguntasCuestionarioActual.Select(x => new PreguntaCuestionario
-			{
-				IdPregunta = x.IdPregunta,
-				TextoPregunta = x.TextoPregunta,
-				Orden = x.Orden,
-				CausalRechazo = x.CausalRechazo,
-				EsCerrada = x.EsCerrada,
-				EsTitulo = x.EsTitulo,
-				LineaCompleta = x.LineaCompleta
-			}).ToList();
-
-			var cuestionarioDonante = new CuestionarioDonante
-			{
-				Preguntas = preguntas,
-				IdDonante = idDonante,
-				NombreDonante = _db.Donante.Where(x=> x.IdDonante == idDonante).Select(x => x.Nombre + " " + x.Apellido).First(),
-				Fecha = DateTime.Now.ToString("dd/MM/yyyy")
-			};
-
-			return View(cuestionarioDonante);
-		}
-
-		[Authorize]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Cuestionario([Bind(Include = "Preguntas, IdDonante")] CuestionarioDonante cuestionarioDonante)
-		{
-			if (ModelState.IsValid)
-			{
-				var idDonante = cuestionarioDonante.IdDonante;
-
-				var nuevoCuestionario = new Cuestionario
-				{
-					IdDonante = idDonante,
-					Fecha = DateTime.Now
-				};
-
-				_db.Cuestionario.Add(nuevoCuestionario);
-				_db.SaveChanges();
-
-				var ultimoCuestionario = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
-				if (ultimoCuestionario != null)
-				{
-					foreach (var pregunta in cuestionarioDonante.Preguntas)
-					{
-						pregunta.IdPreguntaCuestionario = Guid.NewGuid();
-						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
-						_db.PreguntaCuestionario.Add(pregunta);
-					}
-					_db.SaveChanges();
-				}
-
-				return RedirectToAction("Index");
-			}
-
-			var preguntasCuestionarioActual = _db.Pregunta.Where(x => x.Mostrar).OrderBy(x => x.Orden).ToList();
-			var preguntas = preguntasCuestionarioActual.Select(x => new PreguntaCuestionario
-			{
-				IdPregunta = x.IdPregunta,
-				TextoPregunta = x.TextoPregunta,
-				Orden = x.Orden,
-				CausalRechazo = x.CausalRechazo,
-				EsCerrada = x.EsCerrada,
-				EsTitulo = x.EsTitulo,
-				LineaCompleta = x.LineaCompleta
-			}).ToList();
-
-			var cuestionario = new CuestionarioDonante
-			{
-				Preguntas = preguntas,
-				IdDonante = cuestionarioDonante.IdDonante
-			};
-
-			return View(cuestionario);
+			return View();
 		}
 
 		protected override void Dispose(bool disposing)

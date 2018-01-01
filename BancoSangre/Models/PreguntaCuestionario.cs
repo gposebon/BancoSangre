@@ -15,8 +15,8 @@ namespace BancoSangre.Models
     public partial class PreguntaCuestionario
     {
         public System.Guid IdPreguntaCuestionario { get; set; }
+        public System.Guid IdCuestionario { get; set; }
         public int IdPregunta { get; set; }
-        public int IdCuestionario { get; set; }
         public bool RespuestaCerrada { get; set; }
         public string RespuestaAbierta { get; set; }
         public Nullable<int> Orden { get; set; }
@@ -25,6 +25,7 @@ namespace BancoSangre.Models
         public string TextoPregunta { get; set; }
         public bool EsTitulo { get; set; }
         public bool LineaCompleta { get; set; }
+        public bool NuevaLinea { get; set; }
     
         public virtual Cuestionario Cuestionario { get; set; }
         public virtual Pregunta Pregunta { get; set; }
