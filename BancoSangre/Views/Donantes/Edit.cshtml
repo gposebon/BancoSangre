@@ -16,7 +16,10 @@
 		<div class="tituloCrearEditar">Editar Donante</div>
 		<div class="botonesCrearEditar">
 			<input type="submit" value="Guardar y crear cuestionario" onClick="$('#AccionPosterior').val('cuestionario');" class="btn btn-success" />
-			<input type="submit" value="Guardar" class="btn btn-primary"/>
+			<input type="submit" value="Guardar y salir" class="btn btn-primary"/>
+			<a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante=@Model.DonanteActual.IdDonante&accion=listar" class="btn btn-warning" Title="Cuestionarios anteriores">
+				Cuestionarios anteriores
+			</a>
 			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
@@ -34,7 +37,7 @@
 		<div class="col-md-6">
 			<div class="container-fluid">
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.IdTipoDoc, "Tipo Doc.", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.IdTipoDoc, "Tipo doc.", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdTipoDoc, (IEnumerable<SelectListItem>)ViewBag.IdTipoDoc ?? new List<SelectListItem>(),
 							"Seleccione Tipo Doc.", htmlAttributes: new { @class = "form-control" })
@@ -43,7 +46,7 @@
 				</div>
 
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.NroDoc, "Número Doc.", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.NroDoc, "Número doc.", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.EditorFor(model => Model.DonanteActual.NroDoc, new { htmlAttributes = new { @class = "form-control" } })
 						@Html.ValidationMessageFor(model => Model.DonanteActual.NroDoc, "Este campo es requerido y debe ser numérico.", new { @class = "text-danger" })
@@ -102,7 +105,7 @@
 				</div>
 
 				<div id="ContenedorOtraLocalidad" style="display: none" class="form-group">
-					@Html.LabelFor(model => Model.OtraLocalidad, "Otra Localidad", htmlAttributes: new { @class = "control-label col-md-2 otraLocalidad" })
+					@Html.LabelFor(model => Model.OtraLocalidad, "Otra localidad", htmlAttributes: new { @class = "control-label col-md-2 otraLocalidad" })
 					<div class="col-md-offset-3">
 						@Html.EditorFor(model => Model.OtraLocalidad, new { htmlAttributes = new { @class = "form-control" } })
 						<span id="validacionOtraLocalidad" class="text-danger field-validation-error" style="display: none;">Este campo es requerido.</span>
@@ -110,7 +113,7 @@
 				</div>
 
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.IdEstadoDonante, "Estado Donante", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.IdEstadoDonante, "Estado donante", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.DropDownListFor(model => Model.DonanteActual.IdEstadoDonante, (IEnumerable<SelectListItem>)ViewBag.IdEstadoDonante ?? new List<SelectListItem>(),
 							"Seleccione Estado", htmlAttributes: new { @class = "form-control" })
@@ -119,9 +122,17 @@
 				</div>
 
 				<div id="DiferidoFecha" style="display: none" class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.DiferidoHasta, "Diferido Hasta", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.DiferidoHasta, "Diferido hasta", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						@Html.TextBoxFor(model => Model.DonanteActual.DiferidoHasta, new { id = "calendarioDiferidoHasta", @class = "form-control" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => Model.DonanteActual.Telefono, "Telefono", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						@Html.EditorFor(model => Model.DonanteActual.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.Telefono, "", new { @class = "text-danger" })
 					</div>
 				</div>
 
@@ -132,7 +143,7 @@
 			<div class="container-fluid">
 
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.FechaNacimiento, "Fecha Nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.FechaNacimiento, "Fecha nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div>
 						<div class="col-md-offset-3 contenedorEdad">
 							@Html.TextBox("fechaNac", "", new { id = "calendarioFechaNacimiento", @class = "form-control fechaNac" })
@@ -144,10 +155,10 @@
 				</div>
 
 				<div class="form-group">
-					@Html.LabelFor(model => Model.DonanteActual.Telefono, "Telefono", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.LabelFor(model => Model.DonanteActual.LugarNacimiento, "Lugar nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
-						@Html.EditorFor(model => Model.DonanteActual.Telefono, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => Model.DonanteActual.Telefono, "", new { @class = "text-danger" })
+						@Html.EditorFor(model => Model.DonanteActual.LugarNacimiento, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => Model.DonanteActual.LugarNacimiento, "", new { @class = "text-danger" })
 					</div>
 				</div>
 

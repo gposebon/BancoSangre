@@ -12,16 +12,30 @@
 		<div class="botonesCrearEditar">
 			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
 			<button class="btn btn-success" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
-			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
+			<button class="btn btn-success" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
+			<a href="{{ linkVolver }}" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
 			</a>
 		</div>
 	</div>
-
-	<h4>Donante: {{ donante.Nombre + " " + donante.Apellido }} | Fecha: {{ fecha }}</h4>
-
+	
 	<div id="contenido">
+		
+		<div class="form-horizontal contenedorPreguntaRespuesta-LineaEntera">
+			<div class="preguntaRespuesta-Titulo">
+				FICHAS DE ADMISIÓN
+			</div>
+		</div>
+
+		<div class="form-horizontal contenedorDatoDemografico" ng-repeat="d in datosDemograficos">
+			<div class="preguntaRespuesta">
+				{{ d.Etiqueta }}
+			</div>
+			<div class="preguntaRespuesta">
+				{{ d.Dato }}
+			</div>
+		</div>
 
 		<div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
@@ -50,7 +64,8 @@
 		<div class="botonesCrearEditar">
 			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
 			<button class="btn btn-success" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
-			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
+			<button class="btn btn-success" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
+			<a href="{{ linkVolver }}" class="btn btn-info" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
 			</a>

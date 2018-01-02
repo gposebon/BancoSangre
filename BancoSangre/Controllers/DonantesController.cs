@@ -49,12 +49,11 @@ namespace BancoSangre.Controllers
 
 			if (!donantes.Any())
 				return Json(null, JsonRequestBehavior.AllowGet);
-
-			var result = donantes;
+			
 			var json = new
 			{
 				count = donantes.Count,
-				data = result
+				data = donantes
 			};
 
 			return Json(json, JsonRequestBehavior.AllowGet);
@@ -82,76 +81,6 @@ namespace BancoSangre.Controllers
 			catch (Exception)
 			{
 				return Json("Se produjo un error al intentar remover el donante.", JsonRequestBehavior.AllowGet);
-			}
-		}
-
-		[HttpGet]
-		[Authorize]
-		public ActionResult ObtenerCuestionarioParaDonante(int idDonante)
-		{
-			var preguntasCuestionarioActual = _db.Pregunta.Where(x => x.Mostrar).OrderBy(x => x.Orden).ToList();
-			var preguntas = preguntasCuestionarioActual.Select(x => new PreguntaCuestionario
-			{
-				IdPregunta = x.IdPregunta,
-				TextoPregunta = x.TextoPregunta,
-				Orden = x.Orden,
-				CausalRechazo = x.CausalRechazo,
-				EsCerrada = x.EsCerrada,
-				EsTitulo = x.EsTitulo,
-				LineaCompleta = x.LineaCompleta,
-				NuevaLinea = x.NuevaLinea
-			}).ToList();
-
-			var cuestionarioDonante = new CuestionarioDonante
-			{
-				Preguntas = preguntas,
-				Donante = _db.Donante.Find(idDonante),
-				Fecha = DateTime.Now.ToString("dd/MM/yyyy")
-			};
-
-			var json = new
-			{
-				data = cuestionarioDonante
-			};
-
-			return Json(json, JsonRequestBehavior.AllowGet);
-		}
-
-		[HttpPost]
-		[Authorize]
-		public ActionResult GuardarCuestionarioParaDonante(CuestionarioDonante cuestionarioDonante)
-		{
-			try
-			{
-				var idDonante = cuestionarioDonante.Donante.IdDonante;
-
-				var nuevoCuestionario = new Cuestionario
-				{
-					IdCuestionario = Guid.NewGuid(),
-					IdDonante = cuestionarioDonante.Donante.IdDonante,
-					Fecha = DateTime.Now
-				};
-
-				_db.Cuestionario.Add(nuevoCuestionario);
-				_db.SaveChanges();
-
-				var ultimoCuestionario = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
-				if (ultimoCuestionario != null)
-				{
-					foreach (var pregunta in cuestionarioDonante.Preguntas)
-					{
-						pregunta.IdPreguntaCuestionario = Guid.NewGuid();
-						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
-						_db.PreguntaCuestionario.Add(pregunta);
-					}
-					_db.SaveChanges();
-				}
-
-				return Json(true, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception)
-			{
-				return Json(false, JsonRequestBehavior.AllowGet);
 			}
 		}
 
@@ -214,8 +143,8 @@ namespace BancoSangre.Controllers
 
 				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
 				{
-					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante } };
-					return RedirectToAction("Cuestionario", parametros);
+					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante }, { "accion", "crear" } };
+					return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
 				}
 
 				return RedirectToAction("Index");
@@ -277,8 +206,8 @@ namespace BancoSangre.Controllers
 
 				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
 				{
-					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante } };
-					return RedirectToAction("Cuestionario", parametros);
+					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante }, { "accion", "crear" } };
+					return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
 				}
 
 				return RedirectToAction("Index");
@@ -292,12 +221,6 @@ namespace BancoSangre.Controllers
 			return View(donanteConOtraLocalidad);
 		}
 
-		[Authorize]
-		public ActionResult Cuestionario(int idDonante)
-		{
-			return View();
-		}
-
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -306,7 +229,6 @@ namespace BancoSangre.Controllers
 			}
 			base.Dispose(disposing);
 		}
-
 
 	}
 }

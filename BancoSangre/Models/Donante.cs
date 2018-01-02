@@ -41,6 +41,7 @@ namespace BancoSangre.Models
         public int IdEstadoDonante { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<System.DateTime> DiferidoHasta { get; set; }
+        public string LugarNacimiento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cuestionario> Cuestionario { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="bancosangreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="bancosangreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cuestionario">
           <Key>
             <PropertyRef Name="IdCuestionario" />
@@ -50,6 +50,7 @@
           <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DiferidoHasta" Type="datetime2" Precision="7" />
+          <Property Name="LugarNacimiento" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -72,6 +73,7 @@
           <Property Name="IdLocalidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreLocalidad" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="IdProvincia" Type="int" Nullable="false" />
+          <Property Name="CodigoPostal" Type="int" />
         </EntityType>
         <EntityType Name="Pregunta">
           <Key>
@@ -94,7 +96,7 @@
           <Property Name="IdPreguntaCuestionario" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IdCuestionario" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IdPregunta" Type="int" Nullable="false" />
-          <Property Name="RespuestaCerrada" Type="bit" Nullable="false" />
+          <Property Name="RespuestaCerrada" Type="bit" />
           <Property Name="RespuestaAbierta" Type="nvarchar" MaxLength="450" />
           <Property Name="Orden" Type="int" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
@@ -274,8 +276,7 @@
             <End Role="PreguntaCuestionario" EntitySet="PreguntaCuestionario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bancosangreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -332,6 +333,7 @@
           <NavigationProperty Name="Localidad" Relationship="Self.FK_Donante_Localidad" FromRole="Donante" ToRole="Localidad" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Donante_Provincia" FromRole="Donante" ToRole="Provincia" />
           <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Donante_TipoDoc" FromRole="Donante" ToRole="TipoDocumento" />
+          <Property Name="LugarNacimiento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -358,6 +360,7 @@
           <Property Name="IdProvincia" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Donante" Relationship="Self.FK_Donante_Localidad" FromRole="Localidad" ToRole="Donante" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Localidad_Provincia1" FromRole="Localidad" ToRole="Provincia" />
+          <Property Name="CodigoPostal" Type="Int32" />
         </EntityType>
         <EntityType Name="Pregunta">
           <Key>
@@ -381,7 +384,7 @@
           <Property Name="IdPreguntaCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdPregunta" Type="Int32" Nullable="false" />
-          <Property Name="RespuestaCerrada" Type="Boolean" Nullable="false" />
+          <Property Name="RespuestaCerrada" Type="Boolean" />
           <Property Name="RespuestaAbierta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="Orden" Type="Int32" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
@@ -597,6 +600,7 @@
           <EntitySetMapping Name="Donante">
             <EntityTypeMapping TypeName="bancosangreModel.Donante">
               <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="LugarNacimiento" ColumnName="LugarNacimiento" />
                 <ScalarProperty Name="IdDonante" ColumnName="IdDonante" />
                 <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
                 <ScalarProperty Name="NroDoc" ColumnName="NroDoc" />
@@ -640,6 +644,7 @@
           <EntitySetMapping Name="Localidad">
             <EntityTypeMapping TypeName="bancosangreModel.Localidad">
               <MappingFragment StoreEntitySet="Localidad">
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
                 <ScalarProperty Name="IdLocalidad" ColumnName="IdLocalidad" />
                 <ScalarProperty Name="NombreLocalidad" ColumnName="NombreLocalidad" />
                 <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />

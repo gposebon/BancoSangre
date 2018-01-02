@@ -23,6 +23,7 @@ namespace BancoSangre.Models
         public int IdLocalidad { get; set; }
         public string NombreLocalidad { get; set; }
         public int IdProvincia { get; set; }
+        public Nullable<int> CodigoPostal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Donante> Donante { get; set; }

@@ -250,6 +250,13 @@ hr.hr {
 	height: 5em;
 }
 
+.contenedorDatoDemografico {
+	padding: 20px 0 20px 50px;
+	width: 49%;
+	float: left;
+	height: 3em;
+}
+
 .preguntaRespuesta {
 	vertical-align: middle;
 	width: 48%;

@@ -192,6 +192,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CuestionariosController.cs" />
     <Compile Include="Controllers\DestinoDonacionsController.cs" />
     <Compile Include="Controllers\DonantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1231,7 +1232,8 @@
     <Content Include="Views\Donantes\Index.cshtml" />
     <Content Include="Views\DestinoDonacions\Index.cshtml" />
     <Content Include="Views\Preguntas\Index.cshtml" />
-    <Content Include="Views\Donantes\Cuestionario.cshtml" />
+    <Content Include="Views\Cuestionarios\Cuestionario.cshtml" />
+    <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
