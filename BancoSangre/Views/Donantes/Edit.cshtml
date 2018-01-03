@@ -15,12 +15,12 @@
 	<div class="contenedorTituloCrearEditar">
 		<div class="tituloCrearEditar">Editar Donante</div>
 		<div class="botonesCrearEditar">
-			<input type="submit" value="Guardar y crear cuestionario" onClick="$('#AccionPosterior').val('cuestionario');" class="btn btn-success" />
+			<input type="submit" value="Guardar y crear cuestionario" onClick="$('#AccionPosterior').val('cuestionario');" class="btn btn-primary" />
 			<input type="submit" value="Guardar y salir" class="btn btn-primary"/>
-			<a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante=@Model.DonanteActual.IdDonante&accion=listar" class="btn btn-warning" Title="Cuestionarios anteriores">
+			<a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante=@Model.DonanteActual.IdDonante&accion=listar" class="btn btn-primary" Title="Cuestionarios anteriores">
 				Cuestionarios anteriores
 			</a>
-			<a href="@Url.Action("Index")" class="btn btn-info" Title="Volver al listado">
+			<a href="@Url.Action("Index")" class="btn btn-success" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
 			</a>

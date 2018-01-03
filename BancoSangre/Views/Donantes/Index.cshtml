@@ -8,7 +8,7 @@
 		<h2>Donantes</h2>
 	</div>
 	<div class="volverArribaPagina">
-		<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">
+		<a href="@Url.Action("Index", "Home")" class="btn btn-success" Title="Volver al menú">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Volver
 		</a>
@@ -96,7 +96,7 @@
 				<td class="celdaGrillaAdmin" style="white-space: nowrap">
 					<div class="buttons" ng-show="!rowform.$visible">
 						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-primary glyphicon glyphicon-pencil" title="Editar"></a>
-						<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
+						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
 					</div>
 				</td>
 			</tr>

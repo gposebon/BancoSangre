@@ -8,10 +8,10 @@
 		<h2>Cuestionario</h2>
 	</div>
 	<div class="volverArribaPagina">
-		<a ng-href="@Url.Action("Cuestionario", "Cuestionarios")?idDonante=-1&accion=vistaPrevia" class="btn btn-warning" Title="Vista previa">
+		<a ng-href="@Url.Action("Cuestionario", "Cuestionarios")?idDonante=-1&accion=vistaPrevia" class="btn btn-primary" Title="Vista previa">
 			Vista previa
 		</a>
-		<a href="@Url.Action("Index", "Home")" class="btn btn-primary" Title="Volver al menú">
+		<a href="@Url.Action("Index", "Home")" class="btn btn-success" Title="Volver al menú">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Volver
 		</a>
@@ -109,9 +109,9 @@
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
 						<button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
-						<button class="btn btn-warning glyphicon glyphicon-hand-up" ng-click="cambiarOrden(p.IdPregunta, p.Orden - 1)" title="Subir"></button>
-						<button class="btn btn-warning glyphicon glyphicon-hand-down" ng-click="cambiarOrden(p.IdPregunta, p.Orden + 1)" title="Bajar"></button>
-						<button class="btn btn-danger glyphicon glyphicon-trash" ng-click="removerPregunta(p.IdPregunta)" title="Eliminar"></button>
+						<button class="btn btn-info glyphicon glyphicon-hand-up" ng-click="cambiarOrden(p.IdPregunta, p.Orden - 1)" title="Subir"></button>
+						<button class="btn btn-info glyphicon glyphicon-hand-down" ng-click="cambiarOrden(p.IdPregunta, p.Orden + 1)" title="Bajar"></button>
+						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerPregunta(p.IdPregunta)" title="Eliminar"></button>
 					</div>
 				</td>
 			</tr>

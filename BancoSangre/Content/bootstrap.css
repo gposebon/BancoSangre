@@ -2275,7 +2275,7 @@ textarea.input-lg {
 
 .btn-primary {
 	color: #ffffff;
-	background-color: #428bca;
+	background-color: #637488;
 	border-color: #357ebd;
 }
 
@@ -2285,7 +2285,7 @@ textarea.input-lg {
 	.btn-primary.active,
 	.open .dropdown-toggle.btn-primary {
 		color: #ffffff;
-		background-color: #637488;
+		background-color: #485463;
 		border-color: #285e8e;
 	}
 
@@ -2398,8 +2398,8 @@ textarea.input-lg {
 
 .btn-success {
 	color: #ffffff;
-	background-color: #5cb85c;
-	border-color: #4cae4c;
+	background-color: #FA0F5B;
+	border-color: #e60e54;
 }
 
 	.btn-success:hover,
@@ -2408,8 +2408,8 @@ textarea.input-lg {
 	.btn-success.active,
 	.open .dropdown-toggle.btn-success {
 		color: #ffffff;
-		background-color: #47a447;
-		border-color: #398439;
+		background-color: #d40d4d;
+		border-color: #e60e54;
 	}
 
 	.btn-success:active,
@@ -4951,7 +4951,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 		z-index: 2;
 		color: #ffffff;
 		cursor: default;
-		background-color: #428bca;
+		background-color: #637488;
 		border-color: #428bca;
 	}
 
