@@ -24,6 +24,8 @@
         <AssociationConnector Association="bancosangreModel.FK_Donante_TipoDoc" ManuallyRouted="false" />
         <AssociationConnector Association="bancosangreModel.FK_Localidad_Provincia1" ManuallyRouted="false" />
         <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Pregunta" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="bancosangreModel.DatoDemograficoCuestionario" Width="1.5" PointX="9.75" PointY="12.25" />
+        <AssociationConnector Association="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

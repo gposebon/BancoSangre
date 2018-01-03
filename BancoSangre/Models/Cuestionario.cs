@@ -18,6 +18,7 @@ namespace BancoSangre.Models
         public Cuestionario()
         {
             this.PreguntaCuestionario = new HashSet<PreguntaCuestionario>();
+            this.DatoDemograficoCuestionario = new HashSet<DatoDemograficoCuestionario>();
         }
     
         public System.Guid IdCuestionario { get; set; }
@@ -27,5 +28,7 @@ namespace BancoSangre.Models
         public virtual Donante Donante { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PreguntaCuestionario> PreguntaCuestionario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DatoDemograficoCuestionario> DatoDemograficoCuestionario { get; set; }
     }
 }

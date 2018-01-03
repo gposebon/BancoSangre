@@ -58,12 +58,40 @@ namespace BancoSangre.Controllers
 			return Json(json, JsonRequestBehavior.AllowGet);
 		}
 
+		private static IList<DatoDemograficoCuestionario> ObtenerDatosDemograficos(Donante donante)
+		{
+			var edad = "";
+			if (donante != null && donante.FechaNacimiento != null)
+			{
+				var tiempoInicial = new DateTime(1, 1, 1);
+				var dif = DateTime.Now - (DateTime)donante.FechaNacimiento;
+				edad = ((tiempoInicial + dif).Year - 1).ToString();
+			}
+
+			return new[] {
+				new DatoDemograficoCuestionario { Etiqueta = "Apellido y nombre:", Dato = donante != null ? donante.Apellido + ", " + donante.Nombre : "", Orden = 1},
+				new DatoDemograficoCuestionario { Etiqueta = "Edad:", Dato = edad, Orden = 2 },
+				new DatoDemograficoCuestionario { Etiqueta = "Domicilio:", Dato = donante != null ? donante.Domicilio : "", Orden = 3 },
+				new DatoDemograficoCuestionario { Etiqueta = "Fecha:", Dato = donante != null ? DateTime.Now.ToString("dd/MM/yyyy") : "", Orden = 4 },
+				new DatoDemograficoCuestionario { Etiqueta = "Localidad:", Dato = donante != null ? donante.Localidad.NombreLocalidad + " (" + donante.Provincia.NombreProvincia + ")" : "", Orden = 4 },
+				new DatoDemograficoCuestionario { Etiqueta = "DNI:", Dato = donante != null ? donante.TipoDocumento + " " + donante.NroDoc : "", Orden = 5 },
+				new DatoDemograficoCuestionario { Etiqueta = "Teléfono:", Dato = donante != null ? donante.Telefono : "", Orden = 6 },
+				new DatoDemograficoCuestionario { Etiqueta = "Fecha nacimiento:", Dato = donante != null
+					? (donante.FechaNacimiento.HasValue ? ((DateTime)donante.FechaNacimiento).ToString("dd/MM/yyyy") : "")
+					: "", Orden = 7 },
+				new DatoDemograficoCuestionario { Etiqueta = "Ocupación:", Dato = donante != null ? donante.Ocupacion : "", Orden = 8 },
+				new DatoDemograficoCuestionario { Etiqueta = "Lugar nacimiento:", Dato = donante != null ? donante.LugarNacimiento : "", Orden = 9 },
+				new DatoDemograficoCuestionario { Etiqueta = "Grupo RH:", Dato = donante != null ? donante.GrupoFactor.DescripcionGrupoFactor : "", Orden = 10 },
+				new DatoDemograficoCuestionario { Etiqueta = "Código postal:", Dato = donante != null ? donante.Localidad.CodigoPostal.ToString() : "", Orden = 11 },
+			};
+		}
+
 		[HttpGet]
 		[Authorize]
 		public ActionResult ObtenerCuestionarioPorId(Guid idCuestionario)
 		{
 			var cuestionario = _db.Cuestionario.Include(x => x.Donante).Include(x => x.Donante.Localidad).Include(x => x.Donante.Provincia).Include(x => x.Donante.GrupoFactor)
-				.Include(x => x.PreguntaCuestionario).SingleOrDefault(x => x.IdCuestionario == idCuestionario);
+				.Include(x => x.PreguntaCuestionario).Include(x => x.DatoDemograficoCuestionario).SingleOrDefault(x => x.IdCuestionario == idCuestionario);
 
 			if (cuestionario == null)
 				return Json(null, JsonRequestBehavior.AllowGet);
@@ -71,7 +99,11 @@ namespace BancoSangre.Controllers
 			var cuestionarioDonante = new CuestionarioDonante
 			{
 				IdDonante = cuestionario.Donante.IdDonante,
-				DatosDemograficos = ObtenerDatosDemograficos(cuestionario.Donante),
+				DatosDemograficos = cuestionario.DatoDemograficoCuestionario.OrderBy(x => x.Orden).Select(x => new DatoDemograficoCuestionario
+				{
+					Etiqueta = x.Etiqueta,
+					Dato = x.Dato
+				}).ToList(),
 				Preguntas = cuestionario.PreguntaCuestionario.OrderBy(x => x.Orden).Select(x => new PreguntaCuestionario
 				{
 					IdPregunta = x.IdPregunta,
@@ -94,34 +126,6 @@ namespace BancoSangre.Controllers
 			};
 
 			return Json(json, JsonRequestBehavior.AllowGet);
-		}
-
-		private static IList<DatoDemografico> ObtenerDatosDemograficos(Donante donante)
-		{
-			var edad = "";
-			if (donante != null && donante.FechaNacimiento != null)
-			{
-				var tiempoInicial = new DateTime(1, 1, 1);
-				var dif = DateTime.Now - (DateTime) donante.FechaNacimiento;
-				edad = ((tiempoInicial + dif).Year - 1).ToString();
-			}
-
-			return new[] {
-				new DatoDemografico { Etiqueta = "Apellido y nombre:", Dato = donante != null ? donante.Apellido + ", " + donante.Nombre : "" },
-				new DatoDemografico { Etiqueta = "Edad:", Dato = edad },
-				new DatoDemografico { Etiqueta = "Domicilio:", Dato = donante != null ? donante.Domicilio : "" },
-				new DatoDemografico { Etiqueta = "Fecha:", Dato = DateTime.Now.ToString("dd/MM/yyyy") },
-				new DatoDemografico { Etiqueta = "Localidad:", Dato = donante != null ? donante.Localidad.NombreLocalidad + " (" + donante.Provincia.NombreProvincia + ")" : "" },
-				new DatoDemografico { Etiqueta = "DNI:", Dato = donante != null ? donante.TipoDocumento + " " + donante.NroDoc : "" },
-				new DatoDemografico { Etiqueta = "Teléfono:", Dato = donante != null ? donante.Telefono : "" },
-				new DatoDemografico { Etiqueta = "Fecha nacimiento:", Dato = donante != null 
-					? (donante.FechaNacimiento.HasValue ? ((DateTime)donante.FechaNacimiento).ToString("dd/MM/yyyy") : "") 
-					: "" },
-				new DatoDemografico { Etiqueta = "Ocupación:", Dato = donante != null ? donante.Ocupacion : "" },
-				new DatoDemografico { Etiqueta = "Lugar nacimiento:", Dato = donante != null ? donante.LugarNacimiento : "" },
-				new DatoDemografico { Etiqueta = "Grupo RH:", Dato = donante != null ? donante.GrupoFactor.DescripcionGrupoFactor : "" },
-				new DatoDemografico { Etiqueta = "Código postal:", Dato = donante != null ? donante.Localidad.CodigoPostal.ToString() : "" },
-			};
 		}
 
 		[HttpGet]
@@ -175,12 +179,20 @@ namespace BancoSangre.Controllers
 						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
 						_db.PreguntaCuestionario.Add(pregunta);
 					}
+
+					foreach (var datoDemografico in cuestionarioDonante.DatosDemograficos)
+					{
+						datoDemografico.IdDatoDemograficoCuestionario = Guid.NewGuid();
+						datoDemografico.IdCuestionario = ultimoCuestionario.IdCuestionario;
+						_db.DatoDemograficoCuestionario.Add(datoDemografico);
+					}
+
 					_db.SaveChanges();
 				}
 
 				return Json(true, JsonRequestBehavior.AllowGet);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 				return Json(false, JsonRequestBehavior.AllowGet);
 			}

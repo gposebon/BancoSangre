@@ -76,9 +76,10 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
-	function crearObjetoCuestionario(idDonante, preguntas, fecha) {
+	function crearObjetoCuestionario(idDonante, datosDemograficos, preguntas, fecha) {
 		return {
 			IdDonante: idDonante,
+			DatosDemograficos: datosDemograficos,
 			Preguntas: preguntas,
 			Fecha: fecha
 		}
@@ -94,10 +95,10 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	}
 
 	$scope.guardarCuestionario = function (imprimir) {
-		var cuestionario = crearObjetoCuestionario($scope.idDonante, $scope.preguntas, $scope.fecha);
+		var cuestionario = crearObjetoCuestionario($scope.idDonante, $scope.datosDemograficos, $scope.preguntas, $scope.fecha);
 		cuestionarioRepositorio.guardar(cuestionario)
 			.then(function (result) {
-				if (result) {
+				if (result.data) {
 					modalServicio.open("success", "El cuestionario se ha guardado con éxito.");
 					if(imprimir)
 						imprimirCuestionario();

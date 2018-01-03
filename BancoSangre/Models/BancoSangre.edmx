@@ -13,6 +13,16 @@
           <Property Name="IdDonante" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
+        <EntityType Name="DatoDemograficoCuestionario">
+          <Key>
+            <PropertyRef Name="IdDatoDemograficoCuestionario" />
+          </Key>
+          <Property Name="IdDatoDemograficoCuestionario" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IdCuestionario" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Etiqueta" Type="nvarchar" MaxLength="100" />
+          <Property Name="Dato" Type="nvarchar" MaxLength="100" />
+          <Property Name="Orden" Type="int" />
+        </EntityType>
         <EntityType Name="DestinoDonacion">
           <Key>
             <PropertyRef Name="IdDestino" />
@@ -132,6 +142,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DatoDemograficoCuestionario_Cuestionario">
+          <End Role="Cuestionario" Type="Self.Cuestionario" Multiplicity="1" />
+          <End Role="DatoDemograficoCuestionario" Type="Self.DatoDemograficoCuestionario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cuestionario">
+              <PropertyRef Name="IdCuestionario" />
+            </Principal>
+            <Dependent Role="DatoDemograficoCuestionario">
+              <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Donante_EstadoDonante">
           <End Role="EstadoDonante" Type="Self.EstadoDonante" Multiplicity="1" />
           <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
@@ -230,6 +252,7 @@
         </Association>
         <EntityContainer Name="bancosangreModelStoreContainer">
           <EntitySet Name="Cuestionario" EntityType="Self.Cuestionario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatoDemograficoCuestionario" EntityType="Self.DatoDemograficoCuestionario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DestinoDonacion" EntityType="Self.DestinoDonacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Donante" EntityType="Self.Donante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" Schema="dbo" store:Type="Tables" />
@@ -242,6 +265,10 @@
           <AssociationSet Name="FK_Cuestionario_Cuestionario" Association="Self.FK_Cuestionario_Cuestionario">
             <End Role="Donante" EntitySet="Donante" />
             <End Role="Cuestionario" EntitySet="Cuestionario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DatoDemograficoCuestionario_Cuestionario" Association="Self.FK_DatoDemograficoCuestionario_Cuestionario">
+            <End Role="Cuestionario" EntitySet="Cuestionario" />
+            <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
           </AssociationSet>
           <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
             <End Role="EstadoDonante" EntitySet="EstadoDonante" />
@@ -289,6 +316,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Donante" Relationship="Self.FK_Cuestionario_Cuestionario" FromRole="Cuestionario" ToRole="Donante" />
           <NavigationProperty Name="PreguntaCuestionario" Relationship="Self.FK_PreguntaCuestionario_Cuestionario" FromRole="Cuestionario" ToRole="PreguntaCuestionario" />
+          <NavigationProperty Name="DatoDemograficoCuestionario" Relationship="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" FromRole="Cuestionario" ToRole="DatoDemograficoCuestionario" />
         </EntityType>
         <EntityType Name="DestinoDonacion">
           <Key>
@@ -568,7 +596,35 @@
             <End Role="Pregunta" EntitySet="Pregunta" />
             <End Role="PreguntaCuestionario" EntitySet="PreguntaCuestionario" />
           </AssociationSet>
+          <EntitySet Name="DatoDemograficoCuestionario" EntityType="bancosangreModel.DatoDemograficoCuestionario" />
+          <AssociationSet Name="FK_DatoDemograficoCuestionario_Cuestionario" Association="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario">
+            <End Role="Cuestionario" EntitySet="Cuestionario" />
+            <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DatoDemograficoCuestionario">
+          <Key>
+            <PropertyRef Name="IdDatoDemograficoCuestionario" />
+          </Key>
+          <Property Name="IdDatoDemograficoCuestionario" Type="Guid" Nullable="false" />
+          <Property Name="IdCuestionario" Type="Guid" Nullable="false" />
+          <Property Name="Etiqueta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Dato" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Int32" />
+          <NavigationProperty Name="Cuestionario" Relationship="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" FromRole="DatoDemograficoCuestionario" ToRole="Cuestionario" />
+        </EntityType>
+        <Association Name="FK_DatoDemograficoCuestionario_Cuestionario">
+          <End Type="bancosangreModel.Cuestionario" Role="Cuestionario" Multiplicity="1" />
+          <End Type="bancosangreModel.DatoDemograficoCuestionario" Role="DatoDemograficoCuestionario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cuestionario">
+              <PropertyRef Name="IdCuestionario" />
+            </Principal>
+            <Dependent Role="DatoDemograficoCuestionario">
+              <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -697,6 +753,17 @@
               <MappingFragment StoreEntitySet="TipoDocumento">
                 <ScalarProperty Name="IdTipoDoc" ColumnName="IdTipoDoc" />
                 <ScalarProperty Name="DescripcionTipoDoc" ColumnName="DescripcionTipoDoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatoDemograficoCuestionario">
+            <EntityTypeMapping TypeName="bancosangreModel.DatoDemograficoCuestionario">
+              <MappingFragment StoreEntitySet="DatoDemograficoCuestionario">
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Dato" ColumnName="Dato" />
+                <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
+                <ScalarProperty Name="IdCuestionario" ColumnName="IdCuestionario" />
+                <ScalarProperty Name="IdDatoDemograficoCuestionario" ColumnName="IdDatoDemograficoCuestionario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

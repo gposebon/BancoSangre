@@ -5,7 +5,7 @@
 </head>
 
 @{
-	ViewBag.Title = "Editar";
+	ViewBag.Title = "Actualizar";
 }
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formularioDonante" }))
@@ -13,7 +13,7 @@
 	@Html.AntiForgeryToken()
 
 	<div class="contenedorTituloCrearEditar">
-		<div class="tituloCrearEditar">Editar Donante</div>
+		<div class="tituloCrearEditar">Actualizar Donante</div>
 		<div class="botonesCrearEditar">
 			<input type="submit" value="Guardar y crear cuestionario" onClick="$('#AccionPosterior').val('cuestionario');" class="btn btn-primary" />
 			<input type="submit" value="Guardar y salir" class="btn btn-primary"/>

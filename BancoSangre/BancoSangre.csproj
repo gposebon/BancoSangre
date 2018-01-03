@@ -236,6 +236,9 @@
       <DependentUpon>SeguridadBancoSangre.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CuestionarioDonante.cs" />
+    <Compile Include="Models\DatoDemograficoCuestionario.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DestinoDonacion.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>

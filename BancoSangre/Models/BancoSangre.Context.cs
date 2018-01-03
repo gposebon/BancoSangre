@@ -35,5 +35,6 @@ namespace BancoSangre.Models
         public virtual DbSet<PreguntaCuestionario> PreguntaCuestionario { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public virtual DbSet<DatoDemograficoCuestionario> DatoDemograficoCuestionario { get; set; }
     }
 }

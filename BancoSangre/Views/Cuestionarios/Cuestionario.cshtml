@@ -25,34 +25,34 @@
 	<div id="contenido">
 		
 		<div class="form-horizontal contenedorPreguntaRespuesta-LineaEntera">
-			<div class="preguntaRespuesta-Titulo">
+			<div style="font-weight: bold;" class="preguntaRespuesta-Titulo">
 				FICHAS DE ADMISIÓN
 			</div>
 		</div>
 
 		<div class="form-horizontal contenedorDatoDemografico" ng-repeat="d in datosDemograficos">
 			<div class="preguntaRespuesta">
-				{{ d.Etiqueta }}
+				<label ng-model="d.Etiqueta">{{ d.Etiqueta }}</label>
 			</div>
 			<div class="preguntaRespuesta">
-				{{ d.Dato }}
+				<label style="font-weight: normal;" ng-model="d.Dato">{{ d.Dato }}</label>
 			</div>
 		</div>
 
 		<div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
-			<div ng-class="obtenerClasePregunta(pregunta)">
+			<div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)">
 				{{ pregunta.TextoPregunta }}
 			</div>
 
 			<div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo">
 				<div ng-show="pregunta.EsCerrada">
 					<label>
-						<span class="radioPregunta">Sí</span>
+						<span style="font-weight: normal;" class="radioPregunta">Sí</span>
 						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="true" Class="radioPregunta">
 					</label>
 					<label>
-						<span class="radioPregunta">No</span>
+						<span style="font-weight: normal;" class="radioPregunta">No</span>
 						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="false" Class="radioPregunta">
 					</label>
 				</div>
