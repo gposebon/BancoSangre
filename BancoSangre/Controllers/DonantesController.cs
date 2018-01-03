@@ -102,6 +102,7 @@ namespace BancoSangre.Controllers
 			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
 			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
 			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor");
+
 			return View();
 		}
 
@@ -143,8 +144,16 @@ namespace BancoSangre.Controllers
 
 				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
 				{
-					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante }, { "accion", "crear" } };
-					return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
+					var donantePersistido = _db.Donante.FirstOrDefault(x => x.Apellido == donanteConOtraLocalidad.DonanteActual.Apellido &&
+					                                                        x.Nombre == donanteConOtraLocalidad.DonanteActual.Nombre &&
+					                                                        x.IdTipoDoc == donanteConOtraLocalidad.DonanteActual.IdTipoDoc && x.NroDoc ==
+					                                                        donanteConOtraLocalidad.DonanteActual.NroDoc);
+
+					if (donantePersistido != null)
+					{
+						var parametros = new RouteValueDictionary {{"idDonante", donantePersistido.IdDonante}, {"accion", "crear"}};
+						return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
+					}
 				}
 
 				return RedirectToAction("Index");
