@@ -59,8 +59,16 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				.then(function (result) {
 					$scope.idDonante = result.data !== "" ? result.data.data.IdDonante : [];
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
-					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
 					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
+					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
+					//Las respuestas (abiertas y encriptadas) se persisten encripatas en BD. VUelven como string, las pasamos a bool.
+					var i;
+					for (i = 0; i < $scope.preguntas.length; ++i) {
+						if ($scope.preguntas[i].RespuestaCerrada !== null) {
+							var esVerdadero = ($scope.preguntas[i].RespuestaCerrada === "True");
+							$scope.preguntas[i].RespuestaCerrada = esVerdadero;
+						}
+					}
 				});
 		}
 	}

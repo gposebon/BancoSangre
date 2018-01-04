@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using BancoSangre.Auxiliares;
 using BancoSangre.Models;
 
 namespace BancoSangre.Controllers
@@ -96,6 +97,8 @@ namespace BancoSangre.Controllers
 			if (cuestionario == null)
 				return Json(null, JsonRequestBehavior.AllowGet);
 
+			var encriptador = new Encriptador();
+
 			var cuestionarioDonante = new CuestionarioDonante
 			{
 				IdDonante = cuestionario.Donante.IdDonante,
@@ -114,9 +117,9 @@ namespace BancoSangre.Controllers
 					EsTitulo = x.EsTitulo,
 					LineaCompleta = x.LineaCompleta,
 					NuevaLinea = x.NuevaLinea,
-					RespuestaCerrada = x.RespuestaCerrada,
-					RespuestaAbierta = x.RespuestaAbierta
-				}).ToList(),
+					RespuestaCerrada = encriptador.Desencriptar(x.RespuestaCerrada),
+					RespuestaAbierta = encriptador.Desencriptar(x.RespuestaAbierta)
+		}).ToList(),
 				Fecha = cuestionario.Fecha.ToString("dd/MM/yyyy")
 			};
 
@@ -170,6 +173,7 @@ namespace BancoSangre.Controllers
 				_db.Cuestionario.Add(nuevoCuestionario);
 				_db.SaveChanges();
 
+				var encriptador = new Encriptador();
 				var ultimoCuestionario = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
 				if (ultimoCuestionario != null)
 				{
@@ -177,6 +181,8 @@ namespace BancoSangre.Controllers
 					{
 						pregunta.IdPreguntaCuestionario = Guid.NewGuid();
 						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
+						pregunta.RespuestaCerrada = encriptador.Encriptar(pregunta.RespuestaCerrada);
+						pregunta.RespuestaAbierta = encriptador.Encriptar(pregunta.RespuestaAbierta);
 						_db.PreguntaCuestionario.Add(pregunta);
 					}
 
@@ -192,7 +198,7 @@ namespace BancoSangre.Controllers
 
 				return Json(true, JsonRequestBehavior.AllowGet);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return Json(false, JsonRequestBehavior.AllowGet);
 			}

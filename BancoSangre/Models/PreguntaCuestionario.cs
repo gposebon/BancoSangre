@@ -17,7 +17,7 @@ namespace BancoSangre.Models
         public System.Guid IdPreguntaCuestionario { get; set; }
         public System.Guid IdCuestionario { get; set; }
         public int IdPregunta { get; set; }
-        public Nullable<bool> RespuestaCerrada { get; set; }
+        public string RespuestaCerrada { get; set; }
         public string RespuestaAbierta { get; set; }
         public Nullable<int> Orden { get; set; }
         public bool EsCerrada { get; set; }

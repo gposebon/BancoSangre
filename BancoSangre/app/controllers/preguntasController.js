@@ -90,7 +90,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		var pregunta = crearPregunta(id, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
 		preguntasRepositorio.guardar(pregunta)
 			.then(function (result) {
-				if (result) {
+				if (result.data) {
 					obtenerPreguntas();
 					modalServicio.open("success", "La pregunta se ha guardado con éxito.");
 				}

@@ -106,7 +106,7 @@
           <Property Name="IdPreguntaCuestionario" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IdCuestionario" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IdPregunta" Type="int" Nullable="false" />
-          <Property Name="RespuestaCerrada" Type="bit" />
+          <Property Name="RespuestaCerrada" Type="nvarchar" MaxLength="100" />
           <Property Name="RespuestaAbierta" Type="nvarchar" MaxLength="450" />
           <Property Name="Orden" Type="int" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
@@ -412,7 +412,7 @@
           <Property Name="IdPreguntaCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdPregunta" Type="Int32" Nullable="false" />
-          <Property Name="RespuestaCerrada" Type="Boolean" />
+          <Property Name="RespuestaCerrada" Type="String" />
           <Property Name="RespuestaAbierta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="Orden" Type="Int32" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
