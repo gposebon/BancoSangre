@@ -21,7 +21,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		preguntasRepositorio.obtenerPreguntas()
 			.then(function (result) {
 				$scope.preguntas = result.data !== "" ? result.data.data : [];
-				$scope.infoPagina.totalItems = result.data.count;
+				$scope.infoPagina.totalItems = result.data.cantidad;
 			});
 	}
 

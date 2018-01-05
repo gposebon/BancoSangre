@@ -14,6 +14,12 @@ namespace BancoSangre.Models
     
     public partial class DestinoDonacion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DestinoDonacion()
+        {
+            this.Donacion = new HashSet<Donacion>();
+        }
+    
         public int IdDestino { get; set; }
         public string DescripcionDestino { get; set; }
         public string Direccion { get; set; }
@@ -21,5 +27,8 @@ namespace BancoSangre.Models
         public string Provincia { get; set; }
         public string Prefijo { get; set; }
         public string Telefono { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Donacion> Donacion { get; set; }
     }
 }

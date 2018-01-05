@@ -32,8 +32,18 @@
           <Property Name="Direccion" Type="nvarchar" MaxLength="250" />
           <Property Name="Ciudad" Type="nvarchar" MaxLength="100" />
           <Property Name="Provincia" Type="nvarchar" MaxLength="100" />
-          <Property Name="Prefijo" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="Prefijo" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Donacion">
+          <Key>
+            <PropertyRef Name="NroRegistro" />
+          </Key>
+          <Property Name="NroRegistro" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="IdDonante" Type="int" Nullable="false" />
+          <Property Name="IdDestino" Type="int" Nullable="false" />
+          <Property Name="Material" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cantidad" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Donante">
           <Key>
@@ -154,6 +164,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Donacion_DestinoDonacion">
+          <End Role="DestinoDonacion" Type="Self.DestinoDonacion" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinoDonacion">
+              <PropertyRef Name="IdDestino" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Donante">
+          <End Role="Donante" Type="Self.Donante" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donante">
+              <PropertyRef Name="IdDonante" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Donante_EstadoDonante">
           <End Role="EstadoDonante" Type="Self.EstadoDonante" Multiplicity="1" />
           <End Role="Donante" Type="Self.Donante" Multiplicity="*" />
@@ -254,6 +288,7 @@
           <EntitySet Name="Cuestionario" EntityType="Self.Cuestionario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DatoDemograficoCuestionario" EntityType="Self.DatoDemograficoCuestionario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DestinoDonacion" EntityType="Self.DestinoDonacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donacion" EntityType="Self.Donacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Donante" EntityType="Self.Donante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrupoFactor" EntityType="Self.GrupoFactor" Schema="dbo" store:Type="Tables" />
@@ -269,6 +304,14 @@
           <AssociationSet Name="FK_DatoDemograficoCuestionario_Cuestionario" Association="Self.FK_DatoDemograficoCuestionario_Cuestionario">
             <End Role="Cuestionario" EntitySet="Cuestionario" />
             <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_DestinoDonacion" Association="Self.FK_Donacion_DestinoDonacion">
+            <End Role="DestinoDonacion" EntitySet="DestinoDonacion" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Donante" Association="Self.FK_Donacion_Donante">
+            <End Role="Donante" EntitySet="Donante" />
+            <End Role="Donacion" EntitySet="Donacion" />
           </AssociationSet>
           <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
             <End Role="EstadoDonante" EntitySet="EstadoDonante" />
@@ -327,8 +370,9 @@
           <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Provincia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Prefijo" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prefijo" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Donacion" Relationship="bancosangreModel.FK_Donacion_DestinoDonacion" FromRole="DestinoDonacion" ToRole="Donacion" />
         </EntityType>
         <EntityType Name="Donante">
           <Key>
@@ -362,6 +406,7 @@
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Donante_Provincia" FromRole="Donante" ToRole="Provincia" />
           <NavigationProperty Name="TipoDocumento" Relationship="Self.FK_Donante_TipoDoc" FromRole="Donante" ToRole="TipoDocumento" />
           <Property Name="LugarNacimiento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Donacion" Relationship="bancosangreModel.FK_Donacion_Donante" FromRole="Donante" ToRole="Donacion" />
         </EntityType>
         <EntityType Name="EstadoDonante">
           <Key>
@@ -412,7 +457,7 @@
           <Property Name="IdPreguntaCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdCuestionario" Type="Guid" Nullable="false" />
           <Property Name="IdPregunta" Type="Int32" Nullable="false" />
-          <Property Name="RespuestaCerrada" Type="String" />
+          <Property Name="RespuestaCerrada" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="RespuestaAbierta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="Orden" Type="Int32" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
@@ -601,6 +646,15 @@
             <End Role="Cuestionario" EntitySet="Cuestionario" />
             <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
           </AssociationSet>
+          <EntitySet Name="Donacion" EntityType="bancosangreModel.Donacion" />
+          <AssociationSet Name="FK_Donacion_DestinoDonacion" Association="bancosangreModel.FK_Donacion_DestinoDonacion">
+            <End Role="DestinoDonacion" EntitySet="DestinoDonacion" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Donante" Association="bancosangreModel.FK_Donacion_Donante">
+            <End Role="Donante" EntitySet="Donante" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="DatoDemograficoCuestionario">
           <Key>
@@ -622,6 +676,42 @@
             </Principal>
             <Dependent Role="DatoDemograficoCuestionario">
               <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Donacion">
+          <Key>
+            <PropertyRef Name="NroRegistro" />
+          </Key>
+          <Property Name="NroRegistro" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IdDonante" Type="Int32" Nullable="false" />
+          <Property Name="IdDestino" Type="Int32" Nullable="false" />
+          <Property Name="Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cantidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DestinoDonacion" Relationship="bancosangreModel.FK_Donacion_DestinoDonacion" FromRole="Donacion" ToRole="DestinoDonacion" />
+          <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Donacion_Donante" FromRole="Donacion" ToRole="Donante" />
+        </EntityType>
+        <Association Name="FK_Donacion_DestinoDonacion">
+          <End Type="bancosangreModel.DestinoDonacion" Role="DestinoDonacion" Multiplicity="1" />
+          <End Type="bancosangreModel.Donacion" Role="Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinoDonacion">
+              <PropertyRef Name="IdDestino" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_Donante">
+          <End Type="bancosangreModel.Donante" Role="Donante" Multiplicity="1" />
+          <End Type="bancosangreModel.Donacion" Role="Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donante">
+              <PropertyRef Name="IdDonante" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdDonante" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -764,6 +854,17 @@
                 <ScalarProperty Name="Etiqueta" ColumnName="Etiqueta" />
                 <ScalarProperty Name="IdCuestionario" ColumnName="IdCuestionario" />
                 <ScalarProperty Name="IdDatoDemograficoCuestionario" ColumnName="IdDatoDemograficoCuestionario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donacion">
+            <EntityTypeMapping TypeName="bancosangreModel.Donacion">
+              <MappingFragment StoreEntitySet="Donacion">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="IdDestino" ColumnName="IdDestino" />
+                <ScalarProperty Name="IdDonante" ColumnName="IdDonante" />
+                <ScalarProperty Name="NroRegistro" ColumnName="NroRegistro" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

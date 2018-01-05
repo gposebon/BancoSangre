@@ -52,7 +52,7 @@ namespace BancoSangre.Controllers
 			
 			var json = new
 			{
-				count = donantes.Count,
+				cantidad = donantes.Count,
 				data = donantes
 			};
 

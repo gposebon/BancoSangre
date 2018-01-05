@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-app.controller("cuestionarioController", function ($scope, cuestionarioRepositorio, modalServicio) {
+app.controller("cuestionarioController", function ($scope, cuestionarioRepositorio, modalServicio, $window) {
 	init();
 
 	function obtenerParametroPorNombre(nombre, url) {
@@ -14,14 +14,14 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	}
 
 	function init() {
-		var idDonante = obtenerParametroPorNombre("idDonante", null);
+		$scope.idDonante = obtenerParametroPorNombre("idDonante", null);
 		var idCuestionario = obtenerParametroPorNombre("idCuestionario", null);
 		var accion = obtenerParametroPorNombre("accion", null);
 		switch (accion) {
 			case "crear":
 				$scope.editar = true;
-				$scope.linkVolver = "/Donantes/Edit?id=" + idDonante;
-				obtenerCuestionarioEnBlanco(idDonante);
+				$scope.linkVolver = "/Donantes/Edit?id=" + $scope.idDonante;
+				obtenerCuestionarioEnBlanco();
 				break;
 			case "vistaPrevia":
 				$scope.editar = false;
@@ -30,22 +30,21 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				break;
 			case "ver":
 				$scope.editar = false;
-				$scope.linkVolver = "/Cuestionarios/CuestionariosExistentes?idDonante=" + idDonante + "&accion=listar";
+				$scope.linkVolver = "/Cuestionarios/CuestionariosExistentes?idDonante=" + $scope.idDonante + "&accion=listar";
 				obtenerCuestionarioPorId(idCuestionario);
 				break;
 			case "listar":
-				$scope.linkVolver = "/Donantes/Edit?id=" + idDonante;
+				$scope.linkVolver = "/Donantes/Edit?id=" + $scope.idDonante;
 				configPaginacion();
-				obtenerCuestionariosDeDonante(idDonante);
+				obtenerCuestionariosDeDonante();
 				break;
 		}
 	}
 
-	function obtenerCuestionarioEnBlanco(idDonante) {
-		if (idDonante !== null) {
-			cuestionarioRepositorio.ObtenerCuestionarioParaDonante(idDonante)
+	function obtenerCuestionarioEnBlanco() {
+		if ($scope.idDonante !== null) {
+			cuestionarioRepositorio.ObtenerCuestionarioParaDonante($scope.idDonante)
 				.then(function (result) {
-					$scope.idDonante = result.data !== "" ? result.data.data.IdDonante : [];
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
 					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
 					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
@@ -57,7 +56,6 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		if (idCuestionario !== null) {
 			cuestionarioRepositorio.ObtenerCuestionarioPorId(idCuestionario)
 				.then(function (result) {
-					$scope.idDonante = result.data !== "" ? result.data.data.IdDonante : [];
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
 					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
 					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
@@ -73,20 +71,20 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
-	function obtenerCuestionariosDeDonante(idDonante) {
-		if (idDonante !== null) {
-			cuestionarioRepositorio.ObtenerCuestionariosDeDonante(idDonante)
+	function obtenerCuestionariosDeDonante() {
+		if ($scope.idDonante !== null) {
+			cuestionarioRepositorio.ObtenerCuestionariosDeDonante($scope.idDonante)
 				.then(function (result) {
 					$scope.donante = result.data !== "" ? result.data.data.Donante : [];
 					$scope.cuestionarios = result.data !== "" ? result.data.data.Cuestionarios : [];
-					$scope.infoPagina.totalItems = result.data.count;
+					$scope.infoPagina.totalItems = result.data.cantidad;
 				});
 		}
 	}
 
-	function crearObjetoCuestionario(idDonante, datosDemograficos, preguntas, fecha) {
+	function crearObjetoCuestionario(datosDemograficos, preguntas, fecha) {
 		return {
-			IdDonante: idDonante,
+			IdDonante: $scope.idDonante,
 			DatosDemograficos: datosDemograficos,
 			Preguntas: preguntas,
 			Fecha: fecha
@@ -102,15 +100,17 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		};
 	}
 
-	$scope.guardarCuestionario = function (imprimir) {
-		var cuestionario = crearObjetoCuestionario($scope.idDonante, $scope.datosDemograficos, $scope.preguntas, $scope.fecha);
+	$scope.guardarCuestionario = function (accion) {
+		var cuestionario = crearObjetoCuestionario($scope.datosDemograficos, $scope.preguntas, $scope.fecha);
 		cuestionarioRepositorio.guardar(cuestionario)
 			.then(function (result) {
 				if (result.data) {
-					modalServicio.open("success", "El cuestionario se ha guardado con éxito.");
-					if(imprimir)
-						imprimirCuestionario();
 					$scope.editar = false;
+					modalServicio.open("success", "El cuestionario se ha guardado con éxito.");
+					if (accion === "imprimir")
+						imprimirCuestionario();
+					if (accion === "donacion")
+						$window.location.href = "/Donaciones/Ingresar?idDonante=" + $scope.idDonante;
 				}
 				else {
 					modalServicio.open("danger", "Error al guardar el cuestionario.");

@@ -18,6 +18,7 @@ namespace BancoSangre.Models
         public Donante()
         {
             this.Cuestionario = new HashSet<Cuestionario>();
+            this.Donacion = new HashSet<Donacion>();
         }
     
         public int IdDonante { get; set; }
@@ -50,5 +51,7 @@ namespace BancoSangre.Models
         public virtual Localidad Localidad { get; set; }
         public virtual Provincia Provincia { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Donacion> Donacion { get; set; }
     }
 }

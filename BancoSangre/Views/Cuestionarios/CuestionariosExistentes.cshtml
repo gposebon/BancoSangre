@@ -3,7 +3,7 @@
 	ViewBag.Title = "Cuestionarios existentes";
 }
 
-<div class="panel panel-default" ng-controller="cuestionarioController" ng-cloak>
+<div ng-controller="cuestionarioController" ng-cloak>
 
 	<div class="contenedorTituloCrearEditar">
 		<div style="display: inline-block">
@@ -20,7 +20,19 @@
 	<hr class="hr" />
 
 	<div style="width: 100%; text-align: center;">
-		<div style="width: 50%; display: inline-block;">
+		<div style="width: 50%; display: inline-block;" class="panel panel-default" >
+
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-9">
+					</div>
+					<div class="col-md-pull-2">
+						<label class="control-label" style="padding-left: 1%;">Cuestionarios: </label>
+						<label class="control-label" style="padding-right: 1%;" ng-bind="cuestionarios.length"></label>
+					</div>
+				</div>
+			</div>
+
 			<table class="table table-striped table-bordered table-hover table-condensed">
 				<thead>
 					<tr>
@@ -45,7 +57,7 @@
 			</table>
 			<div style="text-align: center">
 				<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="infoPagina.totalItems" boundary-links="true" ng-model="infoPagina.pagina"
-				                items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+												items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
 			</div>
 		</div>
 	</div>

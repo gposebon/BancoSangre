@@ -10,9 +10,10 @@
 	<div class="contenedorTituloCrearEditar">
 		<div class="tituloCrearEditar">Cuestionario</div>
 		<div class="botonesCrearEditar">
-			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
-			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('guardar')">Guardar</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('imprimir')">Guardar e imprimir</button>
 			<button class="btn btn-primary" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
 			<a href="{{ linkVolver }}" class="btn btn-success" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver
@@ -64,9 +65,10 @@
 
 	<div class="contenedorTituloCrearEditar">
 		<div class="botonesCrearEditar">
-			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(false)">Guardar</button>
-			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario(true)">Guardar e imprimir</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('guardar')">Guardar</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('imprimir')">Guardar e imprimir</button>
 			<button class="btn btn-primary" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
+			<button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
 			<a href="{{ linkVolver }}" class="btn btn-success" Title="Volver al listado">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				Volver

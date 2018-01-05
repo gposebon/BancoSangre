@@ -45,7 +45,6 @@ namespace BancoSangre.Controllers
 
 			var cuestionarioDonante = new CuestionarioDonante
 			{
-				IdDonante = idDonante,
 				DatosDemograficos = ObtenerDatosDemograficos(donante),
 				Preguntas = preguntas,
 				Fecha = DateTime.Now.ToString("dd/MM/yyyy")
@@ -101,7 +100,6 @@ namespace BancoSangre.Controllers
 
 			var cuestionarioDonante = new CuestionarioDonante
 			{
-				IdDonante = cuestionario.Donante.IdDonante,
 				DatosDemograficos = cuestionario.DatoDemograficoCuestionario.OrderBy(x => x.Orden).Select(x => new DatoDemograficoCuestionario
 				{
 					Etiqueta = x.Etiqueta,
@@ -148,7 +146,7 @@ namespace BancoSangre.Controllers
 
 			var json = new
 			{
-				count = cuestionarios.Count,
+				cantidad = cuestionarios.Count,
 				data = resultado
 			};
 

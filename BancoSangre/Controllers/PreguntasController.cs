@@ -43,7 +43,7 @@ namespace BancoSangre.Controllers
 			var result = preguntas;
 			var json = new
 			{
-				count = preguntas.Count,
+				cantidad = preguntas.Count,
 				data = result
 			};
 

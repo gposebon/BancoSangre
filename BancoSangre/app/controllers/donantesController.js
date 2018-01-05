@@ -20,7 +20,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 		donantesRepositorio.obtenerDonantes()
 			.then(function (result) {
 				$scope.donantes = result.data.data;
-				$scope.infoPagina.totalItems = result.data.count;
+				$scope.infoPagina.totalItems = result.data.cantidad;
 			});
 	}
 
