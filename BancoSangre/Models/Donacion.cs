@@ -19,6 +19,7 @@ namespace BancoSangre.Models
         public int IdDestino { get; set; }
         public string Material { get; set; }
         public string Cantidad { get; set; }
+        public System.DateTime Fecha { get; set; }
     
         public virtual DestinoDonacion DestinoDonacion { get; set; }
         public virtual Donante Donante { get; set; }

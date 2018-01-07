@@ -95,8 +95,7 @@
 				</td>
 				<td class="celdaGrillaAdmin" style="white-space: nowrap">
 					<div class="buttons" ng-show="!rowform.$visible">
-						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-primary glyphicon glyphicon-pencil" title="Editar"></a>
-						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" class="btn btn-info glyphicon glyphicon-tint" title="Donación"></a>
+						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
 						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
 					</div>
 				</td>

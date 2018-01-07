@@ -1,15 +1,15 @@
 ﻿"use strict";
 app.factory("cuestionarioRepositorio", function ($http) {
 	return {
-		ObtenerCuestionarioParaDonante: function (idDonante) {
+		obtenerCuestionarioParaDonante: function (idDonante) {
 			var url = "/Cuestionarios/ObtenerCuestionarioParaDonante";
 			return $http.get(url + "?idDonante=" + idDonante);
 		},
-		ObtenerCuestionarioPorId: function (idCuestionario) {
+		obtenerCuestionarioPorId: function (idCuestionario) {
 			var url = "/Cuestionarios/ObtenerCuestionarioPorId";
 			return $http.get(url + "?idCuestionario=" + idCuestionario);
 		},
-		ObtenerCuestionariosDeDonante: function (idDonante) {
+		obtenerCuestionariosDeDonante: function (idDonante) {
 			var url = "/Cuestionarios/ObtenerCuestionariosDeDonante";
 			return $http.get(url + "?idDonante=" + idDonante);
 		},

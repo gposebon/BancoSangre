@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,10 +23,11 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		public ActionResult ObtenerDonaciones()
 		{
-			var donaciones = _db.Donacion.Include(d => d.DestinoDonacion).Include(d => d.Donante).Include(d => d.Donante.TipoDocumento).ToList();
+			var donaciones = _db.Donacion.OrderByDescending(x => x.Fecha).Include(d => d.DestinoDonacion).Include(d => d.Donante).Include(d => d.Donante.TipoDocumento).ToList();
 			var donacionesJson = donaciones.Select(x => new
 			{
 				x.NroRegistro,
+				Fecha = x.Fecha.ToString("dd/MM/yyyy"),
 				DocDonante = x.Donante.TipoDocumento.DescripcionTipoDoc + ": " + x.Donante.NroDoc,
 				NomreDonante = x.Donante.Nombre + " " + x.Donante.Apellido,
 				x.Material,
@@ -42,41 +44,80 @@ namespace BancoSangre.Controllers
 			return Json(json, JsonRequestBehavior.AllowGet);
 		}
 
+		[Authorize]
+		public ActionResult ObtenerDonacionEnBlanco(int idDonante)
+		{
+			var donante = _db.Donante.Include(x => x.TipoDocumento).First(x => x.IdDonante == idDonante);
+			var donacion = new {
+				IdDestino = -1,
+				NroRegistro = "",
+				Fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+				IdDonante = idDonante,
+				Documento = donante.TipoDocumento.DescripcionTipoDoc + ": " + donante.NroDoc,
+				Donante = donante.Nombre + " " + donante.Apellido,
+				Material = "",
+				Cantidad = ""
+			};
+
+			var destinos = _db.DestinoDonacion.Select(x => new { x.IdDestino, x.DescripcionDestino }).ToList();
+			destinos.Add(new {IdDestino = -1, DescripcionDestino = "Seleccione Destino"});
+
+			var json = new
+			{
+				data = new
+				{
+					Donacion = donacion,
+					Destinos = destinos.OrderBy(x => x.IdDestino)
+				}
+			};
+
+			return Json(json, JsonRequestBehavior.AllowGet);
+		}
+
+		[Authorize]
+		public ActionResult ObtenerNroRegistro(int idDestino)
+		{
+			var prefijo = _db.DestinoDonacion.Find(idDestino).Prefijo;
+	
+			var nrosRegistros = _db.Donacion.Where(x => x.IdDestino == idDestino).Select(x => x.NroRegistro.Replace(x.DestinoDonacion.Prefijo, "")).ToList().ConvertAll(int.Parse);
+			var ultimoNroRegistro = nrosRegistros.OrderByDescending(x => x).FirstOrDefault();
+
+			//Si no existe aun donación para el destino, devuelve 0
+			var	nroRegistro = prefijo + (ultimoNroRegistro + 1);
+
+			return Json(nroRegistro, JsonRequestBehavior.AllowGet);
+		}
+		
+		[HttpPost]
+		[Authorize]
+		public ActionResult Guardar(Donacion donacion)
+		{
+			try
+			{
+				_db.Donacion.Add(donacion);
+				_db.SaveChanges();
+
+				return Json(true, JsonRequestBehavior.AllowGet);
+			}
+			catch (Exception e)
+			{
+				return Json(false, JsonRequestBehavior.AllowGet);
+			}
+		}
+
 		#endregion
 
 		// GET: Donaciones
+		[Authorize]
 		public ActionResult Grilla()
 		{
 			return View();
 		}
 
-		// GET: Donaciones/Create
-		public ActionResult Ingresar(int idDonante)
+		[Authorize]
+		public ActionResult Ingresar()
 		{
-			var donante = _db.Donante.Include(x => x.TipoDocumento).FirstOrDefault(x => x.IdDonante == idDonante);
-			var donacion = new Donacion { NroRegistro = "HPIT1", IdDonante = idDonante, Donante = donante};
-			ViewBag.IdDestino = new SelectList(_db.DestinoDonacion, "IdDestino", "DescripcionDestino");
-			
-			return View(donacion);
-		}
-
-		// POST: Donaciones/Create
-		// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-		// más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Ingresar([Bind(Include = "NroRegistro,IdDonante,IdDestino,Material,Cantidad")] Donacion donacion)
-		{
-			if (ModelState.IsValid)
-			{
-				_db.Donacion.Add(donacion);
-				_db.SaveChanges();
-				return RedirectToAction("Grilla");
-			}
-
-			ViewBag.IdDestino = new SelectList(_db.DestinoDonacion, "IdDestino", "DescripcionDestino", donacion.IdDestino);
-			ViewBag.IdDonante = new SelectList(_db.Donante, "IdDonante", "Apellido", donacion.IdDonante);
-			return View(donacion);
+			return View();
 		}
 
 		protected override void Dispose(bool disposing)

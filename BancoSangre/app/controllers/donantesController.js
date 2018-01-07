@@ -2,7 +2,18 @@
 app.controller("donantesController", function ($scope, donantesRepositorio, modalServicio) {
 	init();
 
+	function obtenerParametroPorNombre(nombre) {
+		var url = window.location.href;
+		nombre = nombre.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + nombre + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return "";
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
 	function init() {
+		$scope.donacion = obtenerParametroPorNombre("accion") === "donacion";
 		configPaginacion();
 		obtenerDonantes();
 	}
@@ -50,6 +61,10 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 		if (idEstadoDonante === 3 && diferidoHasta != null)
 			textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ". (Razones)";
 		modalServicio.open("info", descripcionEstado + textoSecundario);
+	}
+
+	$scope.obtenerClaseBoton = function() {
+		return "btn btn-primary glyphicon glyphicon-"  + ($scope.donacion ? "tint" : "pencil");
 	}
 
 });

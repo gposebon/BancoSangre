@@ -3,8 +3,8 @@
 app.controller("cuestionarioController", function ($scope, cuestionarioRepositorio, modalServicio, $window) {
 	init();
 
-	function obtenerParametroPorNombre(nombre, url) {
-		if (!url) url = window.location.href;
+	function obtenerParametroPorNombre(nombre) {
+		var url = window.location.href;
 		nombre = nombre.replace(/[\[\]]/g, "\\$&");
 		var regex = new RegExp("[?&]" + nombre + "(=([^&#]*)|&|#|$)"),
 			results = regex.exec(url);
@@ -14,9 +14,9 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	}
 
 	function init() {
-		$scope.idDonante = obtenerParametroPorNombre("idDonante", null);
-		var idCuestionario = obtenerParametroPorNombre("idCuestionario", null);
-		var accion = obtenerParametroPorNombre("accion", null);
+		$scope.idDonante = obtenerParametroPorNombre("idDonante");
+		var idCuestionario = obtenerParametroPorNombre("idCuestionario");
+		var accion = obtenerParametroPorNombre("accion");
 		switch (accion) {
 			case "crear":
 				$scope.editar = true;
@@ -43,7 +43,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 
 	function obtenerCuestionarioEnBlanco() {
 		if ($scope.idDonante !== null) {
-			cuestionarioRepositorio.ObtenerCuestionarioParaDonante($scope.idDonante)
+			cuestionarioRepositorio.obtenerCuestionarioParaDonante($scope.idDonante)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
 					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
@@ -54,7 +54,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 
 	function obtenerCuestionarioPorId(idCuestionario) {
 		if (idCuestionario !== null) {
-			cuestionarioRepositorio.ObtenerCuestionarioPorId(idCuestionario)
+			cuestionarioRepositorio.obtenerCuestionarioPorId(idCuestionario)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
 					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
@@ -73,7 +73,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 
 	function obtenerCuestionariosDeDonante() {
 		if ($scope.idDonante !== null) {
-			cuestionarioRepositorio.ObtenerCuestionariosDeDonante($scope.idDonante)
+			cuestionarioRepositorio.obtenerCuestionariosDeDonante($scope.idDonante)
 				.then(function (result) {
 					$scope.donante = result.data !== "" ? result.data.data.Donante : [];
 					$scope.cuestionarios = result.data !== "" ? result.data.data.Cuestionarios : [];

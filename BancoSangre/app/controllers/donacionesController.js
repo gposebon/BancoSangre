@@ -1,28 +1,106 @@
 ﻿"use strict";
 
-app.controller("donacionesController", function ($scope, donacionesRepositorio) {
+app.controller("donacionesController", function ($scope, donacionesRepositorio, modalServicio, $window) {
 	init();
 
+	function obtenerParametroPorNombre(nombre) {
+		var url = window.location.href;
+		nombre = nombre.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + nombre + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return "";
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
 	function init() {
-		configPaginacion();
-		obtenerDonaciones();
+		$scope.idDonante = obtenerParametroPorNombre("idDonante");
+		if ($scope.idDonante === null) {
+			configPaginacion();
+			obtenerDonaciones();
+		} else {
+			cargarCalendario();
+			obtenerDonacionEnBlanco();
+		}
 	}
 
 	function obtenerDonaciones() {
-		donacionesRepositorio.ObtenerDonaciones()
-				.then(function (result) {
-					$scope.donaciones = result.data !== "" ? result.data.data : [];
-					$scope.infoPagina.totalItems = result.data.cantidad;
-				});
+		donacionesRepositorio.obtenerDonaciones()
+			.then(function (result) {
+				$scope.donaciones = result.data !== "" ? result.data.data : [];
+				$scope.infoPagina.totalItems = result.data.cantidad;
+			});
+	}
+
+	function obtenerDonacionEnBlanco() {
+		donacionesRepositorio.obtenerDonacionEnBlanco($scope.idDonante)
+			.then(function (result) {
+				$scope.donacion = result.data.data.Donacion;
+				$scope.destinos = result.data.data.Destinos;
+			});
+	}
+
+	function cargarCalendario() {
+		$(function () {
+			$("#calendarioFecha").datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: "dd/mm/yy",
+				yearRange: "c-5:c+10"
+			});
+		});
 	}
 
 	function configPaginacion() {
 		$scope.infoPagina = {
 			pagina: 1,
-			itemsPorPagina: 9,
+			itemsPorPagina: 11,
 			reversa: false,
 			totalItems: 0
 		};
 	}
+
+	$scope.obtenerNroRegistro = function () {
+		$scope.validaciones = false;
+		$scope.donacion.NroRegistro = "";
+
+		if ($scope.donacion.IdDestino !== "") {
+			donacionesRepositorio.obtenerNroRegistro($scope.donacion.IdDestino)
+				.then(function (result) {
+					$scope.donacion.NroRegistro = result.data;
+				});
+		}
+	};
+
+	function crearDonacion(nroRegistro, idDonante, idDestino, material, cantidad, fecha) {
+		return {
+			NroRegistro: nroRegistro,
+			IdDonante: idDonante,
+			IdDestino: idDestino,
+			Material: material,
+			Cantidad: cantidad,
+			Fecha: fecha
+		}
+	}
+
+	$scope.guardar = function () {
+		if ($scope.donacion.NroRegistro === "" || $scope.donacion.IdDestino === "-1") {
+			$scope.validaciones = true;
+			return;
+		}
+
+		var donacion = crearDonacion($scope.donacion.NroRegistro, $scope.donacion.IdDonante, $scope.donacion.IdDestino, $scope.donacion.Material,
+			$scope.donacion.Cantidad, $("#calendarioFecha").datepicker("getDate"));
+		donacionesRepositorio.guardar(donacion)
+			.then(function (result) {
+				if (result.data) {
+					modalServicio.open("success", "La donación se ha guardado con éxito.");
+					$window.location.href = "/Donaciones/Grilla";
+				}
+				else {
+					modalServicio.open("danger", "Error al guardar la donación.");
+				}
+			});
+	};
 
 });

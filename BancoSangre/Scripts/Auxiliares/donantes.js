@@ -1,48 +1,48 @@
 ﻿
 $(document).ready(function () {
-	$("#DonanteActual_IdLocalidad").attr('disabled', $('#DonanteActual_IdProvincia option:selected').val() === "");
+	$("#DonanteActual_IdLocalidad").attr("disabled", $("#DonanteActual_IdProvincia option:selected").val() === "");
 	$("#ContenedorOtraLocalidad").hide();
 	var fechaNacFormatoGuardar;
 
-	$("#DonanteActual_IdProvincia").on('change', function () {
-		var idProvincia = $('#DonanteActual_IdProvincia option:selected').val();
-		$("#DonanteActual_IdLocalidad").attr('disabled', idProvincia === "");
+	$("#DonanteActual_IdProvincia").on("change", function () {
+		var idProvincia = $("#DonanteActual_IdProvincia option:selected").val();
+		$("#DonanteActual_IdLocalidad").attr("disabled", idProvincia === "");
 		$("#ContenedorOtraLocalidad").hide();
 		$("#validacionOtraLocalidad").hide();
 
 		//Limpiamos el combo Localidad
-		$('#DonanteActual_IdLocalidad')
-				.find('option')
+		$("#DonanteActual_IdLocalidad")
+				.find("option")
 				.remove()
 				.end();
 
 		$.ajax({
-			type: 'GET',
-			url: 'TraerLocalidades',
-			contentType: 'application/json; charset=utf-8',
+			type: "GET",
+			url: "TraerLocalidades",
+			contentType: "application/json; charset=utf-8",
 			data: { idProvincia: idProvincia },
-			dataType: 'json',
+			dataType: "json",
 			success: function (result) {
 
-				$('#DonanteActual_IdLocalidad').append($('<option>', {
-					text: 'Seleccione Localidad'
+				$("#DonanteActual_IdLocalidad").append($("<option>", {
+					text: "Seleccione Localidad"
 				}));
 
 				for (var i = 0; i < result.length; i++) {
-					$('#DonanteActual_IdLocalidad').append($('<option>', {
+					$("#DonanteActual_IdLocalidad").append($("<option>", {
 						value: result[i].IdLocalidad,
 						text: result[i].NombreLocalidad
 					}));
 				}
 
-				$('#DonanteActual_IdLocalidad option').eq(0).prop('selected', true);
+				$("#DonanteActual_IdLocalidad option").eq(0).prop("selected", true);
 			}
 		});
 	});
 
-	$("#DonanteActual_IdLocalidad").on('change', function () {
+	$("#DonanteActual_IdLocalidad").on("change", function () {
 		$("#validacionOtraLocalidad").hide();
-		var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
+		var idLocalidad = $("#DonanteActual_IdLocalidad option:selected").val();
 
 		if (idLocalidad === "-1") {
 			$("#ContenedorOtraLocalidad").show();
@@ -52,7 +52,7 @@ $(document).ready(function () {
 	});
 
 	$("#formularioDonante").submit(function (event) {
-		var idLocalidad = $('#DonanteActual_IdLocalidad option:selected').val();
+		var idLocalidad = $("#DonanteActual_IdLocalidad option:selected").val();
 
 		if (idLocalidad === "-1" && $.trim($("#OtraLocalidad").val()) === "") {
 			$("#validacionOtraLocalidad").show();
@@ -67,7 +67,7 @@ $(document).ready(function () {
 		var fechaNac = $("#calendarioFechaNacimiento").val();
 		var edad = "";
 		if (fechaNac !== "") {
-			var nac = $.datepicker.parseDate("dd/mm/yy", fechaNac);
+			var nac = new Date(fechaNac);
 
 			var hoy = new Date(Date.now());
 			var anioHoy = hoy.getFullYear();
@@ -110,9 +110,9 @@ $(document).ready(function () {
 		});
 	});
 
-	$("#DonanteActual_IdEstadoDonante").on('change',
+	$("#DonanteActual_IdEstadoDonante").on("change",
 		function () {
-			var idEstado = $('#DonanteActual_IdEstadoDonante option:selected').val();
+			var idEstado = $("#DonanteActual_IdEstadoDonante option:selected").val();
 
 			if (idEstado === "3") {
 				$("#DiferidoFecha").show();
@@ -124,8 +124,8 @@ $(document).ready(function () {
 	$("#DonanteActual_IdEstadoDonante").trigger("change"); //Si el estado es diferido muestra el calendario, de lo contrario no
 
 	if ($("#DonanteActual_FechaNacimiento").val() !== "") {
-		var fecNac = $.datepicker.parseDate("mm/dd/yy", $("#DonanteActual_FechaNacimiento").val()); //Sacamos la fecha del hidden y la parseamos
-		$("#calendarioFechaNacimiento").val(fecNac.getDate() + "/" + (fecNac.getMonth() + 1) + "/" + fecNac.getFullYear());
+		var fecNac = new Date($("#DonanteActual_FechaNacimiento").val()); //Sacamos la fecha del hidden
+		$("#calendarioFechaNacimiento").val(fecNac.getDate() + "/" + (fecNac.getMonth() + 1) + "/" + fecNac.getFullYear()); //La mostramos en el campo
 	}
 	calcularEdad();
 });

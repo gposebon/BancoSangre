@@ -30,7 +30,7 @@
 			<div class="col-md-pull-2">
 				<label class="control-label" style="padding-left: 1%;">Donaciones: </label>
 				<label class="control-label" style="padding-right: 1%;" ng-bind="donaciones.length"></label>
-				<a ng-href="@Url.Action("Index", "Donantes")" class="btn btn-primary" title="Ingresar Donación">
+				<a ng-href="@Url.Action("Index", "Donantes")?accion=donacion" class="btn btn-primary" title="Ingresar Donación">
 					<span>Ingresar Donación</span>
 				</a>
 			</div>
@@ -41,11 +41,12 @@
 		<thead>
 			<tr>
 				<th width="10%" class="text-center">Nro. Registro</th>
+				<th width="10%" class="text-center">Fecha</th>
 				<th width="10%" class="text-center">Documento</th>
-				<th width="25%" class="text-center">Donante</th>
+				<th width="20%" class="text-center">Donante</th>
 				<th width="20%" class="text-center">Material</th>
 				<th width="15%" class="text-center">Cantidad</th>
-				<th width="20%" class="text-center">Destino</th>
+				<th width="15%" class="text-center">Destino</th>
 			</tr>
 		</thead>
 		<tbody ng-cloak>
@@ -54,6 +55,11 @@
 				<td class="celdaGrillaAdmin">
 					<span>
 						{{ donacion.NroRegistro }}
+					</span>
+				</td>
+				<td class="celdaGrillaAdmin">
+					<span>
+						{{ donacion.Fecha }}
 					</span>
 				</td>
 				<td class="celdaGrillaAdmin">

@@ -109,7 +109,6 @@ namespace BancoSangre.Controllers
 		public ActionResult TraerLocalidades(int? idProvincia)
 		{
 			return Json(ObtenerLocalidades(idProvincia), JsonRequestBehavior.AllowGet);
-
 		}
 
 		private IList ObtenerLocalidades(int? idProvincia)
