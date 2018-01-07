@@ -81,18 +81,37 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 		donantesRepositorio.obtenerDonante($scope.idDonante)
 			.then(function (result) {
 				$scope.donante = result.data.data.Donante;
+
+				if ($scope.donante.FechaNacimiento != null) {
+					$scope.calcularEdad(obtenerFechaSinFormato($scope.donante.FechaNacimiento));
+					$scope.donante.FechaNacimiento = obtenerFechaConFormato($scope.donante.FechaNacimiento);
+				}
+				if ($scope.donante.DiferidoHasta != null)
+					$scope.donante.DiferidoHasta = obtenerFechaConFormato($scope.donante.DiferidoHasta);
+
 				$scope.tiposDocumentos = result.data.data.TiposDocumentos;
 				$scope.gruposFactores = result.data.data.GruposFactores;
 				$scope.provincias = result.data.data.Provincias;
 				$scope.localidades = result.data.data.Localidades;
 				$scope.estadosDonantes = result.data.data.EstadosDonantes;
 				cargarCalendarios();
-				calcularEdad();
 			});
 	}
 
-	$scope.calcularEdad = function () {
-		var fechaNac = $("#calendarioFechaNacimiento").datepicker("getDate");
+	function obtenerFechaSinFormato(fechaJson) {
+		return new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
+	}
+	
+	function obtenerFechaConFormato(fechaJson) {
+		var fecha = new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
+		var dia = fecha.getDate();
+		var mes = fecha.getMonth();
+		var anio = fecha.getFullYear();
+		return dia + "/" + (mes + 1) + "/" + anio;
+	}
+
+	$scope.calcularEdad = function (fecha) {
+		var fechaNac = fecha != null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
 
 		if (fechaNac != null) {
 			var edad = "";
@@ -131,11 +150,6 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 			dateFormat: "dd/mm/yy",
 			yearRange: "c:c+10"
 		});
-
-		var fechaNac = new Date(parseInt($scope.donante.FechaNacimiento.replace("/Date(", "").replace(")/", "")));
-		$("#calendarioFechaNacimiento").val(fechaNac.getDate() + "/" + (fechaNac.getMonth() + 1) + "/" + fechaNac.getFullYear());
-		var diferido = new Date(parseInt($scope.donante.DiferidoHasta.replace("/Date(", "").replace(")/", "")));
-		$("#calendarioDiferidoHasta").val(diferido.getDate() + "/" + (diferido.getMonth() + 1) + "/" + diferido.getFullYear());
 	}
 	
 	$scope.obtenerLocalidades = function () {
