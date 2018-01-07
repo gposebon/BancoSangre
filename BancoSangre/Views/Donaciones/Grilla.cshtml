@@ -7,7 +7,7 @@
 <div class="contenedorTituloCrearEditar">
 	<div class="tituloCrearEditar">Donaciones</div>
 	<div class="botonesCrearEditar">
-		<a href="@Url.Action("Index", "Home")" class="btn btn-success" Title="Volver al listado">
+		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Volver
 		</a>
@@ -30,7 +30,7 @@
 			<div class="col-md-pull-2">
 				<label class="control-label" style="padding-left: 1%;">Donaciones: </label>
 				<label class="control-label" style="padding-right: 1%;" ng-bind="donaciones.length"></label>
-				<a ng-href="@Url.Action("Index", "Donantes")?accion=donacion" class="btn btn-primary" title="Ingresar Donación">
+				<a ng-href="@Url.Action("Grilla", "Donantes")?accion=donacion" class="btn btn-primary" title="Ingresar Donación">
 					<span>Ingresar Donación</span>
 				</a>
 			</div>

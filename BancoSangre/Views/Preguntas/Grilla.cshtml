@@ -11,7 +11,7 @@
 		<a ng-href="@Url.Action("Cuestionario", "Cuestionarios")?idDonante=-1&accion=vistaPrevia" class="btn btn-primary" Title="Vista previa">
 			Vista previa
 		</a>
-		<a href="@Url.Action("Index", "Home")" class="btn btn-success" Title="Volver al menú">
+		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Volver
 		</a>
@@ -25,11 +25,11 @@
 			<div class="col-md-9">
 				<form class="form-inline">
 					<div style="display: inline-block;">
-						<input type="text" id="busqTextoPregunta" class="form-control" placeholder="Texto pregunta" ng-model="busqTextoPregunta" ng-change="filtrar(false)">
+						<input type="text" id="busqTextoPregunta" class="form-control" placeholder="Texto pregunta" ng-model="busqTextoPregunta" ng-change="filtrar()">
 					</div>
 					<div style="display: inline-block; width: 40%;">
 						<label class="control-label" style="padding-left: 1%; font-weight: normal;">Mostrar: </label>
-						<input type="checkbox" class="form-control" style="display: inline-block;" id="checkMostrar" ng-click="filtrar(true)">
+						<input type="checkbox" class="form-control" style="display: inline-block;" id="checkMostrar" ng-click="filtrar()">
 					</div>
 				</form>
 			</div>
@@ -126,5 +126,4 @@
 @section scripts{
 	@Scripts.Render("~/app/services/preguntasServicio.js")
 	@Scripts.Render("~/app/controllers/preguntasController.js")
-	@Scripts.Render("~/Scripts/Auxiliares/preguntas.js")
 }

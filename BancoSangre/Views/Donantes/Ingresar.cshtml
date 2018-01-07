@@ -1,0 +1,207 @@
+﻿
+<head>
+	<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+</head>
+
+@{
+	ViewBag.Title = "Ingresar";
+}
+
+<div ng-controller="donantesController" ng-cloak>
+
+	<div class="contenedorTituloCrearEditar">
+		<div class="tituloCrearEditar">Ingresar Donante</div>
+		<div class="botonesCrearEditar">
+			<input type="submit" value="Guardar y crear cuestionario" ng-click="guardar(true)" class="btn btn-primary" />
+			<input type="submit" value="Guardar y salir" ng-click="guardar(false)" class="btn btn-primary" />
+			<a href="@Url.Action("Grilla")" class="btn btn-success" Title="Volver al listado">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				Volver
+			</a>
+		</div>
+	</div>
+
+	<hr class="hr" />
+
+	<div class="form-horizontal">
+
+		<div class="col-md-6">
+			<div class="container-fluid">
+				<div class="form-group">
+					@Html.Label("Tipo doc", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<select ng-model="donante.IdTipoDoc" ng-options="td.IdTipoDoc as td.DescripcionTipoDoc for td in tiposDocumentos" Class="form-control"></select>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdTipoDoc == -1" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Número Doc", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.NroDoc" Class="form-control">
+						<span class="text-danger field-validation-error" ng-show="validar && donante.NroDoc == ''" ng-cloak>Este campo es requerido y debe ser numérico.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Apellido", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.Apellido" Class="form-control">
+						<span class="text-danger field-validation-error" ng-show="validar && donante.Apellido == ''" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.Nombre" Class="form-control">
+						<span class="text-danger field-validation-error" ng-show="validar && donante.Nombre == ''" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Grupo sanguíneo", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<select ng-model="donante.IdGrupoFactor" ng-options="gf.IdGrupoFactor as gf.DescripcionGrupoFactor for gf in gruposFactores" Class="form-control"></select>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdGrupoFactor == -1" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Domicilio", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.Domicilio" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Provincia", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<select ng-model="donante.IdProvincia" ng-change="obtenerLocalidades()" ng-options="p.IdProvincia as p.NombreProvincia for p in provincias" Class="form-control"></select>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdProvincia == -1" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Localidad", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<select ng-model="donante.IdLocalidad" ng-disabled="donante.IdProvincia == -1" ng-options="l.IdLocalidad as l.NombreLocalidad for l in localidades" 
+										Class="form-control"></select>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdLocalidad == -1" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div ng-show="donante.IdLocalidad == -1" ng-cloak class="form-group">
+					@Html.Label("Otra localidad", htmlAttributes: new { @class = "control-label col-md-2 otraLocalidad" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.OtraLocalidad" Class="form-control">
+						<span class="text-danger field-validation-error" ng-show="validar && donante.OtraLocalidad == ''" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Estado Donante", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<select ng-model="donante.IdEstadoDonante" ng-options="ed.IdEstadoDonante as ed.DescripcionEstado for ed in estadosDonantes" Class="form-control"></select>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdEstadoDonante == -1" ng-cloak>Este campo es requerido.</span>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="donante.IdEstadoDonante == 3">
+					@Html.Label("DiferidoHasta", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.DiferidoHasta" Class="form-control" id="calendarioDiferidoHasta">
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="container-fluid">
+
+				<div class="form-group">
+					@Html.Label("Teléfono", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.Telefono" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Fecha Nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div>
+						<div class="col-md-offset-3 contenedorEdad">
+							<input type="text" ng-model="donante.FechaNacimiento" ng-change="calcularEdad()" Class="form-control fechaNac" id="calendarioFechaNacimiento">
+							@Html.Label("Edad:", htmlAttributes: new { @class = "control-label" })
+							<input type="text" ng-model="donante.Edad" Class="form-control edad" readonly="readonly">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Lugar nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.LugarNacimiento" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Ocupación", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.Ocupacion" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Registro FHA", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="checkbox" ng-model="donante.RegistroFHA" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Nº FHA", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.NumeroRegistroFHA" ng-disabled="!donante.RegistroFHA" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Registro RP", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="checkbox" ng-model="donante.RegistroRP" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Nº RP", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.NumeroRegistroRP" ng-disabled="!donante.RegistroRP" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Registro RR", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="checkbox" ng-model="donante.RegistroRR" Class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.Label("Nº RR", htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-offset-3">
+						<input type="text" ng-model="donante.NumeroRegistroRR" ng-disabled="!donante.RegistroRR" Class="form-control">
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/app/services/donantesServicio.js")
+	@Scripts.Render("~/app/controllers/donantesController.js")
+	@Scripts.Render("~/bundles/jqueryval")
+}

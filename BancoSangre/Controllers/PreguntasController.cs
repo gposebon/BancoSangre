@@ -141,10 +141,9 @@ namespace BancoSangre.Controllers
 		}
 		
 		#endregion
-
-		// GET: Preguntas
+		
 		[Authorize]
-		public ActionResult Index()
+		public ActionResult Grilla()
 		{
 			return View();
 		}

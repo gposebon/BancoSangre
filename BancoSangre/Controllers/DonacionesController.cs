@@ -99,7 +99,7 @@ namespace BancoSangre.Controllers
 
 				return Json(true, JsonRequestBehavior.AllowGet);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return Json(false, JsonRequestBehavior.AllowGet);
 			}

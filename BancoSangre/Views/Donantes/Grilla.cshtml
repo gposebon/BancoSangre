@@ -8,7 +8,7 @@
 		<h2>Donantes</h2>
 	</div>
 	<div class="volverArribaPagina">
-		<a href="@Url.Action("Index", "Home")" class="btn btn-success" Title="Volver al menú">
+		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
 			<span class="glyphicon glyphicon-chevron-left"></span>
 			Volver
 		</a>
@@ -30,7 +30,7 @@
 			<div class="col-md-pull-2">
 				<label class="control-label" style="padding-left: 1%;">Donantes: </label>
 				<label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
-				<a ng-href="@Url.Action("Create")" class="btn btn-primary" title="Ingresar Donante">
+				<a ng-href="@Url.Action("Ingresar")?idDonante=0" class="btn btn-primary" title="Ingresar Donante">
 					<span>Ingresar Donante</span>
 				</a>
 			</div>
@@ -95,7 +95,7 @@
 				</td>
 				<td class="celdaGrillaAdmin" style="white-space: nowrap">
 					<div class="buttons" ng-show="!rowform.$visible">
-						<a ng-href="@Url.Action("Edit")?id={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
+						<a ng-href="@Url.Action("Editar")?idDonante={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
 						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
 					</div>
 				</td>

@@ -250,7 +250,6 @@
     <Compile Include="Models\Donante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DonanteOtraLocalidad.cs" />
     <Compile Include="Models\EstadoDonante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
@@ -406,8 +405,6 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\Auxiliares\barraLateral.js" />
-    <Content Include="Scripts\Auxiliares\donantes.js" />
-    <Content Include="Scripts\Auxiliares\preguntas.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1212,9 +1209,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Sobre.cshtml" />
+    <Content Include="Views\Home\Contacto.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -1235,13 +1232,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Donantes\Create.cshtml" />
+    <Content Include="Views\Donantes\Ingresar.cshtml" />
     <Content Include="Views\Donantes\Delete.cshtml" />
     <Content Include="Views\Donantes\Details.cshtml" />
-    <Content Include="Views\Donantes\Edit.cshtml" />
-    <Content Include="Views\Donantes\Index.cshtml" />
+    <Content Include="Views\Donantes\Editar.cshtml" />
+    <Content Include="Views\Donantes\Grilla.cshtml" />
     <Content Include="Views\DestinoDonacions\Index.cshtml" />
-    <Content Include="Views\Preguntas\Index.cshtml" />
+    <Content Include="Views\Preguntas\Grilla.cshtml" />
     <Content Include="Views\Cuestionarios\Cuestionario.cshtml" />
     <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />
     <Content Include="Views\Donaciones\Ingresar.cshtml" />

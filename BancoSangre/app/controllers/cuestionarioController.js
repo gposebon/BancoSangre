@@ -20,7 +20,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		switch (accion) {
 			case "crear":
 				$scope.editar = true;
-				$scope.linkVolver = "/Donantes/Edit?id=" + $scope.idDonante;
+				$scope.linkVolver = "/Donantes/Editar?idDonante=" + $scope.idDonante;
 				obtenerCuestionarioEnBlanco();
 				break;
 			case "vistaPrevia":
@@ -34,7 +34,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				obtenerCuestionarioPorId(idCuestionario);
 				break;
 			case "listar":
-				$scope.linkVolver = "/Donantes/Edit?id=" + $scope.idDonante;
+				$scope.linkVolver = "/Donantes/Editar?idDonante=" + $scope.idDonante;
 				configPaginacion();
 				obtenerCuestionariosDeDonante();
 				break;
@@ -82,12 +82,12 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
-	function crearObjetoCuestionario(datosDemograficos, preguntas, fecha) {
+	function crearObjetoCuestionario() {
 		return {
 			IdDonante: $scope.idDonante,
-			DatosDemograficos: datosDemograficos,
-			Preguntas: preguntas,
-			Fecha: fecha
+			DatosDemograficos: $scope.datosDemograficos,
+			Preguntas: $scope.preguntas,
+			Fecha: $scope.fecha
 		}
 	}
 
@@ -101,7 +101,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	}
 
 	$scope.guardarCuestionario = function (accion) {
-		var cuestionario = crearObjetoCuestionario($scope.datosDemograficos, $scope.preguntas, $scope.fecha);
+		var cuestionario = crearObjetoCuestionario();
 		cuestionarioRepositorio.guardar(cuestionario)
 			.then(function (result) {
 				if (result.data) {

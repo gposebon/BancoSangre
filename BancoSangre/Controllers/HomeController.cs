@@ -7,23 +7,23 @@ namespace BancoSangre.Controllers
 	{
 
 		[Authorize]
-		public ActionResult Index()
+		public ActionResult Menu()
 		{
 			return View();
 		}
 
 		[Authorize]
-		public ActionResult About()
+		public ActionResult Sobre()
 		{
-			ViewBag.Message = "Your application description page.";
+			ViewBag.Message = "Banco de sangre";
 
 			return View();
 		}
 
 		[Authorize]
-		public ActionResult Contact()
+		public ActionResult Contacto()
 		{
-			ViewBag.Message = "Your contact page.";
+			ViewBag.Message = "Contacto.";
 
 			return View();
 		}

@@ -1,13 +1,12 @@
 ﻿
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
-using System.Web.Routing;
 using BancoSangre.Models;
 
 namespace BancoSangre.Controllers
@@ -49,7 +48,7 @@ namespace BancoSangre.Controllers
 
 			if (!donantes.Any())
 				return Json(null, JsonRequestBehavior.AllowGet);
-			
+
 			var json = new
 			{
 				cantidad = donantes.Count,
@@ -61,12 +60,12 @@ namespace BancoSangre.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public ActionResult RemoverDonante(int id)
+		public ActionResult RemoverDonante(int idDonante)
 		{
 			try
 			{
 				var actual = _db.Donante
-					.FirstOrDefault(x => x.IdDonante == id);
+					.FirstOrDefault(x => x.IdDonante == idDonante);
 				if (actual == null)
 					return Json("El donante que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
 
@@ -84,149 +83,190 @@ namespace BancoSangre.Controllers
 			}
 		}
 
-		#endregion
-
-		// GET: Donantes
+		[HttpGet]
 		[Authorize]
-		public ActionResult Index()
+		public ActionResult ObtenerDonante(int idDonante)
 		{
-			return View();
+
+			var donante = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
+				.FirstOrDefault(x => x.IdDonante == idDonante);
+
+			var donanteJson = new
+			{
+				IdDonante = idDonante,
+				IdTipoDoc = donante == null ? -1 : donante.IdTipoDoc,
+				NroDoc = donante == null ? "" : donante.NroDoc.ToString(),
+				Apellido = donante == null ? "" : donante.Apellido,
+				Nombre = donante == null ? "" : donante.Nombre,
+				IdGrupoFactor = donante == null ? -1 : donante.IdGrupoFactor,
+				Domicilio = donante == null ? "" : donante.Domicilio,
+				IdProvincia = donante == null ? -1 : donante.IdProvincia,
+				IdLocalidad = donante == null ? -2 : donante.IdLocalidad,
+				IdEstadoDonante = donante == null ? -1 : donante.IdEstadoDonante,
+				DiferidoHasta = donante == null ? null : donante.DiferidoHasta,
+				RegistroFHA = donante == null ? false : donante.RegistroFHA,
+				NumeroRegistroFHA = donante == null ? null : donante.NumeroRegistroFHA,
+				RegistroRP = donante == null ? false : donante.RegistroRP,
+				NumeroRegistroRP = donante == null ? null : donante.NumeroRegistroRP,
+				RegistroRR = donante == null ? false : donante.RegistroRR,
+				NumeroRegistroRR = donante == null ? null : donante.NumeroRegistroRR,
+				LugarNacimiento = donante == null ? "" : donante.LugarNacimiento,
+				OtraLocalidad = "",
+				Edad = "",
+				Fecha = donante == null ? DateTime.Now : donante.Fecha,
+				FechaNacimiento = donante == null ? null : donante.FechaNacimiento,
+				Telefono = donante == null ? "" : donante.Telefono,
+				Ocupacion = donante == null ? "" : donante.Ocupacion
+			};
+
+			if (idDonante != 0 && donante == null)
+				return Json(null, JsonRequestBehavior.AllowGet);
+
+			var tiposDocumentos = _db.TipoDocumento.Select(x => new {x.IdTipoDoc, x.DescripcionTipoDoc}).ToList();
+			tiposDocumentos.Add(new { IdTipoDoc = -1, DescripcionTipoDoc = "Seleccione Tipo Doc" });
+			var gruposFactores = _db.GrupoFactor.Select(x => new { x.IdGrupoFactor, x.DescripcionGrupoFactor }).ToList();
+			gruposFactores.Add(new { IdGrupoFactor = -1, DescripcionGrupoFactor = "Seleccione Grupo y Factor" });
+			var provincias = _db.Provincia.Select(x => new { x.IdProvincia, x.NombreProvincia }).ToList();
+			provincias.Add(new { IdProvincia = -1, NombreProvincia = "Seleccione Provincia" });
+			var localidades = ObtenerLocalidades(donanteJson.IdProvincia);
+			localidades.Add(new ItemLocalidad { IdLocalidad = -2, NombreLocalidad = "Seleccione Localidad" });
+			var estadosDonantes = _db.EstadoDonante.Select(x => new { x.IdEstadoDonante, x.DescripcionEstado }).ToList();
+			estadosDonantes.Add(new { IdEstadoDonante = -1, DescripcionEstado = "Estado" });
+
+			var json = new
+			{
+				data = new
+				{
+					Donante = donanteJson,
+					TiposDocumentos = tiposDocumentos.OrderBy(x => x.IdTipoDoc),
+					GruposFactores = gruposFactores.OrderBy(x => x.IdGrupoFactor),
+					Provincias = provincias.OrderBy(x => x.IdProvincia),
+					Localidades = localidades.OrderBy(x => x.IdLocalidad),
+					EstadosDonantes = estadosDonantes.OrderBy(x => x.IdEstadoDonante)
+				}
+			};
+
+			return Json(json, JsonRequestBehavior.AllowGet);
 		}
 
-		// GET: Donantes/Create
 		[Authorize]
-		public ActionResult Create()
+		private List<ItemLocalidad> ObtenerLocalidades(int? idProvincia)
 		{
-			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(0), "IdLocalidad", "NombreLocalidad");
-			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia");
-			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc");
-			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado");
-			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor");
-
-			return View();
+			return _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
+				.Select(x => new ItemLocalidad { IdLocalidad = x.IdLocalidad, NombreLocalidad = x.NombreLocalidad }).ToList();
 		}
-
+		
+		[HttpGet]
+		[Authorize]
 		public ActionResult TraerLocalidades(int? idProvincia)
 		{
 			return Json(ObtenerLocalidades(idProvincia), JsonRequestBehavior.AllowGet);
 		}
 
-		private IList ObtenerLocalidades(int? idProvincia)
-		{
-			return _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
-				.Select(x => new { x.IdLocalidad, x.NombreLocalidad }).ToList();
-		}
-
-		// POST: Donantes/Create
-		// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-		// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-		[Authorize]
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "DonanteActual, OtraLocalidad, AccionPosterior")] DonanteOtraLocalidad donanteConOtraLocalidad)
+		[Authorize]
+		public ActionResult GuardarDonante(Donante donante, string otraLocalidad)
 		{
-			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
-			if (ModelState.IsValid)
+			try
 			{
-				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
+				var idDonante = donante.IdDonante;
+
+				//Otra Localidad
+				var idProvincia = donante.IdProvincia;
+
+				if (donante.IdLocalidad == -1)
 				{
-					var nombreOtraLocalidad = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(donanteConOtraLocalidad.OtraLocalidad.Trim().ToLower());
+					var nombreOtraLocalidad = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(otraLocalidad.Trim().ToLower());
 					_db.Localidad.Add(new Localidad { NombreLocalidad = nombreOtraLocalidad, IdProvincia = idProvincia });
 					_db.SaveChanges();
-					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
-						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
-				}
-				donanteConOtraLocalidad.DonanteActual.Fecha = DateTime.Now;
 
-				_db.Donante.Add(donanteConOtraLocalidad.DonanteActual);
-				_db.SaveChanges();
-
-				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
-				{
-					var donantePersistido = _db.Donante.FirstOrDefault(x => x.Apellido == donanteConOtraLocalidad.DonanteActual.Apellido &&
-					                                                        x.Nombre == donanteConOtraLocalidad.DonanteActual.Nombre &&
-					                                                        x.IdTipoDoc == donanteConOtraLocalidad.DonanteActual.IdTipoDoc && x.NroDoc ==
-					                                                        donanteConOtraLocalidad.DonanteActual.NroDoc);
-
-					if (donantePersistido != null)
-					{
-						var parametros = new RouteValueDictionary {{"idDonante", donantePersistido.IdDonante}, {"accion", "crear"}};
-						return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
-					}
+					donante.IdLocalidad = _db.Localidad.Single(x => x.NombreLocalidad == otraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
 				}
 
-				return RedirectToAction("Index");
-			}
-
-			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(idProvincia), "IdLocalidad", "NombreLocalidad");
-			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", idProvincia);
-			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donanteConOtraLocalidad.DonanteActual.IdTipoDoc);
-			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donanteConOtraLocalidad.DonanteActual.IdEstadoDonante);
-			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donanteConOtraLocalidad.DonanteActual.IdGrupoFactor);
-			return View(donanteConOtraLocalidad);
-		}
-
-		// GET: Donantes/Edit/5
-		[Authorize]
-		public ActionResult Edit(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			var donante = _db.Donante.Find(id);
-			var donanteOtraLocalidad = new DonanteOtraLocalidad { DonanteActual = donante };
-
-			if (donante == null)
-			{
-				return HttpNotFound();
-			}
-			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(donante.IdProvincia), "IdLocalidad", "NombreLocalidad", donante.IdLocalidad);
-			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", donante.IdProvincia);
-			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donante.IdTipoDoc);
-			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donante.IdEstadoDonante);
-			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donante.IdGrupoFactor);
-			return View(donanteOtraLocalidad);
-		}
-
-		// POST: Donantes/Edit/5
-		// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-		// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-		[Authorize]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "DonanteActual, OtraLocalidad, AccionPosterior")] DonanteOtraLocalidad donanteConOtraLocalidad)
-		{
-			var idProvincia = donanteConOtraLocalidad.DonanteActual.IdProvincia;
-			if (ModelState.IsValid)
-			{
-				if (donanteConOtraLocalidad.DonanteActual.IdLocalidad == -1)
+				//Donante
+				if (donante.IdDonante == 0)
 				{
-					var nombreOtraLocalidad = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(donanteConOtraLocalidad.OtraLocalidad.Trim().ToLower());
-					_db.Localidad.Add(new Localidad { NombreLocalidad = nombreOtraLocalidad, IdProvincia = idProvincia });
+					//Insertar
+					donante.Fecha = DateTime.Now;
+
+					_db.Donante.Add(donante);
 					_db.SaveChanges();
-					donanteConOtraLocalidad.DonanteActual.IdLocalidad = _db.Localidad
-						.Single(x => x.NombreLocalidad == donanteConOtraLocalidad.OtraLocalidad && x.IdProvincia == idProvincia).IdLocalidad;
+
+					idDonante = _db.Donante.First(x => x.Apellido == donante.Apellido && x.Nombre == donante.Nombre
+						&& x.IdTipoDoc == donante.IdTipoDoc && x.NroDoc == donante.NroDoc).IdDonante;
+				}
+				else
+				{
+					//Actualizar
+					var donanteActual = _db.Donante.Find(donante.IdDonante);
+					if (donanteActual == null)
+						throw new Exception();
+
+					donanteActual.Nombre = donante.Nombre;
+					donanteActual.DiferidoHasta = donante.DiferidoHasta;
+					donanteActual.Domicilio = donante.Domicilio;
+					donanteActual.Fecha = donante.Fecha;
+					donanteActual.NumeroRegistroFHA = donante.NumeroRegistroFHA;
+					donanteActual.NumeroRegistroRP = donante.NumeroRegistroRP;
+					donanteActual.NumeroRegistroRR = donante.NumeroRegistroRR;
+					donanteActual.RegistroFHA = donante.RegistroFHA;
+					donanteActual.RegistroRP = donante.RegistroRP;
+					donanteActual.RegistroRR = donante.RegistroRR;
+					donanteActual.Apellido = donante.Apellido;
+					donanteActual.FechaNacimiento = donante.FechaNacimiento;
+					donanteActual.IdEstadoDonante = donante.IdEstadoDonante;
+					donanteActual.IdGrupoFactor = donante.IdGrupoFactor;
+					donanteActual.IdLocalidad = donante.IdLocalidad;
+					donanteActual.IdProvincia = donante.IdProvincia;
+					donanteActual.LugarNacimiento = donante.LugarNacimiento;
+					donanteActual.IdTipoDoc = donante.IdTipoDoc;
+					donanteActual.NroDoc = donante.NroDoc;
+					donanteActual.Telefono = donante.Telefono;
+					donanteActual.Ocupacion = donante.Ocupacion;
 				}
 
-				_db.Entry(donanteConOtraLocalidad.DonanteActual).State = EntityState.Modified;
 				_db.SaveChanges();
 
-				if (donanteConOtraLocalidad.AccionPosterior == "cuestionario")
+				var json = new
 				{
-					var parametros = new RouteValueDictionary { { "idDonante", donanteConOtraLocalidad.DonanteActual.IdDonante }, { "accion", "crear" } };
-					return RedirectToAction("Cuestionario", "Cuestionarios", parametros);
-				}
+					data = idDonante,
+					resultado = true
+				};
 
-				return RedirectToAction("Index");
+				return Json(json, JsonRequestBehavior.AllowGet);
 			}
-			ViewBag.IdLocalidad = new SelectList(ObtenerLocalidades(idProvincia), "IdLocalidad", "NombreLocalidad", donanteConOtraLocalidad.DonanteActual.IdLocalidad);
-			ViewBag.IdProvincia = new SelectList(_db.Provincia, "IdProvincia", "NombreProvincia", idProvincia);
-			ViewBag.IdTipoDoc = new SelectList(_db.TipoDocumento, "IdTipoDoc", "DescripcionTipoDoc", donanteConOtraLocalidad.DonanteActual.IdTipoDoc);
-			ViewBag.IdEstadoDonante = new SelectList(_db.EstadoDonante, "IdEstadoDonante", "DescripcionEstado", donanteConOtraLocalidad.DonanteActual.IdEstadoDonante);
-			ViewBag.IdGrupoFactor = new SelectList(_db.GrupoFactor, "IdGrupoFactor", "DescripcionGrupoFactor", donanteConOtraLocalidad.DonanteActual.IdGrupoFactor);
+			catch (Exception ex)
+			{
+				var json = new
+				{
+					data = ex.Message,
+					resultado = false
+				};
 
-			return View(donanteConOtraLocalidad);
+				return Json(json, JsonRequestBehavior.AllowGet);
+			}
+		}
+
+		#endregion
+
+		// GET: Donantes
+		[Authorize]
+		public ActionResult Grilla()
+		{
+			return View();
+		}
+
+		// Recibe idDonante en 0 para diferenciar Ingresar y Editar de Grilla
+		[Authorize]
+		public ActionResult Ingresar(int? idDonante)
+		{
+			return View();
+		}
+
+		[Authorize]
+		public ActionResult Editar(int? idDonante)
+		{
+			return View();
 		}
 
 		protected override void Dispose(bool disposing)
@@ -238,5 +278,11 @@ namespace BancoSangre.Controllers
 			base.Dispose(disposing);
 		}
 
+	}
+
+	internal class ItemLocalidad
+	{
+		public int IdLocalidad { get; set; }
+		public string NombreLocalidad { get; set; }
 	}
 }

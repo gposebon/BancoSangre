@@ -59,7 +59,7 @@ namespace MetalSoft.Controllers
 			ViewBag.ReturnUrl = returnUrl;
 
 			if(System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Menu", "Home");
 
 			return View();
 		}
@@ -166,7 +166,7 @@ namespace MetalSoft.Controllers
 					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Menu", "Home");
 				}
 				AddErrors(result);
 			}
@@ -452,7 +452,7 @@ namespace MetalSoft.Controllers
 			{
 				return Redirect(returnUrl);
 			}
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Menu", "Home");
 		}
 
 		internal class ChallengeResult : HttpUnauthorizedResult

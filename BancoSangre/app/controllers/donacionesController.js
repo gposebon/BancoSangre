@@ -41,13 +41,11 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 	}
 
 	function cargarCalendario() {
-		$(function () {
-			$("#calendarioFecha").datepicker({
-				changeMonth: true,
-				changeYear: true,
-				dateFormat: "dd/mm/yy",
-				yearRange: "c-5:c+10"
-			});
+		$("#calendarioFecha").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: "dd/mm/yy",
+			yearRange: "c-5:c+10"
 		});
 	}
 
@@ -72,14 +70,14 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 		}
 	};
 
-	function crearDonacion(nroRegistro, idDonante, idDestino, material, cantidad, fecha) {
+	function crearDonacion() {
 		return {
-			NroRegistro: nroRegistro,
-			IdDonante: idDonante,
-			IdDestino: idDestino,
-			Material: material,
-			Cantidad: cantidad,
-			Fecha: fecha
+			NroRegistro: $scope.donacion.NroRegistro,
+			IdDonante: $scope.donacion.IdDonante,
+			IdDestino: $scope.donacion.IdDestino,
+			Material: $scope.donacion.Material,
+			Cantidad: $scope.donacion.Cantidad,
+			Fecha: $("#calendarioFecha").datepicker("getDate")
 		}
 	}
 
@@ -89,8 +87,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 			return;
 		}
 
-		var donacion = crearDonacion($scope.donacion.NroRegistro, $scope.donacion.IdDonante, $scope.donacion.IdDestino, $scope.donacion.Material,
-			$scope.donacion.Cantidad, $("#calendarioFecha").datepicker("getDate"));
+		var donacion = crearDonacion();
 		donacionesRepositorio.guardar(donacion)
 			.then(function (result) {
 				if (result.data) {

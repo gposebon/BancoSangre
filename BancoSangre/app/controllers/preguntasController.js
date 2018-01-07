@@ -4,6 +4,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	init();
 
 	function init() {
+		configCheckMostrar();
 		configPaginacion();
 		obtenerPreguntas();
 	}
@@ -22,6 +23,30 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 			.then(function (result) {
 				$scope.preguntas = result.data !== "" ? result.data.data : [];
 				$scope.infoPagina.totalItems = result.data.cantidad;
+			});
+	}
+
+	function configCheckMostrar() {
+		$("#checkMostrar").prop("indeterminate", true).data("checked", 0).on("click",
+			function () {
+				var el = $(this);
+
+				switch (el.data("checked")) {
+					case 0:
+						el.data("checked", 1);
+						el.prop("indeterminate", false);
+						el.prop("checked", true);
+						break;
+					case 1:
+						el.data("checked", 2);
+						el.prop("indeterminate", false);
+						el.prop("checked", false);
+						break;
+					default:
+						el.data("checked", 0);
+						el.prop("indeterminate", true);
+						el.prop("checked", false);
+				}
 			});
 	}
 
@@ -137,12 +162,10 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		actualizarOrden(preguntaMovida, preguntaSolapa);
 	}
 
-	$scope.filtrar = function (llamaDesdeCheckMostrar) {
-		// DESDE CHECK: Como el indeterminate se actualiza luego de filtrar no lo podemos usar en el if, tomamos el valor (tb desactualizado) de "data("checked")", si este es 2 sabemos que 
-		// indeterminado terminará en true. Estamos yendo del check deschequeado al indeterminado.
-		// DESDE CAJA DE TEXTO: Aquí el indeterminate está siempre actualizado pero utilizamos el mismo valor "data("checked")", tb actualizado.
-		var estadoCheckMostrar = $("#checkMostrar").data("checked");
-		if (llamaDesdeCheckMostrar && estadoCheckMostrar !== 2 || !llamaDesdeCheckMostrar && estadoCheckMostrar !== 0) {
+	$scope.filtrar = function () {
+		// Siempre filtra por el texto, pero además, si el check de mostrar no está en estado indeterminado también filtramos por ese check.
+		var checkMostrarEnIndeterminado = $("#checkMostrar").prop("indeterminate");
+		if (!checkMostrarEnIndeterminado) {
 			$scope.filtro = { "TextoPregunta": $("#busqTextoPregunta").val(), "Mostrar": $("#checkMostrar").prop("checked") };
 		} else {
 			$scope.filtro = { "TextoPregunta": $("#busqTextoPregunta").val() };
