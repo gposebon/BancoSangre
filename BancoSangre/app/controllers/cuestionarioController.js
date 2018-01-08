@@ -107,7 +107,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				if (result.data) {
 					$scope.editar = false;
 					modalServicio.open("success", "El cuestionario se ha guardado con éxito.");
-					if (accion === "imprimir")
+					if (accion === "imprimir" || accion === "donacion")
 						imprimirCuestionario();
 					if (accion === "donacion")
 						$window.location.href = "/Donaciones/Ingresar?idDonante=" + $scope.idDonante;
