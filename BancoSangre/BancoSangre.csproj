@@ -296,6 +296,7 @@
     <Content Include="app\app.js" />
     <Content Include="app\controllers\donacionesController.js" />
     <Content Include="app\controllers\cuestionarioController.js" />
+    <Content Include="app\controllers\destinosController.js" />
     <Content Include="app\controllers\preguntasController.js" />
     <Content Include="app\controllers\donantesController.js" />
     <Content Include="app\directivas\modalDirectiva.js" />
@@ -304,6 +305,7 @@
     <Content Include="app\modal\modalServicio.js" />
     <Content Include="app\services\donacionesServicio.js" />
     <Content Include="app\services\cuestionarioServicio.js" />
+    <Content Include="app\services\destinosServicio.js" />
     <Content Include="app\services\preguntasServicio.js" />
     <Content Include="app\services\donantesServicio.js" />
     <Content Include="Content\bootstrap.css" />
@@ -1237,7 +1239,7 @@
     <Content Include="Views\Donantes\Details.cshtml" />
     <Content Include="Views\Donantes\Editar.cshtml" />
     <Content Include="Views\Donantes\Grilla.cshtml" />
-    <Content Include="Views\DestinoDonacions\Index.cshtml" />
+    <Content Include="Views\DestinoDonacions\Grilla.cshtml" />
     <Content Include="Views\Preguntas\Grilla.cshtml" />
     <Content Include="Views\Cuestionarios\Cuestionario.cshtml" />
     <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />

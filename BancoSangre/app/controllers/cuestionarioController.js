@@ -25,7 +25,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				break;
 			case "vistaPrevia":
 				$scope.editar = false;
-				$scope.linkVolver = "/Preguntas/Index";
+				$scope.linkVolver = "/Preguntas/Grilla";
 				obtenerCuestionarioEnBlanco(-1);
 				break;
 			case "ver":
