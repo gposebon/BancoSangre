@@ -21,7 +21,7 @@ namespace BancoSangre.Models
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
 		public ApplicationDbContext()
-			: base("SecurityConnection", throwIfV1Schema: false)
+			: base("SeguridadBancoSangre", throwIfV1Schema: false)
 		{
 		}
 
