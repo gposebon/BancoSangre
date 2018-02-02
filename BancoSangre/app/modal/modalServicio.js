@@ -1,5 +1,4 @@
-﻿
-"use strict";
+﻿"use strict";
 app.factory("modalServicio", function ($uibModal) {
 
 	function crearObjetoModal(mode, text) {
