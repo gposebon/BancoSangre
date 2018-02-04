@@ -44,6 +44,7 @@
           <Property Name="IdDestino" Type="int" Nullable="false" />
           <Property Name="Material" Type="nvarchar" MaxLength="100" />
           <Property Name="Cantidad" Type="nvarchar" MaxLength="10" />
+          <Property Name="Peso" Type="nvarchar" MaxLength="10" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Donante">
@@ -692,6 +693,7 @@
           <NavigationProperty Name="DestinoDonacion" Relationship="bancosangreModel.FK_Donacion_DestinoDonacion" FromRole="Donacion" ToRole="DestinoDonacion" />
           <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Donacion_Donante" FromRole="Donacion" ToRole="Donante" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Peso" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Donacion_DestinoDonacion">
           <End Type="bancosangreModel.DestinoDonacion" Role="DestinoDonacion" Multiplicity="1" />
@@ -862,6 +864,7 @@
           <EntitySetMapping Name="Donacion">
             <EntityTypeMapping TypeName="bancosangreModel.Donacion">
               <MappingFragment StoreEntitySet="Donacion">
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Material" ColumnName="Material" />

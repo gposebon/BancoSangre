@@ -76,7 +76,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 			IdDonante: $scope.donacion.IdDonante,
 			IdDestino: $scope.donacion.IdDestino,
 			Material: $scope.donacion.Material,
-			Cantidad: $scope.donacion.Cantidad,
+            Cantidad: $scope.donacion.Cantidad,
+            Peso: $scope.donacion.Peso,
 			Fecha: $("#calendarioFecha").datepicker("getDate")
 		}
 	}

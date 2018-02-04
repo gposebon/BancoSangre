@@ -32,6 +32,7 @@ namespace BancoSangre.Controllers
 				NomreDonante = x.Donante.Nombre + " " + x.Donante.Apellido,
 				x.Material,
 				x.Cantidad,
+                x.Peso,
 				Destino = x.DestinoDonacion.DescripcionDestino
 			}).ToList();
 
@@ -56,8 +57,9 @@ namespace BancoSangre.Controllers
 				Documento = donante.TipoDocumento.DescripcionTipoDoc + ": " + donante.NroDoc,
 				Donante = donante.Nombre + " " + donante.Apellido,
 				Material = "",
-				Cantidad = ""
-			};
+				Cantidad = "",
+                Peso = ""
+            };
 
 			var destinos = _db.DestinoDonacion.Select(x => new { x.IdDestino, x.DescripcionDestino }).ToList();
 			destinos.Add(new {IdDestino = -1, DescripcionDestino = "Seleccione Destino"});
