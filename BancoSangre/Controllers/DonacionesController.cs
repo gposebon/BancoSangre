@@ -32,7 +32,7 @@ namespace BancoSangre.Controllers
 				NomreDonante = x.Donante.Nombre + " " + x.Donante.Apellido,
 				x.Material,
 				x.Cantidad,
-                x.Peso,
+        x.Peso,
 				Destino = x.DestinoDonacion.DescripcionDestino
 			}).ToList();
 

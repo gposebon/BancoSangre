@@ -118,7 +118,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 			});
 	};
 
-	$scope.imprimirCuestionario = function() {
+	$scope.imprimirCuestionario = function () {
 		imprimirCuestionario();
 	}
 

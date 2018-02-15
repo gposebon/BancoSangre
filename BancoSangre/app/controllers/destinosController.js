@@ -87,12 +87,18 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
 		var destino = crearDestino(id, data.descripcionDestino, data.direccion, data.ciudad, data.provincia, data.prefijo, data.telefono);
 		destinosRepositorio.guardar(destino)
 			.then(function (result) {
-				if (result.data) {
+				if (result.data.resultado) {
 					obtenerDestinos();
 					modalServicio.open("success", "El destino se ha guardado con éxito.");
 				}
 				else {
-					modalServicio.open("danger", "Error al guardar el destino.");
+					for (var i = 0; i < $scope.destinos.length; ++i) {
+						if ($scope.destinos[i].IdDestino == id) {
+							$scope.destinos.splice(i, 1);
+							break;
+						}
+					}
+					modalServicio.open("danger", result.data.data);
 				}
 			});
 	};
