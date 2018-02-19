@@ -99,11 +99,23 @@ namespace BancoSangre.Controllers
 					}
 
 				_db.SaveChanges();
-				return Json(true, JsonRequestBehavior.AllowGet);
+
+				var json = new
+				{
+					resultado = true
+				};
+
+				return Json(json, JsonRequestBehavior.AllowGet);
 			}
 			catch (Exception ex)
 			{
-				return Json(ex.Message, JsonRequestBehavior.AllowGet);
+				var json = new
+				{
+					data = ex.Message,
+					resultado = false
+				};
+
+				return Json(json, JsonRequestBehavior.AllowGet);
 			}
 		}
 
