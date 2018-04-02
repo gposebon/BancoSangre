@@ -63,7 +63,7 @@
 				</div>
 
 				<div class="form-group">
-					@Html.Label("Grupo sanguíneo", htmlAttributes: new { @class = "control-label col-md-2" })
+					@Html.Label("Grupo y Rh", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-offset-3">
 						<select ng-model="donante.IdGrupoFactor" ng-options="gf.IdGrupoFactor as gf.DescripcionGrupoFactor for gf in gruposFactores" Class="form-control"></select>
 						<span class="text-danger field-validation-error" ng-show="validar && donante.IdGrupoFactor == -1" ng-cloak>Este campo es requerido.</span>
@@ -143,7 +143,7 @@
 					@Html.Label("Fecha Nacimiento", htmlAttributes: new { @class = "control-label col-md-2" })
 					<div>
 						<div class="col-md-offset-3 contenedorEdad">
-							<input type="text" ng-model="donante.FechaNacimiento" ui-date-format="dd-mm-yy" ng-change="calcularEdad()" Class="form-control fechaNac" id="calendarioFechaNacimiento">
+							<input type="text" ng-model="donante.FechaNacimiento" ng-change="calcularEdad()" Class="form-control fechaNac" id="calendarioFechaNacimiento">
 							@Html.Label("Edad:", htmlAttributes: new { @class = "control-label" })
 							<input type="text" ng-model="donante.Edad" Class="form-control edad" readonly="readonly">
 						</div>

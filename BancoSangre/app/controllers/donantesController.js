@@ -33,15 +33,31 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 		};
 	}
 
+    function obtenerFechaSinFormato(fechaJson) {
+        return fechaJson != undefined && fechaJson !== "" ? new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", ""))) : "";
+    }
+
+    function obtenerFechaConFormato(fechaJson) {
+        var fecha = new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
+        var dia = fecha.getDate();
+        var mes = fecha.getMonth();
+        var anio = fecha.getFullYear();
+        return dia + "/" + (mes + 1) + "/" + anio;
+    }
+
+    //Grilla
+
 	function obtenerDonantes() {
 		donantesRepositorio.obtenerDonantes()
 			.then(function (result) {
 				$scope.donantes = result.data.data;
-				$scope.infoPagina.totalItems = result.data.cantidad;
+                $scope.infoPagina.totalItems = result.data.cantidad;
+
+                for (var i = 0; i < $scope.donantes.length; i++) {
+                    $scope.donantes[i].FechaUltimaDonacion = obtenerFechaSinFormato($scope.donantes[i].FechaUltimaDonacion);
+                }
 			});
 	}
-
-	//Grilla
 
 	$scope.removerDonante = function (id) {
 		donantesRepositorio.remover(id)
@@ -97,19 +113,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 				cargarCalendarios();
 			});
 	}
-
-	function obtenerFechaSinFormato(fechaJson) {
-		return new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
-	}
-	
-	function obtenerFechaConFormato(fechaJson) {
-		var fecha = new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
-		var dia = fecha.getDate();
-		var mes = fecha.getMonth();
-		var anio = fecha.getFullYear();
-		return dia + "/" + (mes + 1) + "/" + anio;
-	}
-
+    
 	$scope.calcularEdad = function (fecha) {
 		var fechaNac = fecha != null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
 

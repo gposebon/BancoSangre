@@ -28,8 +28,8 @@ namespace BancoSangre.Controllers
 		public ActionResult ObtenerDonantes()
 		{
 			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
-				.OrderBy(x => x.Apellido).ThenBy(x => x.Nombre)
-				.Select(x => new
+				.Include(t => t.Donacion)
+                .Select(x => new
 				{
 					x.IdDonante,
 					x.TipoDocumento.DescripcionTipoDoc,
@@ -39,12 +39,13 @@ namespace BancoSangre.Controllers
 					x.IdGrupoFactor,
 					x.GrupoFactor.DescripcionGrupoFactor,
 					x.Localidad.NombreLocalidad,
-					x.Provincia.NombreProvincia,
+					FechaUltimaDonacion = x.Donacion.Any() ? (DateTime?)x.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
 					x.IdEstadoDonante,
 					x.EstadoDonante.DescripcionEstado,
 					x.DiferidoHasta
 				})
-				.ToList();
+                .OrderByDescending(d => d.FechaUltimaDonacion).ThenBy(x => x.Apellido).ThenBy(x => x.Nombre)
+                .ToList();
 
 			if (!donantes.Any())
 				return Json(null, JsonRequestBehavior.AllowGet);

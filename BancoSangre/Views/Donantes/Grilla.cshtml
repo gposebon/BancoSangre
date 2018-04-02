@@ -23,7 +23,7 @@
 				<form class="form-inline">
 					<input type="text" class="form-control cajaBusqueda" placeholder="Apellido" ng-model="busqApellido">
 					<input type="text" class="form-control cajaBusqueda" placeholder="Nombre" ng-model="busqNombre">
-					<input type="text" class="form-control cajaBusqueda" placeholder="Grupo" ng-model="busqGrupo">
+					<input type="text" class="form-control cajaBusqueda" placeholder="Grupo y Rh" ng-model="busqGrupo">
 					<input type="text" class="form-control cajaBusqueda" placeholder="Localidad" ng-model="busqLocalidad">
 				</form>
 			</div>
@@ -44,9 +44,9 @@
 				<th class="text-center noEnCelular">Nro Doc</th>
 				<th class="text-center">Apellido</th>
 				<th class="text-center">Nombre</th>
-				<th class="text-center">Grupo</th>
+                <th class="text-center">Grupo y Rh</th>
 				<th class="text-center">Localidad</th>
-				<th class="text-center noEnCelular">Provincia</th>
+                <th class="text-center">Última Donación</th>
 				<th class="text-center">Estado</th>
 				<th class="text-center">Acciones</th>
 			</tr>
@@ -84,10 +84,10 @@
 						{{ d.NombreLocalidad || '-' }}
 					</span>
 				</td>
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.NombreProvincia" e-name="Provincia" e-form="rowform" e-required>
-						{{ d.NombreProvincia || '-' }}
-					</span>
+				<td class="celdaGrillaAdmin">
+                    <span editable-text="d.FechaUltimaDonacion" e-name="FechaUltimaDonacion" e-form="rowform" e-required>
+                        {{ d.FechaUltimaDonacion | date:'dd/MM/yyyy' || '-' }}
+                    </span>
 				</td>
 				<td class="celdaGrillaAdmin">
 					<button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;"
