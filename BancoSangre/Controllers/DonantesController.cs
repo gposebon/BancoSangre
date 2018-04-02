@@ -104,12 +104,6 @@ namespace BancoSangre.Controllers
 				IdLocalidad = donante == null ? -2 : donante.IdLocalidad,
 				IdEstadoDonante = donante == null ? -1 : donante.IdEstadoDonante,
 				DiferidoHasta = donante == null ? null : donante.DiferidoHasta,
-				RegistroFHA = donante == null ? false : donante.RegistroFHA,
-				NumeroRegistroFHA = donante == null ? null : donante.NumeroRegistroFHA,
-				RegistroRP = donante == null ? false : donante.RegistroRP,
-				NumeroRegistroRP = donante == null ? null : donante.NumeroRegistroRP,
-				RegistroRR = donante == null ? false : donante.RegistroRR,
-				NumeroRegistroRR = donante == null ? null : donante.NumeroRegistroRR,
 				LugarNacimiento = donante == null ? "" : donante.LugarNacimiento,
 				OtraLocalidad = "",
 				Edad = "",
@@ -206,12 +200,6 @@ namespace BancoSangre.Controllers
 					donanteActual.DiferidoHasta = donante.DiferidoHasta;
 					donanteActual.Domicilio = donante.Domicilio;
 					donanteActual.Fecha = donante.Fecha;
-					donanteActual.NumeroRegistroFHA = donante.NumeroRegistroFHA;
-					donanteActual.NumeroRegistroRP = donante.NumeroRegistroRP;
-					donanteActual.NumeroRegistroRR = donante.NumeroRegistroRR;
-					donanteActual.RegistroFHA = donante.RegistroFHA;
-					donanteActual.RegistroRP = donante.RegistroRP;
-					donanteActual.RegistroRR = donante.RegistroRR;
 					donanteActual.Apellido = donante.Apellido;
 					donanteActual.FechaNacimiento = donante.FechaNacimiento;
 					donanteActual.IdEstadoDonante = donante.IdEstadoDonante;

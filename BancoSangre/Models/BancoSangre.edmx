@@ -44,8 +44,8 @@
           <Property Name="IdDestino" Type="int" Nullable="false" />
           <Property Name="Material" Type="nvarchar" MaxLength="100" />
           <Property Name="Cantidad" Type="nvarchar" MaxLength="10" />
-          <Property Name="Peso" Type="nvarchar" MaxLength="10" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Peso" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Donante">
           <Key>
@@ -63,12 +63,6 @@
           <Property Name="Ocupacion" Type="nvarchar" MaxLength="150" />
           <Property Name="FechaNacimiento" Type="datetime2" Precision="7" />
           <Property Name="IdGrupoFactor" Type="int" Nullable="false" />
-          <Property Name="RegistroFHA" Type="bit" Nullable="false" />
-          <Property Name="NumeroRegistroFHA" Type="int" />
-          <Property Name="RegistroRP" Type="bit" Nullable="false" />
-          <Property Name="NumeroRegistroRP" Type="int" />
-          <Property Name="RegistroRR" Type="bit" Nullable="false" />
-          <Property Name="NumeroRegistroRR" Type="int" />
           <Property Name="IdEstadoDonante" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DiferidoHasta" Type="datetime2" Precision="7" />
@@ -392,12 +386,6 @@
           <Property Name="Ocupacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="FechaNacimiento" Type="DateTime" Precision="7" />
           <Property Name="IdGrupoFactor" Type="Int32" Nullable="false" />
-          <Property Name="RegistroFHA" Type="Boolean" Nullable="false" />
-          <Property Name="NumeroRegistroFHA" Type="Int32" />
-          <Property Name="RegistroRP" Type="Boolean" Nullable="false" />
-          <Property Name="NumeroRegistroRP" Type="Int32" />
-          <Property Name="RegistroRR" Type="Boolean" Nullable="false" />
-          <Property Name="NumeroRegistroRR" Type="Int32" />
           <Property Name="IdEstadoDonante" Type="Int32" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="DiferidoHasta" Type="DateTime" Precision="7" />
@@ -763,12 +751,6 @@
                 <ScalarProperty Name="Ocupacion" ColumnName="Ocupacion" />
                 <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
                 <ScalarProperty Name="IdGrupoFactor" ColumnName="IdGrupoFactor" />
-                <ScalarProperty Name="RegistroFHA" ColumnName="RegistroFHA" />
-                <ScalarProperty Name="NumeroRegistroFHA" ColumnName="NumeroRegistroFHA" />
-                <ScalarProperty Name="RegistroRP" ColumnName="RegistroRP" />
-                <ScalarProperty Name="NumeroRegistroRP" ColumnName="NumeroRegistroRP" />
-                <ScalarProperty Name="RegistroRR" ColumnName="RegistroRR" />
-                <ScalarProperty Name="NumeroRegistroRR" ColumnName="NumeroRegistroRR" />
                 <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="DiferidoHasta" ColumnName="DiferidoHasta" />

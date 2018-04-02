@@ -56,8 +56,8 @@ namespace BancoSangre.Controllers
 				IdDonante = idDonante,
 				Documento = donante.TipoDocumento.DescripcionTipoDoc + ": " + donante.NroDoc,
 				Donante = donante.Nombre + " " + donante.Apellido,
-				Material = "",
-				Cantidad = "",
+				Material = "Sangre entera",
+				Cantidad = "600 ml",
                 Peso = ""
             };
 

@@ -33,12 +33,6 @@ namespace BancoSangre.Models
         public string Ocupacion { get; set; }
         public Nullable<System.DateTime> FechaNacimiento { get; set; }
         public int IdGrupoFactor { get; set; }
-        public bool RegistroFHA { get; set; }
-        public Nullable<int> NumeroRegistroFHA { get; set; }
-        public bool RegistroRP { get; set; }
-        public Nullable<int> NumeroRegistroRP { get; set; }
-        public bool RegistroRR { get; set; }
-        public Nullable<int> NumeroRegistroRR { get; set; }
         public int IdEstadoDonante { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<System.DateTime> DiferidoHasta { get; set; }
