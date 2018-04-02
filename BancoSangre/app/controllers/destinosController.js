@@ -4,7 +4,6 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
 	init();
 
 	function init() {
-		
 		configPaginacion();
 		obtenerDestinos();
 	}
