@@ -90,7 +90,7 @@ namespace BancoSangre.Controllers
 		{
 
 			var donante = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
-				.FirstOrDefault(x => x.IdDonante == idDonante);
+                .Include(t => t.Donacion).FirstOrDefault(x => x.IdDonante == idDonante);
 
 			var donanteJson = new
 			{
@@ -111,8 +111,9 @@ namespace BancoSangre.Controllers
 				Fecha = donante == null ? DateTime.Now : donante.Fecha,
 				FechaNacimiento = donante == null ? null : donante.FechaNacimiento,
 				Telefono = donante == null ? "" : donante.Telefono,
-				Ocupacion = donante == null ? "" : donante.Ocupacion
-			};
+				Ocupacion = donante == null ? "" : donante.Ocupacion,
+                FechaUltimaDonacion = donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
+            };
 
 			if (idDonante != 0 && donante == null)
 				return Json(null, JsonRequestBehavior.AllowGet);

@@ -39,21 +39,61 @@
 
 	<table class="table table-striped table-bordered table-hover table-condensed">
 		<thead>
-			<tr class="text-uppercase">
-				<th class="text-center noEnCelular">Tipo Doc</th>
-				<th class="text-center noEnCelular">Nro Doc</th>
-				<th class="text-center">Apellido</th>
-				<th class="text-center">Nombre</th>
-                <th class="text-center">Grupo y Rh</th>
-				<th class="text-center">Localidad</th>
-                <th class="text-center">Última Donación</th>
-				<th class="text-center">Estado</th>
-				<th class="text-center">Acciones</th>
-			</tr>
+            <tr class="text-uppercase">
+                <th style="color: #5a5a5a;" class="text-center noEnCelular">Tipo Doc</th>
+                <th style="color: #5a5a5a;" class="text-center noEnCelular">Nro Doc</th>
+                <th class="text-center">
+                    <a style="color: #5a5a5a;" href="#" ng-click="ordenarGrilla('Apellido');">
+                        <span class="iconoOrden {{ordenarPorCampo == 'Apellido'}}">
+                            <span ng-show="!ordenInvertido || ordenarPorCampo != 'Apellido'" class="glyphicon glyphicon-chevron-up"></span>
+                            <span ng-show="ordenInvertido && ordenarPorCampo == 'Apellido'" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                        Apellido
+                    </a>
+                </th>
+                <th class="text-center">
+                    <a style="color: #5a5a5a;" href="#" ng-click="ordenarGrilla('Nombre');">
+                        <span class="iconoOrden {{ordenarPorCampo == 'Nombre'}}">
+                            <span ng-show="!ordenInvertido || ordenarPorCampo != 'Nombre'" class="glyphicon glyphicon-chevron-up"></span>
+                            <span ng-show="ordenInvertido && ordenarPorCampo == 'Nombre'" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                        Nombre
+                    </a>
+                </th>
+                <th class="text-center">
+                    <a style="color: #5a5a5a;" href="#" ng-click="ordenarGrilla('DescripcionGrupoFactor');">
+                        <span class="iconoOrden {{ordenarPorCampo == 'DescripcionGrupoFactor'}}">
+                            <span ng-show="!ordenInvertido || ordenarPorCampo != 'DescripcionGrupoFactor'" class="glyphicon glyphicon-chevron-up"></span>
+                            <span ng-show="ordenInvertido && ordenarPorCampo == 'DescripcionGrupoFactor'" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                        Grupo y Rh
+                    </a>
+                </th>
+                <th class="text-center">
+                    <a style="color: #5a5a5a;" href="#" ng-click="ordenarGrilla('NombreLocalidad');">
+                        <span class="iconoOrden {{ordenarPorCampo == 'NombreLocalidad'}}">
+                            <span ng-show="!ordenInvertido || ordenarPorCampo != 'NombreLocalidad'" class="glyphicon glyphicon-chevron-up"></span>
+                            <span ng-show="ordenInvertido && ordenarPorCampo == 'NombreLocalidad'" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                        Localidad
+                    </a>
+                </th>
+                <th class="text-center">
+                    <a style="color: #5a5a5a;" href="#" ng-click="ordenarGrilla('FechaUltimaDonacion');">
+                        <span class="iconoOrden {{ordenarPorCampo == 'FechaUltimaDonacion'}}">
+                            <span ng-show="!ordenInvertido || ordenarPorCampo != 'FechaUltimaDonacion'" class="glyphicon glyphicon-chevron-up"></span>
+                            <span ng-show="ordenInvertido && ordenarPorCampo == 'FechaUltimaDonacion'" class="glyphicon glyphicon-chevron-down"></span>
+                        </span>
+                        Última Donación
+                    </a>
+                </th>
+                <th style="color: #5a5a5a;" class="text-center">Estado</th>
+                <th style="color: #5a5a5a;" class="text-center">Acciones</th>
+            </tr>
 		</thead>
 		<tbody ng-cloak>
 			<tr ng-repeat="d in filtrados = (donantes | filter:{Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad})
-				| limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+				| orderBy:ordenarPorCampo:ordenInvertido | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
 				<td class="celdaGrillaAdmin noEnCelular">
 					<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
 						{{ d.DescripcionTipoDoc || '-' }}
