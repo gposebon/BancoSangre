@@ -6,136 +6,148 @@ using System;
 
 namespace BancoSangre.Controllers
 {
-	public class DestinoDonacionsController : Controller
-	{
-		private readonly bancosangreEntities _db;
+    public class DestinoDonacionsController : Controller
+    {
+        private readonly bancosangreEntities _db;
 
-		public DestinoDonacionsController()
-		{
-			_db = new bancosangreEntities();
-			_db.Configuration.ProxyCreationEnabled = false;
-		}
+        public DestinoDonacionsController()
+        {
+            _db = new bancosangreEntities();
+            _db.Configuration.ProxyCreationEnabled = false;
+        }
 
-		#region Api
+        #region Api
 
-		[HttpGet]
-		[Authorize]
-		public ActionResult ObtenerDestinos()
-		{
-			var destinos = _db.DestinoDonacion.OrderBy(x => x.DescripcionDestino)
-				.Select(x => new
-				{
-					x.IdDestino,
-					x.DescripcionDestino,
-					x.Direccion,
-					x.Ciudad,
-					x.Provincia,
-					x.Prefijo,
-					x.Telefono,
-					
-				})
-				.ToList();
+        [HttpGet]
+        [Authorize]
+        public ActionResult ObtenerDestinos()
+        {
+            var destinos = _db.DestinoDonacion.OrderBy(x => x.DescripcionDestino)
+                .Select(x => new
+                {
+                    x.IdDestino,
+                    x.DescripcionDestino,
+                    x.Direccion,
+                    x.Ciudad,
+                    x.Provincia,
+                    x.Prefijo,
+                    x.Telefono,
 
-			if (!destinos.Any())
-				return Json(null, JsonRequestBehavior.AllowGet);
+                })
+                .ToList();
 
-			var result = destinos;
-			var json = new
-			{
-				cantidad = destinos.Count,
-				data = result
-			};
+            if (!destinos.Any())
+                return Json(null, JsonRequestBehavior.AllowGet);
 
-			return Json(json, JsonRequestBehavior.AllowGet);
-		}
+            var result = destinos;
+            var json = new
+            {
+                cantidad = destinos.Count,
+                data = result
+            };
 
-		[HttpPost]
-		[Authorize]
-		public ActionResult RemoverDestino(int id)
-		{
-			try
-			{
-				var actual = _db.DestinoDonacion
-					.FirstOrDefault(x => x.IdDestino == id);
-				if (actual == null)
-					return Json("El destino que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
 
-				_db.DestinoDonacion.Remove(actual);
-				_db.SaveChanges();
-				return Json(true, JsonRequestBehavior.AllowGet);
-			}
-			catch (DbUpdateException)
-			{
-				return Json("El destino no puede ser removido porque ya ha sido incluído en una o más donaciones.", JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception)
-			{
-				return Json("Se produjo un error al intentar remover el destino.", JsonRequestBehavior.AllowGet);
-			}
-		}
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoverDestino(int id)
+        {
+            try
+            {
+                var actual = _db.DestinoDonacion
+                    .FirstOrDefault(x => x.IdDestino == id);
+                if (actual == null)
+                    return Json("El destino que intenta remover no existe en nuestra Base de Datos.", JsonRequestBehavior.AllowGet);
 
-		[HttpPost]
-		[Authorize]
-		public ActionResult GuardarDestino(DestinoDonacion destino)
-		{
-			try
-			{
-				if (destino.IdDestino == 0)
-				{
-					_db.DestinoDonacion.Add(destino);
-				}
-				else
-				{
-					var destinoActual = _db.DestinoDonacion.FirstOrDefault(x => x.IdDestino == destino.IdDestino);
-					if (destinoActual == null)
-						throw new Exception();
+                _db.DestinoDonacion.Remove(actual);
+                _db.SaveChanges();
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbUpdateException)
+            {
+                return Json("El destino no puede ser removido porque ya ha sido incluído en una o más donaciones.", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("Se produjo un error al intentar remover el destino.", JsonRequestBehavior.AllowGet);
+            }
+        }
 
-					destinoActual.DescripcionDestino = destino.DescripcionDestino;
-					destinoActual.Direccion = destino.Direccion;
-					destinoActual.Ciudad = destino.Ciudad;
-					destinoActual.Provincia = destino.Provincia;
-					destinoActual.Prefijo = destino.Prefijo;
-					destinoActual.Telefono = destino.Telefono;
-					}
+        [HttpPost]
+        [Authorize]
+        public ActionResult GuardarDestino(DestinoDonacion destino)
+        {
+            try
+            {
+                if (destino.IdDestino == 0)
+                {
+                    _db.DestinoDonacion.Add(destino);
+                }
+                else
+                {
+                    var destinoActual = _db.DestinoDonacion.FirstOrDefault(x => x.IdDestino == destino.IdDestino);
+                    if (destinoActual == null)
+                        throw new Exception();
 
-				_db.SaveChanges();
+                    destinoActual.DescripcionDestino = destino.DescripcionDestino;
+                    destinoActual.Direccion = destino.Direccion;
+                    destinoActual.Ciudad = destino.Ciudad;
+                    destinoActual.Provincia = destino.Provincia;
+                    destinoActual.Prefijo = destino.Prefijo;
+                    destinoActual.Telefono = destino.Telefono;
+                }
 
-				var json = new
-				{
-					resultado = true
-				};
+                _db.SaveChanges();
 
-				return Json(json, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception ex)
-			{
-				var json = new
-				{
-					data = ex.Message,
-					resultado = false
-				};
+                var json = new
+                {
+                    resultado = true
+                };
 
-				return Json(json, JsonRequestBehavior.AllowGet);
-			}
-		}
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbUpdateException e)
+            {
+                var mensaje = e.InnerException.InnerException.Message.Contains("IX_DestinoDonacion")
+                    ? "Actualmente existe un destino de donación con el mismo prefijo. Por favor, ingrese un prefijo diferente."
+                    : "Ha ocurrido un error mientras se intentaba guardar el destino de donación.";
 
-	#endregion
+                var json = new
+                {
+                    data = mensaje,
+                    resultado = false
+                };
 
-		// GET: DestinoDonacions
-		public ActionResult Grilla()
-		{
-			return View();
-		}
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var json = new
+                {
+                    data = ex.Message,
+                    resultado = false
+                };
 
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+        }
 
+        #endregion
 
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				_db.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-	}
+        // GET: DestinoDonacions
+        public ActionResult Grilla()
+        {
+            return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
 }

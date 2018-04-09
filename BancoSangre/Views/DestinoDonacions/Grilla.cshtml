@@ -1,112 +1,112 @@
 ﻿
 
 @{
-	ViewBag.Title = "Destinos";
+    ViewBag.Title = "Destinos";
 }
 
 <div>
-	<div style="display: inline-block">
-		<h2>Destinos de donaciones</h2>
-	</div>
-	<div class="volverArribaPagina">
-		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Volver
-		</a>
-	</div>
+    <div style="display: inline-block">
+        <h2>Destinos de donaciones</h2>
+    </div>
+    <div class="volverArribaPagina">
+        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            Volver
+        </a>
+    </div>
 </div>
 
 <div class="panel panel-default" ng-controller="destinosController">
 
-	<div class="panel-heading">
-		<div class="row">
-			<div class="col-md-9">
-				<form class="form-inline">
-					<div style="display: inline-block;">
-						<input type="text" id="destinoBusqueda" class="form-control" placeholder="Destino" ng-model="destinoBusqueda">
-					</div>
-				</form>
-			</div>
-			<div class="col-md-pull-2">
-				<label class="control-label" style="padding-left: 1%;">Destinos: </label>
-				<label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
-				<button class="btn btn-primary" ng-click="agregarDestino()">Agregar Destino</button>
-			</div>
-		</div>
-	</div>
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-9">
+                <form class="form-inline">
+                    <div style="display: inline-block;">
+                        <input type="text" id="destinoBusqueda" class="form-control" placeholder="Destino" ng-model="destinoBusqueda">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-pull-2">
+                <label class="control-label" style="padding-left: 1%;">Destinos: </label>
+                <label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
+                <button class="btn btn-primary" ng-click="agregarDestino()">Agregar Destino</button>
+            </div>
+        </div>
+    </div>
 
-	<table class="table table-striped table-bordered table-hover table-condensed">
-		<thead>
-			<tr>
-				<th width="20%" class="text-center">Descripción</th>
-				<th width="20%" class="text-center">Dirección</th>
-				<th width="15%" class="text-center">Ciudad</th>
-				<th width="15%" class="text-center">Provincia</th>
-				<th width="10%" class="text-center">Prefijo</th>
-				<th width="10%" class="text-center">Teléfono</th>
-				<th width="10%" class="text-center">Acciones</th>
-		 </tr>
-			
-		</thead>
-		<tbody ng-cloak>
-			<tr ng-repeat="p in filtrados = (destinos | filter:{DescripcionDestino: destinoBusqueda})
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th width="20%" class="text-center">Descripción</th>
+                <th width="20%" class="text-center">Dirección</th>
+                <th width="15%" class="text-center">Ciudad</th>
+                <th width="15%" class="text-center">Provincia</th>
+                <th width="10%" class="text-center">Prefijo</th>
+                <th width="10%" class="text-center">Teléfono</th>
+                <th width="10%" class="text-center">Acciones</th>
+            </tr>
+
+        </thead>
+        <tbody ng-cloak>
+            <tr ng-repeat="p in filtrados = (destinos | filter:{DescripcionDestino: destinoBusqueda})
 					| limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.DescripcionDestino" e-name="descripcionDestino" e-form="rowform" e-required>
-						{{ p.DescripcionDestino || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.Direccion" e-name="direccion" e-form="rowform" e-required>
-						{{ p.Direccion || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.Ciudad" e-name="ciudad" e-form="rowform" e-required>
-						{{ p.Ciudad || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.Provincia" e-name="provincia" e-form="rowform" e-required>
-						{{ p.Provincia || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.Prefijo" e-name="prefijo" e-form="rowform" e-required>
-						{{ p.Prefijo || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="p.Telefono" e-name="telefono" e-form="rowform" e-required>
-						{{ p.Telefono || '-' }}
-					</span>
-				</td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.DescripcionDestino" e-name="descripcionDestino" onbeforesave="validarVacio($data)" e-form="rowform" e-required>
+                        {{ p.DescripcionDestino || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.Direccion" e-name="direccion" e-form="rowform">
+                        {{ p.Direccion || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.Ciudad" e-name="ciudad" e-form="rowform">
+                        {{ p.Ciudad || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.Provincia" e-name="provincia" e-form="rowform">
+                        {{ p.Provincia || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.Prefijo" e-name="prefijo" onbeforesave="validarPrefijo(p.IdDestino, $data)" e-form="rowform" e-required>
+                        {{ p.Prefijo || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="p.Telefono" e-name="telefono" e-form="rowform">
+                        {{ p.Telefono || '-' }}
+                    </span>
+                </td>
 
-				<td class="celdaGrillaAdmin" style="white-space: nowrap">
-					<!-- form -->
-					<form editable-form name="rowform" onbeforesave="guardarDestino($data, p.IdDestino)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
-						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-							Guardar
-						</button>
-						<button type="button" ng-disabled="rowform.$waiting" ng-click="cancelarDestino(rowform, p.IdDestino)" class="btn btn-default">
-							Cancelar
-						</button>
-					</form>
-					<div class="buttons" ng-show="!rowform.$visible">
-						<button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
-						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDestino(p.IdDestino)" title="Eliminar"></button>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div style="text-align:center">
-		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
-										items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
-	</div>
+                <td class="celdaGrillaAdmin" style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="guardarDestino($data, p.IdDestino)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
+                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            Guardar
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="cancelarDestino(rowform, p.IdDestino)" class="btn btn-default">
+                            Cancelar
+                        </button>
+                    </form>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+                        <button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDestino(p.IdDestino)" title="Eliminar"></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="text-align:center">
+        <uib-pagination ng-show="true" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
+                        items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+    </div>
 </div>
 
 @section scripts{
-	@Scripts.Render("~/app/services/destinosServicio.js")
-	@Scripts.Render("~/app/controllers/destinosController.js")
+    @Scripts.Render("~/app/services/destinosServicio.js")
+    @Scripts.Render("~/app/controllers/destinosController.js")
 }

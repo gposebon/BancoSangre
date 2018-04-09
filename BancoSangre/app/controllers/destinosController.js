@@ -91,16 +91,24 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
 					modalServicio.open("success", "El destino se ha guardado con éxito.");
 				}
 				else {
-					for (var i = 0; i < $scope.destinos.length; ++i) {
-						if ($scope.destinos[i].IdDestino == id) {
-							$scope.destinos.splice(i, 1);
-							break;
-						}
-					}
 					modalServicio.open("danger", result.data.data);
 				}
 			});
 	};
 		
-	
+    $scope.validarVacio = function (data) {
+        if (data === undefined || data == '') {
+            return "Campo requerido.";
+        }
+    };
+
+    $scope.validarPrefijo = function (idDestino, data) {
+        var respuesta = $scope.validarVacio(data);
+        if (respuesta !== undefined) return respuesta;
+        for (var i = 0; i < $scope.destinos.length; i++) {
+            if ($scope.destinos[i].IdDestino != idDestino && $scope.destinos[i].Prefijo == data)
+                return "Prefijo existente.";
+        }
+    };
+
 });
