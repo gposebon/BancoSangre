@@ -106,7 +106,7 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
         var respuesta = $scope.validarVacio(data);
         if (respuesta !== undefined) return respuesta;
         for (var i = 0; i < $scope.destinos.length; i++) {
-            if ($scope.destinos[i].IdDestino != idDestino && $scope.destinos[i].Prefijo == data)
+            if ($scope.destinos[i].IdDestino != idDestino && $scope.destinos[i].Prefijo.toUpperCase() == data.toUpperCase())
                 return "Prefijo existente.";
         }
     };
