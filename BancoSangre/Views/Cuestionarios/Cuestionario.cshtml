@@ -23,45 +23,47 @@
 
 	<hr class="hr" />
 
-	<div id="contenido" style="display: inline-block" class="panel panel-default" >
-		
-		<div class="form-horizontal contenedorPreguntaRespuesta-LineaEntera">
-			<div style="font-weight: bold;" class="preguntaRespuesta-Titulo">
-				FICHAS DE ADMISIÓN
-			</div>
-		</div>
+    <div id="contenido" style="display: inline-block" class="panel panel-default">
 
-		<div class="form-horizontal contenedorDatoDemografico" ng-repeat="d in datosDemograficos">
-			<div class="preguntaRespuesta">
-				<label ng-model="d.Etiqueta">{{ d.Etiqueta }}</label>
-			</div>
-			<div class="preguntaRespuesta">
-				<label style="font-weight: normal;" ng-model="d.Dato">{{ d.Dato }}</label>
-			</div>
-		</div>
+        <div class="form-horizontal contenedorPreguntaRespuesta-LineaEntera">
+            <div style="font-weight: bold;" class="preguntaRespuesta-Titulo">
+                Ficha de admisión
+            </div>
+        </div>
 
-		<div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
+        <div class="contenedorTotalDatosDemograficos">
+            <div class="form-horizontal contenedorDatoDemografico" ng-repeat="d in datosDemograficos">
+                <div class="preguntaRespuesta">
+                    <label ng-model="d.Etiqueta">{{ d.Etiqueta }}</label>
+                </div>
+                <div class="preguntaRespuesta">
+                    <label style="font-weight: normal;" ng-model="d.Dato">{{ d.Dato }}</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
-			<div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)">
-				{{ pregunta.TextoPregunta }}
-			</div>
+            <div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)">
+                {{ pregunta.TextoPregunta }}
+            </div>
 
-			<div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo">
-				<div ng-show="pregunta.EsCerrada">
-					<label>
-						<span style="font-weight: normal;" class="radioPregunta">Sí</span>
-						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="true" Class="radioPregunta">
-					</label>
-					<label>
-						<span style="font-weight: normal;" class="radioPregunta">No</span>
-						<input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="false" Class="radioPregunta">
-					</label>
-				</div>
+            <div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo">
+                <div ng-show="pregunta.EsCerrada">
+                    <label>
+                        <span style="font-weight: normal;" class="radioPregunta">Sí</span>
+                        <input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="true" Class="radioPregunta">
+                    </label>
+                    <label>
+                        <span style="font-weight: normal;" class="radioPregunta">No</span>
+                        <input type="radio" ng-model="pregunta.RespuestaCerrada" ng-value="false" Class="radioPregunta">
+                    </label>
+                </div>
 
-				<textarea ng-hide="pregunta.EsCerrada" ng-model="pregunta.RespuestaAbierta" Class="areaTextoRespuesta" placeholder="Respuesta"></textarea>
-			</div>
-		</div>
-	</div>
+                <textarea ng-hide="pregunta.EsCerrada" ng-model="pregunta.RespuestaAbierta" Class="areaTextoRespuesta" placeholder="Respuesta"></textarea>
+            </div>
+        </div>
+    </div>
 
 	<div class="contenedorTituloCrearEditar">
 		<div class="botonesCrearEditar">

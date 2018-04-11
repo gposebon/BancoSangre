@@ -112,7 +112,7 @@ namespace BancoSangre.Controllers
 				FechaNacimiento = donante == null ? null : donante.FechaNacimiento,
 				Telefono = donante == null ? "" : donante.Telefono,
 				Ocupacion = donante == null ? "" : donante.Ocupacion,
-                FechaUltimaDonacion = donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
+                FechaUltimaDonacion = donante != null && donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
             };
 
 			if (idDonante != 0 && donante == null)

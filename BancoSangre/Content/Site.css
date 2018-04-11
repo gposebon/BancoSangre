@@ -224,10 +224,10 @@ hr.hr {
 }
 
 .contenedorPreguntaRespuesta {
-    padding: 20px 0 20px 50px;
+    padding: 1em 0.5em 0.5em 1.5em;
     width: 49%;
     float: left;
-    height: 5em;
+    height: 4em;
 }
 
 .nuevaLinea {
@@ -241,14 +241,20 @@ hr.hr {
 }
 
 .contenedorPreguntaRespuesta-LineaEntera {
-    padding: 20px 0 20px 50px;
+    padding: 1em 1.5em 0.5em 1.5em;
     width: 100%;
     float: left;
-    height: 5em;
+}
+
+.contenedorTotalDatosDemograficos {
+    border-top: solid 1px #dddddd;
+    border-bottom: solid 1px #dddddd;
+    display: inline-block;
+    padding: 0.3em 0 0.7em 0;
 }
 
 .contenedorDatoDemografico {
-    padding: 20px 0 20px 50px;
+    padding: 1em 0.5em 0.5em 1.5em;
     width: 49%;
     float: left;
     height: 3em;
@@ -261,10 +267,10 @@ hr.hr {
 }
 
 .preguntaRespuesta-Titulo {
-    vertical-align: middle;
+    padding: 0.5em 0;
     width: 100%;
     text-align: center;
-    display: inline-block;
+    font-size: 1.25em;
 }
 
 .radioPregunta {
@@ -283,4 +289,10 @@ hr.hr {
 
 .iconoOrden.true {
     color: #5a5a5a;
+}
+
+@page {
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
 }
