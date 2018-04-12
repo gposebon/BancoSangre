@@ -168,27 +168,37 @@ namespace BancoSangre.Controllers
 					Fecha = DateTime.Now
 				};
 
-				_db.Cuestionario.Add(nuevoCuestionario);
+				var ultimoCuestionario = _db.Cuestionario.Add(nuevoCuestionario);
 				_db.SaveChanges();
 
 				var encriptador = new Encriptador();
-				var ultimoCuestionario = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
 				if (ultimoCuestionario != null)
 				{
-					foreach (var pregunta in cuestionarioDonante.Preguntas)
+                    // Si al menos una pregunta "causal de rechazo" fue respondida afirmativamente, el estado del donante pasa a Rechazado.
+                    if (cuestionarioDonante.Preguntas.Any(x => x.CausalRechazo && x.RespuestaCerrada == "True"))
+                    {
+                        var donante = _db.Donante.Find(idDonante);
+                        if (donante != null)
+                        {
+                            donante.IdEstadoDonante = 2;
+                            _db.SaveChanges();
+                        }
+                    }
+                    // Guarda datos demográficos.
+                    foreach (var datoDemografico in cuestionarioDonante.DatosDemograficos)
+                    {
+                        datoDemografico.IdDatoDemograficoCuestionario = Guid.NewGuid();
+                        datoDemografico.IdCuestionario = ultimoCuestionario.IdCuestionario;
+                        _db.DatoDemograficoCuestionario.Add(datoDemografico);
+                    }
+                    // Guarda preguntas y respuestas.
+                    foreach (var pregunta in cuestionarioDonante.Preguntas)
 					{
 						pregunta.IdPreguntaCuestionario = Guid.NewGuid();
 						pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
 						pregunta.RespuestaCerrada = encriptador.Encriptar(pregunta.RespuestaCerrada);
 						pregunta.RespuestaAbierta = encriptador.Encriptar(pregunta.RespuestaAbierta);
 						_db.PreguntaCuestionario.Add(pregunta);
-					}
-
-					foreach (var datoDemografico in cuestionarioDonante.DatosDemograficos)
-					{
-						datoDemografico.IdDatoDemograficoCuestionario = Guid.NewGuid();
-						datoDemografico.IdCuestionario = ultimoCuestionario.IdCuestionario;
-						_db.DatoDemograficoCuestionario.Add(datoDemografico);
 					}
 
 					_db.SaveChanges();

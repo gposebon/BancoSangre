@@ -195,6 +195,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             $scope.donante.IdEstadoDonante === -1) {
 
             $scope.validar = true;
+            return;
         }
 
         var donante = crearDonante();

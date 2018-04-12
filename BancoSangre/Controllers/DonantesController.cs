@@ -127,7 +127,7 @@ namespace BancoSangre.Controllers
 			var localidades = ObtenerLocalidades(donanteJson.IdProvincia);
 			localidades.Add(new ItemLocalidad { IdLocalidad = -2, NombreLocalidad = "Seleccione Localidad" });
 			var estadosDonantes = _db.EstadoDonante.Select(x => new { x.IdEstadoDonante, x.DescripcionEstado }).ToList();
-			estadosDonantes.Add(new { IdEstadoDonante = -1, DescripcionEstado = "Estado" });
+			estadosDonantes.Add(new { IdEstadoDonante = -1, DescripcionEstado = "Seleccione Estado" });
 
 			var json = new
 			{
