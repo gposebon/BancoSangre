@@ -227,7 +227,7 @@ hr.hr {
     padding: 0 0.5em 0 1.5em;
     width: 49%;
     float: left;
-    height: 3.5em;
+    height: 3.3em;
 }
 
 .nuevaLinea {
@@ -241,9 +241,11 @@ hr.hr {
 }
 
 .contenedorPreguntaRespuesta-LineaEntera {
-    padding: 1em 1.5em 0.5em 1.5em;
+    padding: 0 1.5em 0 1.5em;
     width: 100%;
     float: left;
+    max-height: 9em;
+    min-height: 3.3em;
 }
 
 .contenedorTotalDatosDemograficos {
@@ -265,10 +267,11 @@ hr.hr {
     width: 48%;
     display: inline-block;
     font-size: .96em;
+    padding: .5em 0;
 }
 
 .preguntaRespuesta-Titulo {
-    padding: 0.5em 0;
+    padding: .8em 0;
     width: 100%;
     text-align: center;
     font-size: 1.1em;
@@ -277,6 +280,11 @@ hr.hr {
 .radioPregunta {
     vertical-align: middle;
     margin: 0 5px 0 5px;
+}
+
+.radioCuestionario {
+    height: 22px !important;
+    width: 22px !important;
 }
 
 .areaTextoRespuesta {
