@@ -44,10 +44,11 @@
                 <th width="10%" class="text-center">Fecha</th>
                 <th width="10%" class="text-center">Documento</th>
                 <th width="20%" class="text-center">Donante</th>
-                <th width="20%" class="text-center">Material</th>
-                <th width="15%" class="text-center">Cantidad</th>
-                <th width="15%" class="text-center">Peso</th>
+                <th width="15%" class="text-center">Material</th>
+                <th width="5%" class="text-center">Cantidad</th>
+                <th width="5%" class="text-center">Peso</th>
                 <th width="15%" class="text-center">Destino</th>
+                <th width="10%" class="text-center">Estado</th>
             </tr>
 		</thead>
 		<tbody ng-cloak>
@@ -91,6 +92,11 @@
                 <td class="celdaGrillaAdmin">
                     <span>
                         {{ donacion.Destino }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span>
+                        {{ donacion.Estado }}
                     </span>
                 </td>
             </tr>

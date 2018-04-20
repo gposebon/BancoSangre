@@ -250,6 +250,9 @@
     <Compile Include="Models\Donante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EstadoDonacion.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EstadoDonante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>

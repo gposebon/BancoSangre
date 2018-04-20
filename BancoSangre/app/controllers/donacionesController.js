@@ -36,7 +36,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 		donacionesRepositorio.obtenerDonacionEnBlanco($scope.idDonante)
 			.then(function (result) {
 				$scope.donacion = result.data.data.Donacion;
-				$scope.destinos = result.data.data.Destinos;
+                $scope.destinos = result.data.data.Destinos;
+                $scope.estadosDonacion = result.data.data.EstadosDonacion;
 			});
 	}
 
@@ -78,7 +79,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 			Material: $scope.donacion.Material,
             Cantidad: $scope.donacion.Cantidad,
             Peso: $scope.donacion.Peso,
-			Fecha: $("#calendarioFecha").datepicker("getDate")
+            Fecha: $("#calendarioFecha").datepicker("getDate"),
+            IdEstadoDonacion: $scope.donacion.IdEstadoDonacion
 		}
 	}
 
