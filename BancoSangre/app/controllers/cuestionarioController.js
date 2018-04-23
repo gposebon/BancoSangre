@@ -16,22 +16,22 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	function init() {
 		$scope.idDonante = obtenerParametroPorNombre("idDonante");
 		var idCuestionario = obtenerParametroPorNombre("idCuestionario");
-		var accion = obtenerParametroPorNombre("accion");
-		switch (accion) {
+        $scope.accion = obtenerParametroPorNombre("accion");
+        switch ($scope.accion) {
 			case "crear":
 				$scope.editar = true;
 				$scope.linkVolver = "/Donantes/Editar?idDonante=" + $scope.idDonante;
-				obtenerCuestionarioEnBlanco();
+                obtenerCuestionarioEnBlanco();
 				break;
 			case "vistaPrevia":
 				$scope.editar = false;
 				$scope.linkVolver = "/Preguntas/Grilla";
-				obtenerCuestionarioEnBlanco(-1);
+				obtenerCuestionarioEnBlanco();
 				break;
 			case "ver":
 				$scope.editar = false;
 				$scope.linkVolver = "/Cuestionarios/CuestionariosExistentes?idDonante=" + $scope.idDonante + "&accion=listar";
-				obtenerCuestionarioPorId(idCuestionario);
+                obtenerCuestionarioPorId(idCuestionario);
 				break;
 			case "listar":
 				$scope.linkVolver = "/Donantes/Editar?idDonante=" + $scope.idDonante;
@@ -41,13 +41,25 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
+    function obtenerFechaConFormato(fechaJson) {
+        if (fechaJson == undefined || fechaJson == "") return "";
+
+        var fecha = new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
+        var dia = fecha.getDate();
+        var mes = fecha.getMonth();
+        var anio = fecha.getFullYear();
+        return dia + "/" + (mes + 1) + "/" + anio;
+    }
+
 	function obtenerCuestionarioEnBlanco() {
 		if ($scope.idDonante !== null) {
 			cuestionarioRepositorio.obtenerCuestionarioParaDonante($scope.idDonante)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
 					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
-					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
+                    $scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
+
+                    $scope.fecha = obtenerFechaConFormato($scope.fecha);
 				});
 		}
 	}
@@ -66,7 +78,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 							var esVerdadero = ($scope.preguntas[i].RespuestaCerrada === "True");
 							$scope.preguntas[i].RespuestaCerrada = esVerdadero;
 						}
-					}
+                    }
 				});
 		}
 	}
@@ -163,5 +175,4 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		var clasePregunta = "preguntaRespuesta" + ((pregunta.EsTitulo) ? "-Titulo" : "");
 		return clasePregunta;
 	}
-
 });

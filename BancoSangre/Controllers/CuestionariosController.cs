@@ -73,16 +73,16 @@ namespace BancoSangre.Controllers
 				new DatoDemograficoCuestionario { Etiqueta = "Edad:", Dato = edad, Orden = 2 },
 				new DatoDemograficoCuestionario { Etiqueta = "Domicilio:", Dato = donante != null ? donante.Domicilio : "", Orden = 3 },
 				new DatoDemograficoCuestionario { Etiqueta = "Fecha:", Dato = donante != null ? DateTime.Now.ToString("dd/MM/yyyy") : "", Orden = 4 },
-				new DatoDemograficoCuestionario { Etiqueta = "Localidad:", Dato = donante != null ? donante.Localidad.NombreLocalidad + " (" + donante.Provincia.NombreProvincia + ")" : "", Orden = 4 },
-				new DatoDemograficoCuestionario { Etiqueta = "DNI:", Dato = donante != null ? donante.TipoDocumento + " " + donante.NroDoc : "", Orden = 5 },
-				new DatoDemograficoCuestionario { Etiqueta = "Teléfono:", Dato = donante != null ? donante.Telefono : "", Orden = 6 },
+				new DatoDemograficoCuestionario { Etiqueta = "Localidad:", Dato = donante != null ? donante.Localidad.NombreLocalidad + " (" + donante.Provincia.NombreProvincia + ")" : "", Orden = 5 },
+				new DatoDemograficoCuestionario { Etiqueta = "DNI:", Dato = donante != null ? donante.TipoDocumento + " " + donante.NroDoc : "", Orden = 6 },
+				new DatoDemograficoCuestionario { Etiqueta = "Teléfono:", Dato = donante != null ? donante.Telefono : "", Orden = 7 },
 				new DatoDemograficoCuestionario { Etiqueta = "Fecha nacimiento:", Dato = donante != null
 					? (donante.FechaNacimiento.HasValue ? ((DateTime)donante.FechaNacimiento).ToString("dd/MM/yyyy") : "")
-					: "", Orden = 7 },
-				new DatoDemograficoCuestionario { Etiqueta = "Ocupación:", Dato = donante != null ? donante.Ocupacion : "", Orden = 8 },
-				new DatoDemograficoCuestionario { Etiqueta = "Lugar nacimiento:", Dato = donante != null ? donante.LugarNacimiento : "", Orden = 9 },
-				new DatoDemograficoCuestionario { Etiqueta = "Grupo RH:", Dato = donante != null ? donante.GrupoFactor.DescripcionGrupoFactor : "", Orden = 10 },
-				new DatoDemograficoCuestionario { Etiqueta = "Código postal:", Dato = donante != null ? donante.Localidad.CodigoPostal.ToString() : "", Orden = 11 },
+					: "", Orden = 8 },
+				new DatoDemograficoCuestionario { Etiqueta = "Ocupación:", Dato = donante != null ? donante.Ocupacion : "", Orden = 9 },
+				new DatoDemograficoCuestionario { Etiqueta = "Lugar nacimiento:", Dato = donante != null ? donante.LugarNacimiento : "", Orden = 10 },
+				new DatoDemograficoCuestionario { Etiqueta = "Grupo RH:", Dato = donante != null ? donante.GrupoFactor.DescripcionGrupoFactor : "", Orden = 11 },
+				new DatoDemograficoCuestionario { Etiqueta = "Código postal:", Dato = donante != null ? donante.Localidad.CodigoPostal.ToString() : "", Orden = 12 },
 			};
 		}
 
@@ -160,12 +160,13 @@ namespace BancoSangre.Controllers
 			try
 			{
 				var idDonante = cuestionarioDonante.IdDonante;
+                var fechaCuestionario = cuestionarioDonante.DatosDemograficos.FirstOrDefault(x => x.Etiqueta == "Fecha:").Dato;
 
-				var nuevoCuestionario = new Cuestionario
+                var nuevoCuestionario = new Cuestionario
 				{
 					IdCuestionario = Guid.NewGuid(),
 					IdDonante = cuestionarioDonante.IdDonante,
-					Fecha = DateTime.Now
+					Fecha = fechaCuestionario != null ? Convert.ToDateTime(fechaCuestionario) : DateTime.Now
 				};
 
 				var ultimoCuestionario = _db.Cuestionario.Add(nuevoCuestionario);
