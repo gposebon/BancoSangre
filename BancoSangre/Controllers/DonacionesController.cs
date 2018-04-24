@@ -35,13 +35,17 @@ namespace BancoSangre.Controllers
                 x.Cantidad,
                 x.Peso,
                 Destino = x.DestinoDonacion.DescripcionDestino,
+                x.IdEstadoDonacion,
                 Estado = x.EstadoDonacion != null ? x.EstadoDonacion.DescripcionEstado : ""
             }).ToList();
+
+            var estadosDonacion = _db.EstadoDonacion.Select(x => new { x.IdEstadoDonacion, x.DescripcionEstado }).ToList();
 
             var json = new
             {
                 cantidad = donacionesJson.Count,
-                data = donacionesJson
+                data = donacionesJson,
+                EstadosDonacion = estadosDonacion.OrderBy(x => x.IdEstadoDonacion)
             };
 
             return Json(json, JsonRequestBehavior.AllowGet);
@@ -72,12 +76,9 @@ namespace BancoSangre.Controllers
 
             var json = new
             {
-                data = new
-                {
-                    Donacion = donacion,
-                    Destinos = destinos.OrderBy(x => x.IdDestino),
-                    EstadosDonacion = estadosDonacion.OrderBy(x => x.IdEstadoDonacion)
-                }
+                Donacion = donacion,
+                Destinos = destinos.OrderBy(x => x.IdDestino),
+                EstadosDonacion = estadosDonacion.OrderBy(x => x.IdEstadoDonacion)
             };
 
             return Json(json, JsonRequestBehavior.AllowGet);
@@ -99,6 +100,24 @@ namespace BancoSangre.Controllers
 
         [HttpPost]
         [Authorize]
+        public ActionResult ActualizarDonacion(string nroRegistro, int idEstadoDonacion)
+        { try
+            {
+                var donacionExitente = _db.Donacion.SingleOrDefault(x => x.NroRegistro == nroRegistro);
+
+                donacionExitente.IdEstadoDonacion = idEstadoDonacion;
+                _db.SaveChanges();
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
         public ActionResult Guardar(Donacion donacion)
         {
             try
@@ -111,7 +130,7 @@ namespace BancoSangre.Controllers
 
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }

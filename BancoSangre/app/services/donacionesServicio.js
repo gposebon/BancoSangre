@@ -16,6 +16,10 @@ app.factory("donacionesRepositorio", function ($http) {
 		guardar: function (donacion) {
 			var url = "/Donaciones/Guardar";
 			return $http.post(url, donacion);
-		}
+        },
+        actualizarDonacion: function (nroRegistro, idEstadoDonacion) {
+            var url = "/Donaciones/ActualizarDonacion";
+            return $http.post(url, { 'nroRegistro': nroRegistro, 'idEstadoDonacion': idEstadoDonacion });
+        }
 	};
 });
