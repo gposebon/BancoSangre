@@ -103,6 +103,9 @@ namespace BancoSangre.Controllers
         {
             try
             {
+                if (donacion.Fecha.Date == DateTime.Now.Date)
+                    donacion.Fecha = DateTime.Now;
+
                 _db.Donacion.Add(donacion);
                 _db.SaveChanges();
 

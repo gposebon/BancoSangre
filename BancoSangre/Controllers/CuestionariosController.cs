@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using BancoSangre.Auxiliares;
@@ -166,7 +167,7 @@ namespace BancoSangre.Controllers
 				{
 					IdCuestionario = Guid.NewGuid(),
 					IdDonante = cuestionarioDonante.IdDonante,
-					Fecha = fechaCuestionario != null ? Convert.ToDateTime(fechaCuestionario) : DateTime.Now
+					Fecha = fechaCuestionario != null ? DateTime.ParseExact(fechaCuestionario, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.Now
 				};
 
 				var ultimoCuestionario = _db.Cuestionario.Add(nuevoCuestionario);
