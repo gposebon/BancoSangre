@@ -60,6 +60,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
                     $scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
 
                     $scope.fecha = obtenerFechaConFormato($scope.fecha);
+                    cargarCalendario();
 				});
 		}
 	}
@@ -174,5 +175,21 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	$scope.obtenerClasePregunta = function (pregunta) {
 		var clasePregunta = "preguntaRespuesta" + ((pregunta.EsTitulo) ? "-Titulo" : "");
 		return clasePregunta;
-	}
+    }
+
+    function cargarCalendario() {
+        if ($('#calendarioFechaCuestionario').length) {
+            $("#calendarioFechaCuestionario").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd/mm/yy",
+                yearRange: "-10:c"
+            });
+        } else {
+            setTimeout(function () {
+                cargarCalendario();
+            }, 200);
+        }        
+    }
+
 });
