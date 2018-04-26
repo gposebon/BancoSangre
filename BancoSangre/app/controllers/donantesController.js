@@ -17,6 +17,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
         if ($scope.idDonante === null) {
             $scope.donacion = obtenerParametroPorNombre("accion") === "donacion";
+            recuperarFiltros();
             configPaginacion();
             obtenerDonantes();
         } else {
@@ -32,6 +33,29 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             totalItems: 0
         };
     }
+
+    function recuperarFiltros() {
+        if (localStorage.getItem("busqApellido") != null) $scope.busqApellido = localStorage.getItem("busqApellido");
+        if (localStorage.getItem("busqNombre") != null) $scope.busqNombre = localStorage.getItem("busqNombre");
+        if (localStorage.getItem("busqGrupo") != null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
+        if (localStorage.getItem("busqLocalidad") != null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
+    }
+
+    $scope.$watch("busqApellido", function () {
+        if ($scope.idDonante === null && $scope.busqApellido !== undefined) localStorage.setItem("busqApellido", $scope.busqApellido); // Sólo para grilla
+    });
+
+    $scope.$watch("busqNombre", function () {
+        if ($scope.idDonante === null && $scope.busqNombre !== undefined) localStorage.setItem("busqNombre", $scope.busqNombre); // Sólo para grilla
+    });
+
+    $scope.$watch("busqGrupo", function () {
+        if ($scope.idDonante === null && $scope.busqGrupo !== undefined) localStorage.setItem("busqGrupo", $scope.busqGrupo); // Sólo para grilla
+    });
+
+    $scope.$watch("busqLocalidad", function () {
+        if ($scope.idDonante === null && $scope.busqLocalidad !== undefined) localStorage.setItem("busqLocalidad", $scope.busqLocalidad); // Sólo para grilla
+    });
 
     function obtenerFechaSinFormato(fechaJson) {
         return fechaJson != undefined && fechaJson !== "" ? new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", ""))) : "";
@@ -91,6 +115,11 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
     $scope.obtenerClaseBoton = function () {
         return "btn btn-primary glyphicon glyphicon-" + ($scope.donacion ? "tint" : "pencil");
+    }
+
+    $scope.ordenarGrilla = function (columna) {
+        $scope.ordenInvertido = $scope.ordenarPorCampo === columna && !$scope.ordenInvertido;
+        $scope.ordenarPorCampo = columna;
     }
 
     //Creación y edición
@@ -214,8 +243,4 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             });
     };
 
-    $scope.ordenarGrilla = function (columna) {
-        $scope.ordenInvertido = $scope.ordenarPorCampo === columna && !$scope.ordenInvertido;
-        $scope.ordenarPorCampo = columna;
-    }
 });

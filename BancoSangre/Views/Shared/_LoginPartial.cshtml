@@ -9,7 +9,7 @@
         <li>
             @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
+        <li><a href="javascript:cerrarSesion();">Cerrar sesión</a></li>
     </ul>
     }
 }
@@ -20,3 +20,15 @@ else
         <li>@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
+
+<script type="text/javascript">
+
+    function cerrarSesion() {
+        localStorage.removeItem("busqApellido");
+        localStorage.removeItem("busqNombre");
+        localStorage.removeItem("busqGrupo");
+        localStorage.removeItem("busqLocalidad");
+        document.getElementById('logoutForm').submit();
+    }
+
+</script>
