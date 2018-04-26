@@ -41,6 +41,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         if (localStorage.getItem("busqLocalidad") != null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
     }
 
+    //Guardar filtros - En _LoginPartial.cshtml removemos las cookies.
     $scope.$watch("busqApellido", function () {
         if ($scope.idDonante === null && $scope.busqApellido !== undefined) localStorage.setItem("busqApellido", $scope.busqApellido); // Sólo para grilla
     });
