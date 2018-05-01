@@ -83,6 +83,13 @@
           <Property Name="IdEstadoDonante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DescripcionEstado" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
+        <EntityType Name="ExamenesSerologicos">
+          <Key>
+            <PropertyRef Name="IdExamenSerologico" />
+          </Key>
+          <Property Name="IdExamenSerologico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DescripcionExamen" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
         <EntityType Name="GrupoFactor">
           <Key>
             <PropertyRef Name="IdGrupoFactor" />
@@ -169,14 +176,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Donacion_DestinoDonacion">
-          <End Role="DestinoDonacion" Type="Self.DestinoDonacion" Multiplicity="1" />
+          <End Role="EstadoDonacion" Type="Self.EstadoDonacion" Multiplicity="0..1" />
           <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DestinoDonacion">
-              <PropertyRef Name="IdDestino" />
+            <Principal Role="EstadoDonacion">
+              <PropertyRef Name="IdEstadoDonacion" />
             </Principal>
             <Dependent Role="Donacion">
-              <PropertyRef Name="IdDestino" />
+              <PropertyRef Name="IdEstadoDonacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -189,18 +196,6 @@
             </Principal>
             <Dependent Role="Donacion">
               <PropertyRef Name="IdDonante" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Donacion_EstadoDonacion">
-          <End Role="EstadoDonacion" Type="Self.EstadoDonacion" Multiplicity="0..1" />
-          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadoDonacion">
-              <PropertyRef Name="IdEstadoDonacion" />
-            </Principal>
-            <Dependent Role="Donacion">
-              <PropertyRef Name="IdEstadoDonacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -308,6 +303,7 @@
           <EntitySet Name="Donante" EntityType="Self.Donante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDonacion" EntityType="Self.EstadoDonacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoDonante" EntityType="Self.EstadoDonante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamenesSerologicos" EntityType="Self.ExamenesSerologicos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrupoFactor" EntityType="Self.GrupoFactor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pregunta" EntityType="Self.Pregunta" Schema="dbo" store:Type="Tables" />
@@ -323,15 +319,11 @@
             <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
           </AssociationSet>
           <AssociationSet Name="FK_Donacion_DestinoDonacion" Association="Self.FK_Donacion_DestinoDonacion">
-            <End Role="DestinoDonacion" EntitySet="DestinoDonacion" />
+            <End Role="EstadoDonacion" EntitySet="EstadoDonacion" />
             <End Role="Donacion" EntitySet="Donacion" />
           </AssociationSet>
           <AssociationSet Name="FK_Donacion_Donante" Association="Self.FK_Donacion_Donante">
             <End Role="Donante" EntitySet="Donante" />
-            <End Role="Donacion" EntitySet="Donacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Donacion_EstadoDonacion" Association="Self.FK_Donacion_EstadoDonacion">
-            <End Role="EstadoDonacion" EntitySet="EstadoDonacion" />
             <End Role="Donacion" EntitySet="Donacion" />
           </AssociationSet>
           <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
@@ -437,6 +429,7 @@
             <End Role="EstadoDonante" EntitySet="EstadoDonante" />
             <End Role="Donante" EntitySet="Donante" />
           </AssociationSet>
+          <EntitySet Name="ExamenesSerologicos" EntityType="bancosangreModel.ExamenesSerologicos" />
         </EntityContainer>
         <EntityType Name="EstadoDonacion">
           <Key>
@@ -759,6 +752,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ExamenesSerologicos">
+          <Key>
+            <PropertyRef Name="IdExamenSerologico" />
+          </Key>
+          <Property Name="IdExamenSerologico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DescripcionExamen" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -914,6 +914,14 @@
               <MappingFragment StoreEntitySet="EstadoDonante">
                 <ScalarProperty Name="DescripcionEstado" ColumnName="DescripcionEstado" />
                 <ScalarProperty Name="IdEstadoDonante" ColumnName="IdEstadoDonante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamenesSerologicos">
+            <EntityTypeMapping TypeName="bancosangreModel.ExamenesSerologicos">
+              <MappingFragment StoreEntitySet="ExamenesSerologicos">
+                <ScalarProperty Name="DescripcionExamen" ColumnName="DescripcionExamen" />
+                <ScalarProperty Name="IdExamenSerologico" ColumnName="IdExamenSerologico" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

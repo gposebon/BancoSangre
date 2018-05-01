@@ -197,6 +197,7 @@
     <Compile Include="Controllers\DestinoDonacionsController.cs" />
     <Compile Include="Controllers\DonacionesController.cs" />
     <Compile Include="Controllers\DonantesController.cs" />
+    <Compile Include="Controllers\ExamenesSerologicosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PreguntasController.cs" />
@@ -256,6 +257,9 @@
     <Compile Include="Models\EstadoDonante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExamenesSerologicos.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GrupoFactor.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
@@ -297,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\serologiaController.js" />
     <Content Include="app\controllers\donacionesController.js" />
     <Content Include="app\controllers\cuestionarioController.js" />
     <Content Include="app\controllers\destinosController.js" />
@@ -306,6 +311,7 @@
     <Content Include="app\modal\modalController.js" />
     <Content Include="app\modal\modalContenido.html" />
     <Content Include="app\modal\modalServicio.js" />
+    <Content Include="app\services\serologiaServicio.js" />
     <Content Include="app\services\donacionesServicio.js" />
     <Content Include="app\services\cuestionarioServicio.js" />
     <Content Include="app\services\destinosServicio.js" />
@@ -1248,6 +1254,7 @@
     <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />
     <Content Include="Views\Donaciones\Ingresar.cshtml" />
     <Content Include="Views\Donaciones\Grilla.cshtml" />
+    <Content Include="Views\ExamenesSerologicos\Grilla.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,6 +31,7 @@
         <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Pregunta" />
         <EntityTypeShape EntityType="bancosangreModel.EstadoDonante" Width="1.5" PointX="2.875" PointY="4.625" />
         <AssociationConnector Association="bancosangreModel.FK_Donante_EstadoDonante" />
+        <EntityTypeShape EntityType="bancosangreModel.ExamenesSerologicos" Width="1.5" PointX="11.25" PointY="10.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
