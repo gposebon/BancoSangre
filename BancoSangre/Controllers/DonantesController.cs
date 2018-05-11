@@ -150,7 +150,7 @@ namespace BancoSangre.Controllers
             var localidades = _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
 				.Select(x => new ItemLocalidad { IdLocalidad = x.IdLocalidad, NombreLocalidad = x.NombreLocalidad }).ToList();
             localidades.Add(new ItemLocalidad { IdLocalidad = -2, NombreLocalidad = "Seleccione Localidad" });
-            return localidades;
+            return localidades.OrderBy(x => x.IdLocalidad).ToList();
         }
 		
 		[HttpGet]
