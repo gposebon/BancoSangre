@@ -14,7 +14,16 @@ namespace BancoSangre.Models
     
     public partial class ExamenesSerologicos
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ExamenesSerologicos()
+        {
+            this.DonacionExamenSerologico = new HashSet<DonacionExamenSerologico>();
+        }
+    
         public int IdExamenSerologico { get; set; }
         public string DescripcionExamen { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DonacionExamenSerologico> DonacionExamenSerologico { get; set; }
     }
 }

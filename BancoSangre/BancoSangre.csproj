@@ -248,6 +248,9 @@
     <Compile Include="Models\Donacion.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DonacionExamenSerologico.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Donante.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
@@ -1255,6 +1258,7 @@
     <Content Include="Views\Donaciones\Ingresar.cshtml" />
     <Content Include="Views\Donaciones\Grilla.cshtml" />
     <Content Include="Views\ExamenesSerologicos\Grilla.cshtml" />
+    <Content Include="Views\ExamenesSerologicos\Ingresar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

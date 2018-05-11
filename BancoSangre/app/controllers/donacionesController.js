@@ -122,4 +122,17 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     };
 
+    $scope.obtenerClaseVerIngresarSerologia = function(donacion) {
+        var claseBase = "btn btn-primary glyphicon glyphicon-";
+        if (donacion.examenes == undefined)
+            return claseBase + "list-alt";
+        return claseBase + "eye-open";
+    };
+
+    $scope.obtenerTituloVerIngresarSerologia = function (donacion) {
+        if (donacion.examenes == undefined)
+            return "Ingresar serología";
+        return "Ver serología";
+    };
+
 });

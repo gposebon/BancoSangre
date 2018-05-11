@@ -24,7 +24,7 @@ namespace BancoSangre.Controllers
         public ActionResult ObtenerDonaciones()
         {
             var donaciones = _db.Donacion.OrderByDescending(x => x.Fecha).Include(d => d.DestinoDonacion).Include(d => d.Donante)
-                .Include(d => d.Donante.TipoDocumento).Include(d => d.EstadoDonacion).ToList();
+                .Include(d => d.Donante.TipoDocumento).Include(d => d.EstadoDonacion).Include(d => d.DonacionExamenSerologico).ToList();
             var donacionesJson = donaciones.Select(x => new
             {
                 x.NroRegistro,
@@ -36,7 +36,10 @@ namespace BancoSangre.Controllers
                 x.Peso,
                 Destino = x.DestinoDonacion.DescripcionDestino,
                 x.IdEstadoDonacion,
-                Estado = x.EstadoDonacion != null ? x.EstadoDonacion.DescripcionEstado : ""
+                Estado = x.EstadoDonacion != null ? x.EstadoDonacion.DescripcionEstado : "",
+                Examenes = x.DonacionExamenSerologico.Any()
+                                ? x.DonacionExamenSerologico.Select(y => new { y.IdExamenSerologico, y.ExamenesSerologicos.DescripcionExamen })
+                                : null
             }).ToList();
 
             var estadosDonacion = _db.EstadoDonacion.Select(x => new { x.IdEstadoDonacion, x.DescripcionEstado }).ToList();

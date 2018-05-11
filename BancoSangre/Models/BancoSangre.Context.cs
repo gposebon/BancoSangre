@@ -39,5 +39,6 @@ namespace BancoSangre.Models
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<EstadoDonante> EstadoDonante { get; set; }
         public virtual DbSet<ExamenesSerologicos> ExamenesSerologicos { get; set; }
+        public virtual DbSet<DonacionExamenSerologico> DonacionExamenSerologico { get; set; }
     }
 }
