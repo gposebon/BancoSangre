@@ -222,8 +222,8 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     $scope.guardar = function (crearCuestionario) {
         if ($scope.donante.IdTipoDoc === -1 || $scope.donante.NroDoc === "" || $scope.donante.Apellido === "" || $scope.donante.Nombre === "" || $scope.donante.IdGrupoFactor === -1 ||
             $scope.donante.IdProvincia === -1 || $scope.donante.IdLocalidad === -2 || ($scope.donante.IdLocalidad === -1 && $scope.donante.OtraLocalidad === "") ||
-            $scope.donante.IdEstadoDonante === -1) {
-
+            $scope.donante.IdEstadoDonante === -1 || $scope.localidadExistente)
+        {
             $scope.validar = true;
             return;
         }
@@ -244,4 +244,15 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             });
     };
 
+    $scope.$watch('donante.OtraLocalidad', function () {
+        if ($scope.localidades !== undefined) {
+            for (var i = 0; i < $scope.localidades.length; i++) {
+                if ($scope.donante.OtraLocalidad == $scope.localidades[i].NombreLocalidad) {
+                    $scope.localidadExistente = true;
+                    return;
+                }
+            }
+        }
+        $scope.localidadExistente = false;
+    });
 });
