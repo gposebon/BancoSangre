@@ -125,7 +125,6 @@ namespace BancoSangre.Controllers
 			var provincias = _db.Provincia.Select(x => new { x.IdProvincia, x.NombreProvincia }).ToList();
 			provincias.Add(new { IdProvincia = -1, NombreProvincia = "Seleccione Provincia" });
 			var localidades = ObtenerLocalidades(donanteJson.IdProvincia);
-			localidades.Add(new ItemLocalidad { IdLocalidad = -2, NombreLocalidad = "Seleccione Localidad" });
 			var estadosDonantes = _db.EstadoDonante.Select(x => new { x.IdEstadoDonante, x.DescripcionEstado }).ToList();
 			estadosDonantes.Add(new { IdEstadoDonante = -1, DescripcionEstado = "Seleccione Estado" });
 
@@ -148,9 +147,11 @@ namespace BancoSangre.Controllers
 		[Authorize]
 		private List<ItemLocalidad> ObtenerLocalidades(int? idProvincia)
 		{
-			return _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
+            var localidades = _db.Localidad.Where(s => s.IdProvincia == idProvincia || s.IdLocalidad == -1).OrderBy(x => x.NombreLocalidad)
 				.Select(x => new ItemLocalidad { IdLocalidad = x.IdLocalidad, NombreLocalidad = x.NombreLocalidad }).ToList();
-		}
+            localidades.Add(new ItemLocalidad { IdLocalidad = -2, NombreLocalidad = "Seleccione Localidad" });
+            return localidades;
+        }
 		
 		[HttpGet]
 		[Authorize]

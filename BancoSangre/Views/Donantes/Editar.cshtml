@@ -86,8 +86,7 @@
 					<div class="col-md-offset-3">
 						<select ng-model="donante.IdLocalidad" ng-disabled="donante.IdProvincia == -1" ng-options="l.IdLocalidad as l.NombreLocalidad for l in localidades" 
 										Class="form-control"></select>
-						<span class="text-danger field-validation-error" ng-show="validar &&  donante.IdLocalidad == -2" 
-                              ng-cloak>Este campo es requerido.</span>
+						<span class="text-danger field-validation-error" ng-show="validar && donante.IdLocalidad == -2" ng-cloak>Este campo es requerido.</span>
 					</div>
 				</div>
 
