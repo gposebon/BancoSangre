@@ -138,7 +138,9 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		}
 	}
 
-	$scope.cambiarOrden = function (id, ordenActual) {
+    $scope.cambiarOrden = function (id, ordenActual) {
+        if (ordenActual <= 0) return;
+
 		var i;
 		var preguntaMovida = null;
 		var preguntaSolapa = null;

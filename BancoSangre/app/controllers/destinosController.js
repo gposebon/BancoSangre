@@ -66,8 +66,10 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
 			Provincia: "",
 			Prefijo: "",
 			Telefono: "",
-		};
-		$scope.destinos.push($scope.inserted);
+        };
+        $scope.destinoBusqueda = '';
+        $scope.destinos.push($scope.inserted);
+        $scope.infoPagina.pagina = Math.ceil($scope.destinos.length / $scope.infoPagina.itemsPorPagina); //Siempre va a la última página (por si se agregara en una nueva página)
 	};
 
 	function crearDestino(idDestino, descripcionDestino, direccion, ciudad, provincia, prefijo, telefono) {
