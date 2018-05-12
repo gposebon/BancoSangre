@@ -178,13 +178,15 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
     }
 
     function cargarCalendario() {
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
         if ($('#calendarioFechaCuestionario').length) {
             $("#calendarioFechaCuestionario").datepicker({
                 changeMonth: true,
                 changeYear: true,
                 dateFormat: "dd/mm/yy",
                 yearRange: "-10:c"
-            });
+            }).mask("99/99/9999");
         } else {
             setTimeout(function () {
                 cargarCalendario();
