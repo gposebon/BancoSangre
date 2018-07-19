@@ -134,10 +134,13 @@
 									ng-click="verEstado(d.IdEstadoDonante, d.DescripcionEstado, d.DiferidoHasta)" title="Ver estado"></button>
 				</td>
 				<td class="celdaGrillaAdmin" style="white-space: nowrap">
-					<div class="buttons" ng-show="!rowform.$visible">
-						<a ng-href="@Url.Action("Editar")?idDonante={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
-						<button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
-					</div>
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <a ng-href="@Url.Action("Editar")?idDonante={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
+                        <button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
+                        <a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante={{d.IdDonante}}&accion=listar" 
+                           class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionarios anteriores"></a>
+                        <a ng-href="@Url.Action("Serologia")?idDonante={{d.IdDonante}}" class="btn btn-primary fa fa-flask" title="Serologías anteriores"></a>
+                    </div>
 				</td>
 			</tr>
 		</tbody>

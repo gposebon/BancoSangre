@@ -111,8 +111,7 @@
                     </form>
                     <div class="buttons" ng-show="!rowform.$visible">
                         <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
-                        <button ng-class="obtenerClaseVerIngresarSerologia(donacion)" ng-click="VerIngresarSerologia(donacion)" 
-                                ng-attr-title="{{ obtenerTituloVerIngresarSerologia(donacion) }}"></button>
+                        <button class="btn btn-primary fa fa-flask" ng-click="VerEditarSerologia(donacion)" title="Serología"></button>
                     </div>
                 </td>
             </tr>
