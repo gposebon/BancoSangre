@@ -16,56 +16,58 @@
 
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="containerNav">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				@Html.ActionLink("Banco de solidaridad 2.0", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li>@Html.ActionLink("Inicio", "Login", "Account")</li>
-					<li>@Html.ActionLink("Acerca de", "Sobre", "Home")</li>
-					<li>@Html.ActionLink("Contacto", "Contacto", "Home")</li>
-				</ul>
-				@Html.Partial("_LoginPartial")
-			</div>
-		</div>
-	</div>
-	<div class="container body-content">
-		@RenderBody()
-		<!--footer>
-			<hr />
-			<p>&copy; @DateTime.Now.Year - Banco de solidaridad 2.0</p>
-		</!--footer-->
-	</div>
-	<div class="col-md-2 barraLateralDerecha">
-	</div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="containerNav">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Banco de solidaridad 2.0", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Inicio", "Login", "Account")</li>
+                    <li>@Html.ActionLink("Acerca de", "Sobre", "Home")</li>
+                    <li>@Html.ActionLink("Contacto", "Contacto", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <!--footer>
+            <hr />
+            <p>&copy; @DateTime.Now.Year - Banco de solidaridad 2.0</p>
+        </!--footer-->
+    </div>
+    <div class="col-md-2 barraLateralDerecha">
+    </div>
 
-	@*@Scripts.Render("~/bundles/bootstrap")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
 
-	@Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
-	@Scripts.Render("~/Scripts/angular.min.js")
-	@Scripts.Render("~/Scripts/angular-sanitize.js")
-	@Scripts.Render("~/Scripts/bootstrap.min.js")
-	@Scripts.Render("~/Scripts/ui-bootstrap-tpls.min.js")
-	@Scripts.Render("~/Scripts/xeditable.min.js")
-	@Scripts.Render("~/Scripts/loading-bar.js")
-	@Scripts.Render("~/Scripts/smart-table.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
+    @Scripts.Render("~/Scripts/angular.min.js")
+    @Scripts.Render("~/Scripts/angular-sanitize.js")
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/ui-bootstrap-tpls.min.js")
+    @Scripts.Render("~/Scripts/xeditable.min.js")
+    @Scripts.Render("~/Scripts/loading-bar.js")
+    @Scripts.Render("~/Scripts/smart-table.min.js")
+    @Scripts.Render("~/Scripts/i18n/datapicker-es.js")
+    @Scripts.Render("~/Scripts/jquery.maskedinput.min.js")
 
-	<!-- AngularJs Files -->
-	@Scripts.Render("~/app/app.js")
+    <!-- AngularJs Files -->
+    @Scripts.Render("~/app/app.js")
 
-	@Scripts.Render("~/app/modal/modalServicio.js")
-	@Scripts.Render("~/app/modal/modalController.js")
-	@Scripts.Render("~/app/directivas/modalDirectiva.js")
-	<!-- AngularJs Files -->
+    @Scripts.Render("~/app/modal/modalServicio.js")
+    @Scripts.Render("~/app/modal/modalController.js")
+    @Scripts.Render("~/app/directivas/modalDirectiva.js")
+    <!-- AngularJs Files -->
 
-	@RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

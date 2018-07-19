@@ -43,12 +43,14 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     }
 
     function cargarCalendario() {
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
         $("#calendarioFecha").datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: "dd/mm/yy",
             yearRange: "c-5:c+10"
-        });
+        }).mask("99/99/9999");
     }
 
     function configPaginacion() {

@@ -173,19 +173,21 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     }
 
     function cargarCalendarios() {
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
         $("#calendarioFechaNacimiento").datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: "dd/mm/yy",
             yearRange: "-90:c"
-        });
+        }).mask("99/99/9999");
 
         $("#calendarioDiferidoHasta").datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: "dd/mm/yy",
             yearRange: "c:c+10"
-        });
+        }).mask("99/99/9999");
     }
 
     $scope.obtenerLocalidades = function () {
