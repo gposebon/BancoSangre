@@ -34,7 +34,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
                 obtenerCuestionarioPorId(idCuestionario);
 				break;
 			case "listar":
-				$scope.linkVolver = "/Donantes/Editar?idDonante=" + $scope.idDonante;
+				$scope.linkVolver = "/Donantes/Grilla";
 				configPaginacion();
 				obtenerCuestionariosDeDonante();
 				break;
@@ -139,13 +139,17 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		$("input").each(function () {
 			if ($(this).prop("type") === "radio") {
 				$(this).attr("checked", $(this).filter(':checked').val());
-			}
-		});
+            }
+            if ($(this).prop("type") === "text" && $(this).val() !== null) {
+                $(this).attr("value", $(this).val());
+            }
+        });
+
 		$("textarea").each(function () {
 			if ($(this).val() !== null) {
-				$(this).html($(this).val());
+                $(this).html($(this).val());
 			}
-		});
+        });
 
 		var html = "";
 		$("link").each(function () {
@@ -155,7 +159,8 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		});
 
 		var contenidoDiv = $("#contenido").html();
-		contenidoDiv = contenidoDiv.replace(/placeholder="Respuesta"/g, 'style="border:none; resize:none;"');
+        contenidoDiv = contenidoDiv.replace(/placeholder="Respuesta"/g, 'style="border:none; resize:none;"') // Quita el placeholder "Respuesta" y el borde de los textAreas
+            .replace(new RegExp('<input type="text"', 'g'), '<input type="text" style="border:none; resize:none; padding-left: 0;"'); // Quita el borde a los textBoxs
 
 		html += '<body onload="window.focus(); window.print()"> ' + contenidoDiv + "</body>";
 		var w = window.open("", "print");

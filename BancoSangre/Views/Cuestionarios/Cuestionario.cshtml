@@ -21,7 +21,7 @@
     </div>
 
     <hr class="hr" />
-
+    
     <div id="contenido" style="display: inline-block" class="panel panel-default">
 
         <div class="form-horizontal contenedorPreguntaRespuesta-LineaEntera">
@@ -35,13 +35,11 @@
                     <label ng-model="d.Etiqueta">{{ d.Etiqueta }}</label>
                 </div>
                 <div class="preguntaRespuesta">
-                    <input ng-if="accion == 'crear' && d.Etiqueta == 'Fecha:'" type="text" ng-model="d.Dato" 
-                           Class="form-control" id="calendarioFechaCuestionario">
+                    <input type="text" ng-if="accion == 'crear' && d.Etiqueta == 'Fecha:'" ng-model="d.Dato" Class="form-control" id="calendarioFechaCuestionario">
                     <label ng-if="accion != 'crear' || d.Etiqueta != 'Fecha:'" style="font-weight: normal;" ng-model="d.Dato">{{ d.Dato }}</label>
                 </div>
             </div>
         </div>
-
         <div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
             <div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)">
