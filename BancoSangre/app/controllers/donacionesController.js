@@ -15,12 +15,13 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     function init() {
         $scope.idDonante = obtenerParametroPorNombre("idDonante");
-        if ($scope.idDonante === null) {
+        if ($scope.idDonante === null) { // Grilla
             configPaginacion();
             obtenerDonaciones();
-        } else {
+        } else { // Nueva donación
             cargarCalendario();
             obtenerDonacionEnBlanco();
+            $scope.idCuestionario = obtenerParametroPorNombre("idCuestionario");
         }
     }
 
@@ -74,7 +75,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
         }
     };
 
-    function crearDonacion(nroRegistro, idDonante, idDestino, material, cantidad, peso, fecha, idEstadoDonacion) {
+    function crearDonacion(nroRegistro, idDonante, idDestino, material, cantidad, peso, fecha, idEstadoDonacion, idCuestionario) {
         return {
             NroRegistro: nroRegistro,
             IdDonante: idDonante,
@@ -83,7 +84,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             Cantidad: cantidad,
             Peso: peso,
             Fecha: fecha,
-            IdEstadoDonacion: idEstadoDonacion
+            IdEstadoDonacion: idEstadoDonacion,
+            IdCuestionario: idCuestionario
         }
     }
 
@@ -95,12 +97,12 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
         }
 
         var donacion = crearDonacion($scope.donacion.NroRegistro, $scope.donacion.IdDonante, $scope.donacion.IdDestino, $scope.donacion.Material,
-            $scope.donacion.Cantidad, $scope.donacion.Peso, $("#calendarioFecha").datepicker("getDate"), $scope.donacion.IdEstadoDonacion);
+            $scope.donacion.Cantidad, $scope.donacion.Peso, $("#calendarioFecha").datepicker("getDate"), $scope.donacion.IdEstadoDonacion, $scope.idCuestionario);
         donacionesRepositorio.guardar(donacion)
             .then(function (result) {
                 if (result.data) {
                     modalServicio.open("success", "La donación se ha guardado con éxito.");
-                    $window.location.href = "/Donaciones/Grilla";
+                    $window.location.href = "/Cuestionarios/Cuestionario?idCuestionario=" + $scope.idCuestionario + "&accion=editar";
                 }
                 else {
                     modalServicio.open("danger", "Error al guardar la donación.");

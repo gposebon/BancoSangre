@@ -28,6 +28,10 @@
             <div style="font-weight: bold;" class="preguntaRespuesta-Titulo">
                 FICHA DE ADMISIÓN
             </div>
+            <div style="text-align: right;">
+                <label style="padding-right: 1em;">Registro de donación: </label>
+                <label style="min-width: 5em; font-weight: normal; text-align:left;">{{registroDonacion}}</label>
+            </div>
         </div>
         <div class="contenedorTotalDatosDemograficos">
             <div class="form-horizontal contenedorDatoDemografico" ng-repeat="d in datosDemograficos">
@@ -42,11 +46,15 @@
         </div>
         <div class="form-horizontal" ng-class="obtenerClaseContenedor(pregunta)" ng-repeat="pregunta in preguntas">
 
-            <div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)">
+            <div ng-show="pregunta.LineaHorizontal">
+                <hr class="hrGris" />
+            </div>
+
+            <div style="font-weight: bold;" ng-class="obtenerClasePregunta(pregunta)" ng-hide="pregunta.LineaHorizontal">
                 {{ pregunta.TextoPregunta }}
             </div>
 
-            <div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo">
+            <div class="preguntaRespuesta" ng-hide="pregunta.EsTitulo || pregunta.LineaHorizontal">
                 <div ng-show="pregunta.EsCerrada">
                     <label>
                         <span style="font-weight: normal;" class="radioPregunta">Sí</span>

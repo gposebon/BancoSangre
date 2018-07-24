@@ -26,6 +26,7 @@ namespace BancoSangre.Controllers
 				.Select(x => new
 				{
 					x.IdPregunta,
+                    x.LineaHorizontal,
 					x.TextoPregunta,
 					x.EsTitulo,
 					x.NuevaLinea,
@@ -91,6 +92,7 @@ namespace BancoSangre.Controllers
 					if (preguntaActual == null)
 						throw new Exception();
 
+                    preguntaActual.LineaHorizontal = pregunta.LineaHorizontal;
 					preguntaActual.TextoPregunta = pregunta.TextoPregunta;
 					preguntaActual.EsTitulo = pregunta.EsTitulo;
 					preguntaActual.NuevaLinea = pregunta.NuevaLinea;

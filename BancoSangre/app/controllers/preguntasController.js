@@ -84,7 +84,8 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 
 	$scope.agregarPregunta = function () {
 		$scope.inserted = {
-			IdPregunta: 0,
+            IdPregunta: 0,
+            LineaHorizontal: false,
 			TextoPregunta: "",
 			EsTitulo: false,
 			NuevaLinea: false,
@@ -97,9 +98,10 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		$scope.preguntas.push($scope.inserted);
 	};
 
-	function crearPregunta(id, textoPregunta, esTitulo, nuevaLinea, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
+    function crearPregunta(id, lineaHorizontal, textoPregunta, esTitulo, nuevaLinea, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
 		return {
-			IdPregunta: id,
+            IdPregunta: id,
+            LineaHorizontal: lineaHorizontal,
 			TextoPregunta: textoPregunta,
 			NuevaLinea: nuevaLinea,
 			EsTitulo: esTitulo,
@@ -112,7 +114,7 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 	}
 
 	$scope.guardarPregunta = function (data, id) {
-		var pregunta = crearPregunta(id, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
+        var pregunta = crearPregunta(id, data.lineaHorizontal, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
 		preguntasRepositorio.guardar(pregunta)
 			.then(function (result) {
 				if (result.data) {

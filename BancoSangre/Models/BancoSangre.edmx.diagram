@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="27a78c2fc32b4e6883d010abd170c50c" Name="Diagram1">
+      <Diagram DiagramId="27a78c2fc32b4e6883d010abd170c50c" Name="Diagram1" ZoomLevel="114">
         <EntityTypeShape EntityType="bancosangreModel.EstadoDonacion" Width="1.5" PointX="10" PointY="1" />
         <EntityTypeShape EntityType="bancosangreModel.Cuestionario" Width="1.5" PointX="2.875" PointY="6.625" />
         <EntityTypeShape EntityType="bancosangreModel.DatoDemograficoCuestionario" Width="1.5" PointX="4.375" PointY="9.875" />
@@ -35,6 +35,7 @@
         <EntityTypeShape EntityType="bancosangreModel.DonacionExamenSerologico" Width="1.5" PointX="13.75" PointY="3.75" />
         <AssociationConnector Association="bancosangreModel.FK_DonacionExamenSerologico_DonacionExamenSerologico" />
         <AssociationConnector Association="bancosangreModel.FK_DonacionExamenSerologico_ExamenesSerologicos" />
+        <AssociationConnector Association="bancosangreModel.FK_Donacion_Cuestionario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

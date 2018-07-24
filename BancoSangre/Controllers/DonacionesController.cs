@@ -28,6 +28,7 @@ namespace BancoSangre.Controllers
             var donacionesJson = donaciones.Select(x => new
             {
                 x.NroRegistro,
+                x.IdCuestionario,
                 Fecha = x.Fecha.ToString("dd/MM/yyyy"),
                 DocDonante = x.Donante.TipoDocumento.DescripcionTipoDoc + ": " + x.Donante.NroDoc,
                 NomreDonante = x.Donante.Nombre + " " + x.Donante.Apellido,
@@ -69,13 +70,13 @@ namespace BancoSangre.Controllers
                 Material = "Sangre entera",
                 Cantidad = "600 ml",
                 Peso = "",
-                IdEstadoDonacion = -1
+                IdEstadoDonacion = 2,
+                IdCuestionario = Guid.Empty
             };
 
             var destinos = _db.DestinoDonacion.Select(x => new { x.IdDestino, x.DescripcionDestino }).ToList();
             destinos.Add(new { IdDestino = -1, DescripcionDestino = "Seleccione Destino" });
             var estadosDonacion = _db.EstadoDonacion.Select(x => new { x.IdEstadoDonacion, x.DescripcionEstado }).ToList();
-            estadosDonacion.Add(new { IdEstadoDonacion = -1, DescripcionEstado = "Seleccione Estado" });
 
             var json = new
             {

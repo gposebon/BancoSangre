@@ -111,6 +111,8 @@
                     </form>
                     <div class="buttons" ng-show="!rowform.$visible">
                         <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+                        <a ng-href="/Cuestionarios/Cuestionario?idCuestionario={{donacion.IdCuestionario}}&accion=verDesdeDonaciones" 
+                           class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionario" ng-hide="donacion.IdCuestionario == null"></a>
                         <button class="btn btn-primary fa fa-flask" ng-click="VerEditarSerologia(donacion)" title="Serología"></button>
                     </div>
                 </td>

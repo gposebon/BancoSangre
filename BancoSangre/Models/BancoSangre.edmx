@@ -47,6 +47,7 @@
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Peso" Type="nvarchar" MaxLength="10" />
           <Property Name="IdEstadoDonacion" Type="int" />
+          <Property Name="IdCuestionario" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="DonacionExamenSerologico">
           <Key>
@@ -128,6 +129,7 @@
           <Property Name="EsTitulo" Type="bit" Nullable="false" />
           <Property Name="LineaCompleta" Type="bit" Nullable="false" />
           <Property Name="NuevaLinea" Type="bit" Nullable="false" />
+          <Property Name="LineaHorizontal" Type="bit" />
         </EntityType>
         <EntityType Name="PreguntaCuestionario">
           <Key>
@@ -145,6 +147,7 @@
           <Property Name="EsTitulo" Type="bit" Nullable="false" />
           <Property Name="LineaCompleta" Type="bit" Nullable="false" />
           <Property Name="NuevaLinea" Type="bit" Nullable="false" />
+          <Property Name="LineaHorizontal" Type="bit" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -184,15 +187,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Donacion_DestinoDonacion">
-          <End Role="EstadoDonacion" Type="Self.EstadoDonacion" Multiplicity="0..1" />
+        <Association Name="FK_Donacion_Cuestionario">
+          <End Role="Cuestionario" Type="Self.Cuestionario" Multiplicity="0..1" />
           <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EstadoDonacion">
-              <PropertyRef Name="IdEstadoDonacion" />
+            <Principal Role="Cuestionario">
+              <PropertyRef Name="IdCuestionario" />
             </Principal>
             <Dependent Role="Donacion">
-              <PropertyRef Name="IdEstadoDonacion" />
+              <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_DestinoDonacion">
+          <End Role="DestinoDonacion" Type="Self.DestinoDonacion" Multiplicity="1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DestinoDonacion">
+              <PropertyRef Name="IdDestino" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdDestino" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -205,6 +220,18 @@
             </Principal>
             <Dependent Role="Donacion">
               <PropertyRef Name="IdDonante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Donacion_EstadoDonacion">
+          <End Role="EstadoDonacion" Type="Self.EstadoDonacion" Multiplicity="0..1" />
+          <End Role="Donacion" Type="Self.Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoDonacion">
+              <PropertyRef Name="IdEstadoDonacion" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdEstadoDonacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -352,12 +379,20 @@
             <End Role="Cuestionario" EntitySet="Cuestionario" />
             <End Role="DatoDemograficoCuestionario" EntitySet="DatoDemograficoCuestionario" />
           </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Cuestionario" Association="Self.FK_Donacion_Cuestionario">
+            <End Role="Cuestionario" EntitySet="Cuestionario" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
           <AssociationSet Name="FK_Donacion_DestinoDonacion" Association="Self.FK_Donacion_DestinoDonacion">
-            <End Role="EstadoDonacion" EntitySet="EstadoDonacion" />
+            <End Role="DestinoDonacion" EntitySet="DestinoDonacion" />
             <End Role="Donacion" EntitySet="Donacion" />
           </AssociationSet>
           <AssociationSet Name="FK_Donacion_Donante" Association="Self.FK_Donacion_Donante">
             <End Role="Donante" EntitySet="Donante" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Donacion_EstadoDonacion" Association="Self.FK_Donacion_EstadoDonacion">
+            <End Role="EstadoDonacion" EntitySet="EstadoDonacion" />
             <End Role="Donacion" EntitySet="Donacion" />
           </AssociationSet>
           <AssociationSet Name="FK_DonacionExamenSerologico_DonacionExamenSerologico" Association="Self.FK_DonacionExamenSerologico_DonacionExamenSerologico">
@@ -481,6 +516,10 @@
             <End Role="ExamenesSerologicos" EntitySet="ExamenesSerologicos" />
             <End Role="DonacionExamenSerologico" EntitySet="DonacionExamenSerologico" />
           </AssociationSet>
+          <AssociationSet Name="FK_Donacion_Cuestionario" Association="bancosangreModel.FK_Donacion_Cuestionario">
+            <End Role="Cuestionario" EntitySet="Cuestionario" />
+            <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="EstadoDonacion">
           <Key>
@@ -500,6 +539,7 @@
           <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Cuestionario_Cuestionario" FromRole="Cuestionario" ToRole="Donante" />
           <NavigationProperty Name="DatoDemograficoCuestionario" Relationship="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" FromRole="Cuestionario" ToRole="DatoDemograficoCuestionario" />
           <NavigationProperty Name="PreguntaCuestionario" Relationship="bancosangreModel.FK_PreguntaCuestionario_Cuestionario" FromRole="Cuestionario" ToRole="PreguntaCuestionario" />
+          <NavigationProperty Name="Donacion" Relationship="bancosangreModel.FK_Donacion_Cuestionario" FromRole="Cuestionario" ToRole="Donacion" />
         </EntityType>
         <EntityType Name="DatoDemograficoCuestionario">
           <Key>
@@ -541,6 +581,8 @@
           <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Donacion_Donante" FromRole="Donacion" ToRole="Donante" />
           <NavigationProperty Name="EstadoDonacion" Relationship="bancosangreModel.FK_Donacion_EstadoDonacion" FromRole="Donacion" ToRole="EstadoDonacion" />
           <NavigationProperty Name="DonacionExamenSerologico" Relationship="bancosangreModel.FK_DonacionExamenSerologico_DonacionExamenSerologico" FromRole="Donacion" ToRole="DonacionExamenSerologico" />
+          <Property Name="IdCuestionario" Type="Guid" />
+          <NavigationProperty Name="Cuestionario" Relationship="bancosangreModel.FK_Donacion_Cuestionario" FromRole="Donacion" ToRole="Cuestionario" />
         </EntityType>
         <EntityType Name="Donante">
           <Key>
@@ -603,6 +645,7 @@
           <Property Name="LineaCompleta" Type="Boolean" Nullable="false" />
           <Property Name="NuevaLinea" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="PreguntaCuestionario" Relationship="bancosangreModel.FK_PreguntaCuestionario_Pregunta" FromRole="Pregunta" ToRole="PreguntaCuestionario" />
+          <Property Name="LineaHorizontal" Type="Boolean" />
         </EntityType>
         <EntityType Name="PreguntaCuestionario">
           <Key>
@@ -622,6 +665,7 @@
           <Property Name="NuevaLinea" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Cuestionario" Relationship="bancosangreModel.FK_PreguntaCuestionario_Cuestionario" FromRole="PreguntaCuestionario" ToRole="Cuestionario" />
           <NavigationProperty Name="Pregunta" Relationship="bancosangreModel.FK_PreguntaCuestionario_Pregunta" FromRole="PreguntaCuestionario" ToRole="Pregunta" />
+          <Property Name="LineaHorizontal" Type="Boolean" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -847,6 +891,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Donacion_Cuestionario">
+          <End Type="bancosangreModel.Cuestionario" Role="Cuestionario" Multiplicity="0..1" />
+          <End Type="bancosangreModel.Donacion" Role="Donacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cuestionario">
+              <PropertyRef Name="IdCuestionario" />
+            </Principal>
+            <Dependent Role="Donacion">
+              <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -897,6 +953,7 @@
           <EntitySetMapping Name="Donacion">
             <EntityTypeMapping TypeName="bancosangreModel.Donacion">
               <MappingFragment StoreEntitySet="Donacion">
+                <ScalarProperty Name="IdCuestionario" ColumnName="IdCuestionario" />
                 <ScalarProperty Name="IdEstadoDonacion" ColumnName="IdEstadoDonacion" />
                 <ScalarProperty Name="Peso" ColumnName="Peso" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -951,6 +1008,7 @@
           <EntitySetMapping Name="Pregunta">
             <EntityTypeMapping TypeName="bancosangreModel.Pregunta">
               <MappingFragment StoreEntitySet="Pregunta">
+                <ScalarProperty Name="LineaHorizontal" ColumnName="LineaHorizontal" />
                 <ScalarProperty Name="NuevaLinea" ColumnName="NuevaLinea" />
                 <ScalarProperty Name="LineaCompleta" ColumnName="LineaCompleta" />
                 <ScalarProperty Name="EsTitulo" ColumnName="EsTitulo" />
@@ -966,6 +1024,7 @@
           <EntitySetMapping Name="PreguntaCuestionario">
             <EntityTypeMapping TypeName="bancosangreModel.PreguntaCuestionario">
               <MappingFragment StoreEntitySet="PreguntaCuestionario">
+                <ScalarProperty Name="LineaHorizontal" ColumnName="LineaHorizontal" />
                 <ScalarProperty Name="NuevaLinea" ColumnName="NuevaLinea" />
                 <ScalarProperty Name="LineaCompleta" ColumnName="LineaCompleta" />
                 <ScalarProperty Name="EsTitulo" ColumnName="EsTitulo" />

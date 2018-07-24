@@ -15,7 +15,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 
 	function init() {
 		$scope.idDonante = obtenerParametroPorNombre("idDonante");
-		var idCuestionario = obtenerParametroPorNombre("idCuestionario");
+        $scope.idCuestionario = obtenerParametroPorNombre("idCuestionario");
         $scope.accion = obtenerParametroPorNombre("accion");
         switch ($scope.accion) {
 			case "crear":
@@ -31,13 +31,23 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 			case "ver":
 				$scope.editar = false;
 				$scope.linkVolver = "/Cuestionarios/CuestionariosExistentes?idDonante=" + $scope.idDonante + "&accion=listar";
-                obtenerCuestionarioPorId(idCuestionario);
-				break;
+                obtenerCuestionarioPorId($scope.idCuestionario);
+                break;
+            case "verDesdeDonaciones":
+                $scope.editar = false;
+                $scope.linkVolver = "/Donaciones/Grilla";
+                obtenerCuestionarioPorId($scope.idCuestionario);
+                break;
 			case "listar":
 				$scope.linkVolver = "/Donantes/Grilla";
 				configPaginacion();
 				obtenerCuestionariosDeDonante();
-				break;
+                break;
+            case "editar":
+                $scope.linkVolver = "/Donantes/Grilla";
+                $scope.editar = true;
+                obtenerCuestionarioPorId($scope.idCuestionario);
+                break;
 		}
 	}
 
@@ -70,7 +80,8 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 			cuestionarioRepositorio.obtenerCuestionarioPorId(idCuestionario)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
-					$scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
+                    $scope.fecha = result.data !== "" ? result.data.data.Fecha : "";
+                    $scope.registroDonacion = result.data !== "" ? result.data.data.RegistroDonacion : "";
 					$scope.preguntas = result.data !== "" ? result.data.data.Preguntas : [];
 					//Las respuestas (abiertas y encriptadas) se persisten encripatas en BD. VUelven como string, las pasamos a bool.
 					var i;
@@ -116,14 +127,15 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	$scope.guardarCuestionario = function (accion) {
 		var cuestionario = crearObjetoCuestionario();
 		cuestionarioRepositorio.guardar(cuestionario)
-			.then(function (result) {
-				if (result.data) {
+			.then(function (resultado) {
+                if (resultado.data.Respuesta) {
+                    $scope.idCuestionario = resultado.data.IdCuestionario;
 					$scope.editar = false;
 					modalServicio.open("success", "El cuestionario se ha guardado con éxito.");
-					if (accion === "imprimir" || accion === "donacion")
+					if (accion === "imprimir")
 						imprimirCuestionario();
 					if (accion === "donacion")
-						$window.location.href = "/Donaciones/Ingresar?idDonante=" + $scope.idDonante;
+                        $window.location.href = "/Donaciones/Ingresar?idDonante=" + $scope.idDonante + "&idCuestionario=" + $scope.idCuestionario;
 				}
 				else {
 					modalServicio.open("danger", "Error al guardar el cuestionario.");
@@ -171,14 +183,14 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	}
 
 	$scope.obtenerClaseContenedor = function (pregunta) {
-		var claseContenedor = "contenedorPreguntaRespuesta" + ((pregunta.LineaCompleta) ? "-LineaEntera" : "");
+        var claseContenedor = "contenedorPreguntaRespuesta" + ((pregunta.LineaCompleta || pregunta.LineaHorizontal) ? "-LineaEntera" : "");
 		if (pregunta.NuevaLinea)
 			claseContenedor += " nuevaLinea";
 		return claseContenedor;
 	}
 
 	$scope.obtenerClasePregunta = function (pregunta) {
-		var clasePregunta = "preguntaRespuesta" + ((pregunta.EsTitulo) ? "-Titulo" : "");
+        var clasePregunta = "preguntaRespuesta" + ((pregunta.EsTitulo || pregunta.LineaHorizontal) ? "-Titulo" : "");
 		return clasePregunta;
     }
 
