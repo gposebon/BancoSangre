@@ -16,9 +16,11 @@ namespace BancoSangre.Models
     {
         public string NroRegistro { get; set; }
         public int IdExamenSerologico { get; set; }
-        public bool Resultado { get; set; }
+        public string DescripcionExamen { get; set; }
+        public int IdResultadoSerologia { get; set; }
     
         public virtual Donacion Donacion { get; set; }
         public virtual ExamenesSerologicos ExamenesSerologicos { get; set; }
+        public virtual ResultadoSerologia ResultadoSerologia { get; set; }
     }
 }

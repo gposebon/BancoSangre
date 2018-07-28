@@ -20,6 +20,10 @@ app.factory("donacionesRepositorio", function ($http) {
         actualizarDonacion: function (nroRegistro, idEstadoDonacion) {
             var url = "/Donaciones/ActualizarDonacion";
             return $http.post(url, { 'nroRegistro': nroRegistro, 'idEstadoDonacion': idEstadoDonacion });
+        },
+        obtenerSerologiasParaDonacion: function (nroRegistro) {
+            var url = "/Donaciones/ObtenerSerologiaParaDonacion";
+            return $http.get(url + "?nroRegistro=" + nroRegistro);
         }
 	};
 });

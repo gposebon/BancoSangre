@@ -24,7 +24,7 @@ namespace BancoSangre.Controllers
         public ActionResult ObtenerDonaciones()
         {
             var donaciones = _db.Donacion.OrderByDescending(x => x.Fecha).Include(d => d.DestinoDonacion).Include(d => d.Donante)
-                .Include(d => d.Donante.TipoDocumento).Include(d => d.EstadoDonacion).Include(d => d.DonacionExamenSerologico).ToList();
+                .Include(d => d.Donante.TipoDocumento).Include(d => d.EstadoDonacion).Include(x => x.DonacionExamenSerologico).ToList();
             var donacionesJson = donaciones.Select(x => new
             {
                 x.NroRegistro,
@@ -38,9 +38,7 @@ namespace BancoSangre.Controllers
                 Destino = x.DestinoDonacion.DescripcionDestino,
                 x.IdEstadoDonacion,
                 Estado = x.EstadoDonacion != null ? x.EstadoDonacion.DescripcionEstado : "",
-                Examenes = x.DonacionExamenSerologico.Any()
-                                ? x.DonacionExamenSerologico.Select(y => new { y.IdExamenSerologico, y.ExamenesSerologicos.DescripcionExamen })
-                                : null
+                TieneSerologia = x.DonacionExamenSerologico.Count() > 0
             }).ToList();
 
             var estadosDonacion = _db.EstadoDonacion.Select(x => new { x.IdEstadoDonacion, x.DescripcionEstado }).ToList();
@@ -105,7 +103,8 @@ namespace BancoSangre.Controllers
         [HttpPost]
         [Authorize]
         public ActionResult ActualizarDonacion(string nroRegistro, int idEstadoDonacion)
-        { try
+        {
+            try
             {
                 var donacionExitente = _db.Donacion.SingleOrDefault(x => x.NroRegistro == nroRegistro);
 
@@ -114,7 +113,7 @@ namespace BancoSangre.Controllers
 
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
@@ -134,9 +133,71 @@ namespace BancoSangre.Controllers
 
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        public ActionResult ObtenerSerologiaParaDonacion(string nroRegistro)
+        {
+            try
+            {
+                var serologias = _db.DonacionExamenSerologico.Include(x => x.ResultadoSerologia).Where(x => x.NroRegistro == nroRegistro).ToList();
+
+                if (!serologias.Any()) // Si la donación aún no tiene exámenes cargados, buscará los actualmente activos y los insertará sin resultados a la donación.
+                {
+                    var nuevosExamenes = _db.ExamenesSerologicos.Where(x => x.EstaActivo).ToList();
+                    var donacion = _db.Donacion.FirstOrDefault(x => x.NroRegistro == nroRegistro);
+                    if (nuevosExamenes.Any() && donacion != null)
+                    {
+                        foreach (ExamenesSerologicos examen in nuevosExamenes)
+                        {
+                            donacion.DonacionExamenSerologico.Add(new DonacionExamenSerologico
+                            {
+                                NroRegistro = nroRegistro,
+                                IdExamenSerologico = examen.IdExamenSerologico,
+                                DescripcionExamen = examen.DescripcionExamen,
+                                IdResultadoSerologia = 1
+                            });
+                        }
+
+                        _db.SaveChanges();
+
+                        serologias = _db.DonacionExamenSerologico.Include(x => x.ResultadoSerologia).Where(x => x.NroRegistro == nroRegistro).ToList();
+                    }
+                }
+
+                var examenes = new object();
+                if (serologias.Any()) // La donación ya tiene exámenes cargados. Los traerá y permitirá trabajar sólo con ellos.
+                {
+                    examenes = serologias.Select(x => new
+                    {
+                        x.NroRegistro,
+                        x.IdExamenSerologico,
+                        x.DescripcionExamen,
+                        x.IdResultadoSerologia,
+                        DescripcionResultado = x.ResultadoSerologia.TextoResultado
+                    }).ToList();
+                }
+
+                var json = new
+                {
+                    resultado = true,
+                    datos = examenes
+                };
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                var json = new
+                {
+                    resultado = false
+                };
+
+                return Json(json, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -164,4 +225,5 @@ namespace BancoSangre.Controllers
             base.Dispose(disposing);
         }
     }
+
 }

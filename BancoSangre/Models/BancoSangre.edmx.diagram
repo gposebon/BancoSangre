@@ -5,18 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="27a78c2fc32b4e6883d010abd170c50c" Name="Diagram1" ZoomLevel="114">
-        <EntityTypeShape EntityType="bancosangreModel.EstadoDonacion" Width="1.5" PointX="10" PointY="1" />
-        <EntityTypeShape EntityType="bancosangreModel.Cuestionario" Width="1.5" PointX="2.875" PointY="6.625" />
-        <EntityTypeShape EntityType="bancosangreModel.DatoDemograficoCuestionario" Width="1.5" PointX="4.375" PointY="9.875" />
-        <EntityTypeShape EntityType="bancosangreModel.DestinoDonacion" Width="1.5" PointX="10.625" PointY="4.25" />
-        <EntityTypeShape EntityType="bancosangreModel.Donacion" Width="1.5" PointX="7.875" PointY="3.625" />
-        <EntityTypeShape EntityType="bancosangreModel.Donante" Width="1.5" PointX="5.375" PointY="3.5" />
-        <EntityTypeShape EntityType="bancosangreModel.GrupoFactor" Width="1.5" PointX="5.25" PointY="0.75" />
-        <EntityTypeShape EntityType="bancosangreModel.Localidad" Width="1.5" PointX="9.125" PointY="10.25" />
-        <EntityTypeShape EntityType="bancosangreModel.Pregunta" Width="1.5" PointX="0.5" PointY="4.5" />
-        <EntityTypeShape EntityType="bancosangreModel.PreguntaCuestionario" Width="1.5" PointX="1.375" PointY="9.25" />
-        <EntityTypeShape EntityType="bancosangreModel.Provincia" Width="1.5" PointX="9" PointY="7.875" />
-        <EntityTypeShape EntityType="bancosangreModel.TipoDocumento" Width="1.5" PointX="2.5" PointY="0.875" />
+        <EntityTypeShape EntityType="bancosangreModel.EstadoDonacion" Width="1.5" PointX="7.5" PointY="0.5" />
+        <EntityTypeShape EntityType="bancosangreModel.Cuestionario" Width="1.5" PointX="2.875" PointY="8" />
+        <EntityTypeShape EntityType="bancosangreModel.DatoDemograficoCuestionario" Width="1.5" PointX="0.5" PointY="8.875" />
+        <EntityTypeShape EntityType="bancosangreModel.DestinoDonacion" Width="1.5" PointX="11.125" PointY="4.625" />
+        <EntityTypeShape EntityType="bancosangreModel.Donacion" Width="1.5" PointX="9.25" PointY="3.5" />
+        <EntityTypeShape EntityType="bancosangreModel.Donante" Width="1.5" PointX="5.25" PointY="3" />
+        <EntityTypeShape EntityType="bancosangreModel.GrupoFactor" Width="1.5" PointX="5.25" PointY="0.5" />
+        <EntityTypeShape EntityType="bancosangreModel.Localidad" Width="1.5" PointX="7.5" PointY="7.5" />
+        <EntityTypeShape EntityType="bancosangreModel.Pregunta" Width="1.5" PointX="0.5" PointY="0.625" />
+        <EntityTypeShape EntityType="bancosangreModel.PreguntaCuestionario" Width="1.5" PointX="0.5" PointY="4.625" />
+        <EntityTypeShape EntityType="bancosangreModel.Provincia" Width="1.5" PointX="7.375" PointY="4.875" />
+        <EntityTypeShape EntityType="bancosangreModel.TipoDocumento" Width="1.5" PointX="2.875" PointY="2.125" />
         <AssociationConnector Association="bancosangreModel.FK_Cuestionario_Cuestionario" />
         <AssociationConnector Association="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" />
         <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Cuestionario" />
@@ -31,11 +31,13 @@
         <AssociationConnector Association="bancosangreModel.FK_PreguntaCuestionario_Pregunta" />
         <EntityTypeShape EntityType="bancosangreModel.EstadoDonante" Width="1.5" PointX="2.875" PointY="4.625" />
         <AssociationConnector Association="bancosangreModel.FK_Donante_EstadoDonante" />
-        <EntityTypeShape EntityType="bancosangreModel.ExamenesSerologicos" Width="1.5" PointX="13.75" PointY="6.5" />
-        <EntityTypeShape EntityType="bancosangreModel.DonacionExamenSerologico" Width="1.5" PointX="13.75" PointY="3.75" />
+        <EntityTypeShape EntityType="bancosangreModel.ExamenesSerologicos" Width="1.5" PointX="12.375" PointY="0.625" />
+        <EntityTypeShape EntityType="bancosangreModel.DonacionExamenSerologico" Width="1.5" PointX="10.375" PointY="0.5" />
         <AssociationConnector Association="bancosangreModel.FK_DonacionExamenSerologico_DonacionExamenSerologico" />
         <AssociationConnector Association="bancosangreModel.FK_DonacionExamenSerologico_ExamenesSerologicos" />
         <AssociationConnector Association="bancosangreModel.FK_Donacion_Cuestionario" />
+        <EntityTypeShape EntityType="bancosangreModel.ResultadoSerologia" Width="1.5" PointX="12.375" PointY="2.75" />
+        <AssociationConnector Association="bancosangreModel.FK_DonacionExamenSerologico_ResultadoSerologia" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

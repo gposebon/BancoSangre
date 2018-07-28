@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-app.controller("donacionesController", function ($scope, donacionesRepositorio, modalServicio, $window) {
+app.controller("donacionesController", function ($scope, donacionesRepositorio, modalServicio, serologiaRepositorio, $window, $uibModal) {
     init();
 
     function obtenerParametroPorNombre(nombre) {
@@ -18,6 +18,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
         if ($scope.idDonante === null) { // Grilla
             configPaginacion();
             obtenerDonaciones();
+            obtenerResultadosSerologia();
         } else { // Nueva donación
             cargarCalendario();
             obtenerDonacionEnBlanco();
@@ -123,7 +124,91 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                     modalServicio.open("danger", "Error al actualizar la donación.");
                 }
             });
-
     };
+
+    $scope.editarSerologia = function (donacion) {
+        var instancia = abrirPopupSerologia("/app/modal/modalSerologia.html", "Serologías para donación: " + donacion.NroRegistro, donacion.NroRegistro,
+                                                $scope.resultadosSerologia, "", null);
+        instancia.result.then(function () {
+            obtenerDonaciones();
+        }, function () {
+            obtenerDonaciones();
+        });
+    };
+
+    function abrirPopupSerologia(url, texto, nroRegistroDonacion, resultadosSerologia, modo, dimensiones) {
+        var ctrlr = function ($scope, $uibModalInstance, datos) {
+
+            var initModal = function () {
+                obtenerSerologiasParaDonacion(nroRegistroDonacion);
+                $scope.modalTmpStep = {
+                    pos: 0,
+                    body: ""
+                };
+                $scope.datos = datos;
+            };
+
+            $scope.listo = function () {
+                $uibModalInstance.close();
+            }
+
+            $scope.actualizarSerologiaParaDonacion = function (data, nroRegistro, idExamenSerologico) {
+                serologiaRepositorio.actualizarSerologiaParaDonacion(nroRegistro, idExamenSerologico, data.idResultadoSerologia)
+                    .then(function (result) {
+                        if (result.data) {
+                            obtenerSerologiasParaDonacion(nroRegistro);
+                            modalServicio.open("success", "El examen serológico se ha actualizado con éxito.");
+                        }
+                        else {
+                            modalServicio.open("danger", "Error al actualizar el examen serológico.");
+                        }
+                    });
+            };
+
+            function obtenerSerologiasParaDonacion(nroRegistro) {
+                donacionesRepositorio.obtenerSerologiasParaDonacion(nroRegistro)
+                    .then(function (resultado) {
+                        if (resultado.data.resultado) {
+                            $scope.serologias = resultado.data.datos;
+                        } else {
+                            modalServicio.open("danger", "Error al obtener serologías.");
+                        }
+                    });
+            }
+
+            initModal();
+        };
+
+        return $uibModal.open({
+            animation: true,
+            templateUrl: url,
+            controller: ctrlr,
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            size: dimensiones != null ? dimensiones : "lg",
+            resolve: {
+                datos: function () {
+                    return {
+                        texto: texto,
+                        modo: modo,
+                        resultadosSerologia: resultadosSerologia
+                    };
+                }
+            }
+        });
+    }
+
+    $scope.obtenerClaseSerologia = function (tieneSerologia) {
+        var clase = tieneSerologia ? "btn btn-primary" : "btn btn-success";
+        return clase + " fa fa-flask";
+    }
+
+    function obtenerResultadosSerologia() {
+        serologiaRepositorio.obtenerResultadosSerologia()
+            .then(function (resultado) {
+                $scope.resultadosSerologia = resultado.data !== "" ? resultado.data.datos : [];
+            });
+    }
 
 });

@@ -60,20 +60,22 @@ app.controller("serologiaController", function ($scope, serologiaRepositorio, mo
 	$scope.agregarExamen = function () {
 		$scope.inserted = {
             IdExamenSerologico: 0,
-			DescripcionExamen: ""
+            DescripcionExamen: "",
+            EstaActivo: false
 		};
 		$scope.examenes.push($scope.inserted);
 	};
 
-    function crearExamen(idExamenSerologico, descripcionExamen) {
+    function crearExamen(idExamenSerologico, descripcionExamen, estaActivo) {
 		return {
             IdExamenSerologico: idExamenSerologico,
-            DescripcionExamen: descripcionExamen
+            DescripcionExamen: descripcionExamen,
+            EstaActivo: estaActivo
 		}
 	}
 
 	$scope.guardarExamen = function (data, id) {
-		var examen = crearExamen(id, data.descripcionExamen);
+        var examen = crearExamen(id, data.descripcionExamen, data.estaActivo);
 		serologiaRepositorio.guardar(examen)
 			.then(function (resultado) {
                 if (resultado.data.resultado) {

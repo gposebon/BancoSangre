@@ -56,7 +56,8 @@
           </Key>
           <Property Name="NroRegistro" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="IdExamenSerologico" Type="int" Nullable="false" />
-          <Property Name="Resultado" Type="bit" Nullable="false" />
+          <Property Name="IdResultadoSerologia" Type="int" Nullable="false" />
+          <Property Name="DescripcionExamen" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="Donante">
           <Key>
@@ -99,6 +100,7 @@
           </Key>
           <Property Name="IdExamenSerologico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DescripcionExamen" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="EstaActivo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="GrupoFactor">
           <Key>
@@ -155,6 +157,13 @@
           </Key>
           <Property Name="IdProvincia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreProvincia" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ResultadoSerologia">
+          <Key>
+            <PropertyRef Name="IdResultadoSerologia" />
+          </Key>
+          <Property Name="IdResultadoSerologia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TextoResultado" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TipoDocumento">
           <Key>
@@ -256,6 +265,18 @@
             </Principal>
             <Dependent Role="DonacionExamenSerologico">
               <PropertyRef Name="IdExamenSerologico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DonacionExamenSerologico_ResultadoSerologia">
+          <End Role="ResultadoSerologia" Type="Self.ResultadoSerologia" Multiplicity="1" />
+          <End Role="DonacionExamenSerologico" Type="Self.DonacionExamenSerologico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultadoSerologia">
+              <PropertyRef Name="IdResultadoSerologia" />
+            </Principal>
+            <Dependent Role="DonacionExamenSerologico">
+              <PropertyRef Name="IdResultadoSerologia" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -370,6 +391,7 @@
           <EntitySet Name="Pregunta" EntityType="Self.Pregunta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PreguntaCuestionario" EntityType="Self.PreguntaCuestionario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResultadoSerologia" EntityType="Self.ResultadoSerologia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Cuestionario_Cuestionario" Association="Self.FK_Cuestionario_Cuestionario">
             <End Role="Donante" EntitySet="Donante" />
@@ -401,6 +423,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DonacionExamenSerologico_ExamenesSerologicos" Association="Self.FK_DonacionExamenSerologico_ExamenesSerologicos">
             <End Role="ExamenesSerologicos" EntitySet="ExamenesSerologicos" />
+            <End Role="DonacionExamenSerologico" EntitySet="DonacionExamenSerologico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonacionExamenSerologico_ResultadoSerologia" Association="Self.FK_DonacionExamenSerologico_ResultadoSerologia">
+            <End Role="ResultadoSerologia" EntitySet="ResultadoSerologia" />
             <End Role="DonacionExamenSerologico" EntitySet="DonacionExamenSerologico" />
           </AssociationSet>
           <AssociationSet Name="FK_Donante_EstadoDonante" Association="Self.FK_Donante_EstadoDonante">
@@ -519,6 +545,11 @@
           <AssociationSet Name="FK_Donacion_Cuestionario" Association="bancosangreModel.FK_Donacion_Cuestionario">
             <End Role="Cuestionario" EntitySet="Cuestionario" />
             <End Role="Donacion" EntitySet="Donacion" />
+          </AssociationSet>
+          <EntitySet Name="ResultadoSerologia" EntityType="bancosangreModel.ResultadoSerologia" />
+          <AssociationSet Name="FK_DonacionExamenSerologico_ResultadoSerologia" Association="bancosangreModel.FK_DonacionExamenSerologico_ResultadoSerologia">
+            <End Role="ResultadoSerologia" EntitySet="ResultadoSerologia" />
+            <End Role="DonacionExamenSerologico" EntitySet="DonacionExamenSerologico" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="EstadoDonacion">
@@ -855,6 +886,7 @@
           <Property Name="IdExamenSerologico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DescripcionExamen" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DonacionExamenSerologico" Relationship="bancosangreModel.FK_DonacionExamenSerologico_ExamenesSerologicos" FromRole="ExamenesSerologicos" ToRole="DonacionExamenSerologico" />
+          <Property Name="EstaActivo" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DonacionExamenSerologico">
           <Key>
@@ -863,9 +895,11 @@
           </Key>
           <Property Name="NroRegistro" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="IdExamenSerologico" Type="Int32" Nullable="false" />
-          <Property Name="Resultado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Donacion" Relationship="bancosangreModel.FK_DonacionExamenSerologico_DonacionExamenSerologico" FromRole="DonacionExamenSerologico" ToRole="Donacion" />
           <NavigationProperty Name="ExamenesSerologicos" Relationship="bancosangreModel.FK_DonacionExamenSerologico_ExamenesSerologicos" FromRole="DonacionExamenSerologico" ToRole="ExamenesSerologicos" />
+          <Property Name="DescripcionExamen" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdResultadoSerologia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ResultadoSerologia" Relationship="bancosangreModel.FK_DonacionExamenSerologico_ResultadoSerologia" FromRole="DonacionExamenSerologico" ToRole="ResultadoSerologia" />
         </EntityType>
         <Association Name="FK_DonacionExamenSerologico_DonacionExamenSerologico">
           <End Type="bancosangreModel.Donacion" Role="Donacion" Multiplicity="1" />
@@ -900,6 +934,26 @@
             </Principal>
             <Dependent Role="Donacion">
               <PropertyRef Name="IdCuestionario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ResultadoSerologia">
+          <Key>
+            <PropertyRef Name="IdResultadoSerologia" />
+          </Key>
+          <Property Name="IdResultadoSerologia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TextoResultado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DonacionExamenSerologico" Relationship="bancosangreModel.FK_DonacionExamenSerologico_ResultadoSerologia" FromRole="ResultadoSerologia" ToRole="DonacionExamenSerologico" />
+        </EntityType>
+        <Association Name="FK_DonacionExamenSerologico_ResultadoSerologia">
+          <End Type="bancosangreModel.ResultadoSerologia" Role="ResultadoSerologia" Multiplicity="1" />
+          <End Type="bancosangreModel.DonacionExamenSerologico" Role="DonacionExamenSerologico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ResultadoSerologia">
+              <PropertyRef Name="IdResultadoSerologia" />
+            </Principal>
+            <Dependent Role="DonacionExamenSerologico">
+              <PropertyRef Name="IdResultadoSerologia" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1067,6 +1121,7 @@
           <EntitySetMapping Name="ExamenesSerologicos">
             <EntityTypeMapping TypeName="bancosangreModel.ExamenesSerologicos">
               <MappingFragment StoreEntitySet="ExamenesSerologicos">
+                <ScalarProperty Name="EstaActivo" ColumnName="EstaActivo" />
                 <ScalarProperty Name="DescripcionExamen" ColumnName="DescripcionExamen" />
                 <ScalarProperty Name="IdExamenSerologico" ColumnName="IdExamenSerologico" />
               </MappingFragment>
@@ -1075,9 +1130,18 @@
           <EntitySetMapping Name="DonacionExamenSerologico">
             <EntityTypeMapping TypeName="bancosangreModel.DonacionExamenSerologico">
               <MappingFragment StoreEntitySet="DonacionExamenSerologico">
-                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="IdResultadoSerologia" ColumnName="IdResultadoSerologia" />
+                <ScalarProperty Name="DescripcionExamen" ColumnName="DescripcionExamen" />
                 <ScalarProperty Name="IdExamenSerologico" ColumnName="IdExamenSerologico" />
                 <ScalarProperty Name="NroRegistro" ColumnName="NroRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResultadoSerologia">
+            <EntityTypeMapping TypeName="bancosangreModel.ResultadoSerologia">
+              <MappingFragment StoreEntitySet="ResultadoSerologia">
+                <ScalarProperty Name="TextoResultado" ColumnName="TextoResultado" />
+                <ScalarProperty Name="IdResultadoSerologia" ColumnName="IdResultadoSerologia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

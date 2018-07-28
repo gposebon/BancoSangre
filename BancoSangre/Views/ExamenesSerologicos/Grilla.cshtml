@@ -38,8 +38,9 @@
     <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
             <tr>
-                <th width="60%" class="text-center">Descripción</th>
-                <th width="40%" class="text-center">Acciones</th>
+                <th width="50%" class="text-center">Descripción</th>
+                <th width="20%" class="text-center">Está activo</th>
+                <th width="30%" class="text-center">Acciones</th>
             </tr>
 
         </thead>
@@ -50,6 +51,11 @@
                     <span editable-text="p.DescripcionExamen" e-name="descripcionExamen" onbeforesave="validarVacio($data)" e-form="rowform" e-required>
                         {{ p.DescripcionExamen || '-' }}
                     </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <a href="#" editable-checkbox="p.EstaActivo" e-name="estaActivo" e-form="rowform" e-title="">
+                        {{ p.EstaActivo && "Sí" || "No" }}
+                    </a>
                 </td>
 
                 <td class="celdaGrillaAdmin" style="white-space: nowrap">

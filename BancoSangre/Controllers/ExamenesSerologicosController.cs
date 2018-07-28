@@ -1,6 +1,6 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity.Infrastructure;
+﻿
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using BancoSangre.Models;
@@ -27,18 +27,18 @@ namespace BancoSangre.Controllers
                 .Select(x => new
                 {
                     x.IdExamenSerologico,
-                    x.DescripcionExamen
+                    x.DescripcionExamen,
+                    x.EstaActivo
                 })
                 .ToList();
 
             if (!examenes.Any())
                 return Json(null, JsonRequestBehavior.AllowGet);
 
-            var resultado = examenes;
             var json = new
             {
                 cantidad = examenes.Count,
-                data = resultado
+                data = examenes
             };
 
             return Json(json, JsonRequestBehavior.AllowGet);
@@ -59,7 +59,7 @@ namespace BancoSangre.Controllers
                 _db.SaveChanges();
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch (DbUpdateException)
+            catch (System.Data.Entity.Infrastructure.DbUpdateException)
             {
                 return Json("El examen no puede ser removido porque ya ha sido incluído en una o más serologías de donantes.", JsonRequestBehavior.AllowGet);
             }
@@ -86,6 +86,71 @@ namespace BancoSangre.Controllers
                         throw new Exception();
 
                     examenActual.DescripcionExamen = examen.DescripcionExamen;
+                    examenActual.EstaActivo = examen.EstaActivo;
+                }
+
+                _db.SaveChanges();
+
+                var json = new
+                {
+                    resultado = true
+                };
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var json = new
+                {
+                    data = ex.Message,
+                    resultado = false
+                };
+
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ObtenerResultadosSerologia()
+        {
+            var resultados = _db.ResultadoSerologia.OrderBy(x => x.IdResultadoSerologia)
+                .Select(x => new
+                {
+                    x.IdResultadoSerologia,
+                    x.TextoResultado
+                })
+                .ToList();
+
+            if (!resultados.Any())
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+            var json = new
+            {
+                datos = resultados
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ActualizarSerologiaParaDonacion(string nroRegistro, int idExamenSerologico, int idResultadoSerologia)
+        {
+            try
+            {
+                var examenActual = _db.DonacionExamenSerologico.Include(x => x.Donacion)
+                    .FirstOrDefault(x => x.NroRegistro == nroRegistro && x.IdExamenSerologico == idExamenSerologico);
+
+                if (examenActual == null)
+                    throw new Exception();
+
+                examenActual.IdResultadoSerologia = idResultadoSerologia;
+
+                // Si el resultado de la serología es positivo, el estado del donante pasa a Rechazado.
+                if(idResultadoSerologia == 3)
+                {
+                    var donante = _db.Donante.FirstOrDefault(x => x.IdDonante == examenActual.Donacion.IdDonante);
+                    if (donante != null)
+                        donante.IdEstadoDonante = 2;
                 }
 
                 _db.SaveChanges();

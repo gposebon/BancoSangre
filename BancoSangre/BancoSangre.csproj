@@ -280,6 +280,9 @@
     <Compile Include="Models\Provincia.cs">
       <DependentUpon>BancoSangre.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResultadoSerologia.cs">
+      <DependentUpon>BancoSangre.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RolesUsuario.cs" />
     <Compile Include="Models\SeguridadBancoSangre.Context.cs">
       <AutoGen>True</AutoGen>
@@ -313,6 +316,7 @@
     <Content Include="app\directivas\modalDirectiva.js" />
     <Content Include="app\modal\modalController.js" />
     <Content Include="app\modal\modalContenido.html" />
+    <Content Include="app\modal\modalSerologia.html" />
     <Content Include="app\modal\modalServicio.js" />
     <Content Include="app\services\serologiaServicio.js" />
     <Content Include="app\services\donacionesServicio.js" />

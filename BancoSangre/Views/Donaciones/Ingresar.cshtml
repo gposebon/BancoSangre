@@ -1,27 +1,27 @@
 ﻿@model BancoSangre.Models.Donacion
 
 <head>
-	<link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css" />
 </head>
 
 @{
-	ViewBag.Title = "Donación";
+    ViewBag.Title = "Donación";
 }
 
 <div ng-controller="donacionesController">
-	
-	<div class="contenedorTituloCrearEditar">
-		<div class="tituloCrearEditar">Ingresar Donación</div>
-		<div class="botonesCrearEditar">
-			<input type="button" ng-click="guardar()" value="Guardar" class="btn btn-primary"/>
-			<a href="@Url.Action("Grilla", "Donantes")" class="btn btn-success" Title="Volver al listado">
-				<span class="glyphicon glyphicon-chevron-left"></span>
-				Volver
-			</a>
-		</div>
-	</div>
 
-	<hr class="hr"/>
+    <div class="contenedorTituloCrearEditar">
+        <div class="tituloCrearEditar">Ingresar Donación</div>
+        <div class="botonesCrearEditar">
+            <input type="button" ng-click="guardar()" value="Guardar" class="btn btn-primary" />
+            <a href="@Url.Action("Grilla", "Donantes")" class="btn btn-success" Title="Volver al listado">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                Volver
+            </a>
+        </div>
+    </div>
+
+    <hr class="hr" />
 
     <div class="form-horizontal panel panel-default" style="padding-top: 20px;">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -95,7 +95,7 @@
 </div>
 
 @section Scripts {
-	@Scripts.Render("~/app/services/donacionesServicio.js")
-	@Scripts.Render("~/app/controllers/donacionesController.js")
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/app/services/donacionesServicio.js")
+    @Scripts.Render("~/app/controllers/donacionesController.js")
+    @Scripts.Render("~/app/services/serologiaServicio.js") <!-- Se utiliza sólo en la grilla pero se agrega aquí porque comparten controlador -->
 }

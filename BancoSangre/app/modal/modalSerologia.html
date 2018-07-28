@@ -1,0 +1,70 @@
+﻿<div class="modal-body" style="padding:0px">
+    <div class="alert alert-{{datos.modo}}" style="margin-bottom: 0">
+        <div>
+            <div style="display: inline-block; width:100%; text-align: center;">
+                <h3>{{datos.texto}}</h3>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-9">
+                        <form class="form-inline">
+                            <div style="display: inline-block;">
+                                <input type="text" id="examenBusqueda" class="form-control" placeholder="Exámen" ng-model="examenBusqueda">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th width="40%" class="text-center">Descripción</th>
+                        <th width="25%" class="text-center">Resultado</th>
+                        <th width="15%" class="text-center">Editar</th>
+                    </tr>
+
+                </thead>
+                <tbody ng-cloak>
+                    <tr ng-repeat="p in filtrados = (serologias | filter:{DescripcionExamen: examenBusqueda})">
+                        <td class="celdaGrillaAdmin">
+                            <span editable-text="p.DescripcionExamen" e-name="descripcionExamen" e-form="rowform" e-required>
+                                {{ p.DescripcionExamen || '-' }}
+                            </span>
+                        </td>
+                        <td class="celdaGrillaAdmin">
+                            <span editable-select="p.IdResultadoSerologia" e-name="idResultadoSerologia" e-form="rowform" e-ng-options="er.IdResultadoSerologia as er.TextoResultado for er in datos.resultadosSerologia">
+                                {{ p.DescripcionResultado }}
+                            </span>
+                        </td>
+
+                        <td class="celdaGrillaAdmin" style="white-space: nowrap">
+                            <!-- form -->
+                            <form editable-form name="rowform" onbeforesave="actualizarSerologiaParaDonacion($data, p.NroRegistro, p.IdExamenSerologico)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == p">
+                                <button type="submit" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();" class="btn btn-primary">
+                                    Guardar
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();" class="btn btn-default">
+                                    Cancelar
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible">
+                                <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="width: 100%; text-align: center;">
+            <button type="button" class="btn btn-primary" data-ng-click="listo()">
+                <span>Listo</span>
+            </button>
+        </div>
+    </div>
+</div>

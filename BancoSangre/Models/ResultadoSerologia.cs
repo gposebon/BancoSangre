@@ -12,17 +12,16 @@ namespace BancoSangre.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ExamenesSerologicos
+    public partial class ResultadoSerologia
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ExamenesSerologicos()
+        public ResultadoSerologia()
         {
             this.DonacionExamenSerologico = new HashSet<DonacionExamenSerologico>();
         }
     
-        public int IdExamenSerologico { get; set; }
-        public string DescripcionExamen { get; set; }
-        public bool EstaActivo { get; set; }
+        public int IdResultadoSerologia { get; set; }
+        public string TextoResultado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonacionExamenSerologico> DonacionExamenSerologico { get; set; }
