@@ -30,6 +30,7 @@ namespace BancoSangre.Models
         public bool LineaCompleta { get; set; }
         public bool NuevaLinea { get; set; }
         public Nullable<bool> LineaHorizontal { get; set; }
+        public Nullable<bool> RechazoPorPositivo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PreguntaCuestionario> PreguntaCuestionario { get; set; }

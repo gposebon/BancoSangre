@@ -33,6 +33,7 @@ namespace BancoSangre.Controllers
                 TextoPregunta = x.TextoPregunta,
                 Orden = x.Orden,
                 CausalRechazo = x.CausalRechazo,
+                RechazoPorPositivo = x.RechazoPorPositivo,
                 EsCerrada = x.EsCerrada,
                 EsTitulo = x.EsTitulo,
                 LineaCompleta = x.LineaCompleta,
@@ -115,6 +116,7 @@ namespace BancoSangre.Controllers
                     TextoPregunta = x.TextoPregunta,
                     Orden = x.Orden,
                     CausalRechazo = x.CausalRechazo,
+                    RechazoPorPositivo = x.RechazoPorPositivo,
                     EsCerrada = x.EsCerrada,
                     EsTitulo = x.EsTitulo,
                     LineaCompleta = x.LineaCompleta,
@@ -168,8 +170,9 @@ namespace BancoSangre.Controllers
                 var encriptador = new Encriptador();
                 if (idCuestionario != null)
                 {
-                    // Si al menos una pregunta "causal de rechazo" fue respondida afirmativamente, el estado del donante pasa a Rechazado.
-                    if (cuestionarioDonante.Preguntas.Any(x => x.CausalRechazo && x.RespuestaCerrada == "True"))
+                    // Si al menos una pregunta "causal de rechazo" fue respondida de acuerdo a "rechazo por positivo", el estado del donante pasa a Rechazado.
+                    // RespuestaCerrada = true y RechazoPorPositivo = true o RespuestaCerrada = false y RechazoPorPositivo = false
+                    if (cuestionarioDonante.Preguntas.Any(x => x.CausalRechazo && x.RespuestaCerrada == x.RechazoPorPositivo.ToString()))
                     {
                         var donante = _db.Donante.Find(idDonante);
                         if (donante != null)

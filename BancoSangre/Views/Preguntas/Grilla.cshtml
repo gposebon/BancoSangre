@@ -46,11 +46,12 @@
             <tr>
                 <th width="5%" class="text-center">Línea</th>
                 <th width="26%" class="text-center">Texto</th>
-                <th width="5%" class="text-center">Título</th>
-                <th width="8%" class="text-center">Nuevo renglón</th>
-                <th width="9%" class="text-center">Renglón entero</th>
+                <th width="6%" class="text-center">Título</th>
+                <th width="6%" class="text-center">Nuevo renglón</th>
+                <th width="5%" class="text-center">Renglón entero</th>
                 <th width="7%" class="text-center">Cerrada</th>
-                <th width="11%" class="text-center">Causal rechazo</th>
+                <th width="7%" class="text-center">Causal rechazo</th>
+                <th width="9%" class="text-center">Rechazo por positivo</th>
                 <th width="7%" class="text-center">Mostrar</th>
                 <th width="6%" class="text-center">Orden</th>
                 <th width="16%" class="text-center">Acciones</th>
@@ -91,6 +92,11 @@
                 <td class="celdaGrillaAdmin">
                     <a href="#" editable-checkbox="p.CausalRechazo" e-name="causalRechazo" e-form="rowform" e-title="" ng-hide="p.LineaHorizontal">
                         {{ p.CausalRechazo && "Sí" || "No" }}
+                    </a>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <a href="#" editable-checkbox="p.RechazoPorPositivo" e-name="rechazoPorPositivo" e-form="rowform" e-title="" ng-hide="p.LineaHorizontal">
+                        {{ p.RechazoPorPositivo && "Sí" || "No" }}
                     </a>
                 </td>
                 <td class="celdaGrillaAdmin">

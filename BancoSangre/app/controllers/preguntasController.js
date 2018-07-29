@@ -91,14 +91,15 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 			NuevaLinea: false,
 			LineaCompleta: false,
 			EsCerrada: false,
-			CausalRechazo: false,
+            CausalRechazo: false,
+            RechazoPorPositivo: false,
 			Mostrar: false,
 			Orden: $scope.preguntas.length + 1
 		};
 		$scope.preguntas.push($scope.inserted);
 	};
 
-    function crearPregunta(id, lineaHorizontal, textoPregunta, esTitulo, nuevaLinea, lineaCompleta, esCerrada, causalRechazo, mostrar, orden) {
+    function crearPregunta(id, lineaHorizontal, textoPregunta, esTitulo, nuevaLinea, lineaCompleta, esCerrada, causalRechazo, rechazoPorPositivo, mostrar, orden) {
 		return {
             IdPregunta: id,
             LineaHorizontal: lineaHorizontal,
@@ -107,14 +108,16 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 			EsTitulo: esTitulo,
 			LineaCompleta: lineaCompleta,
 			EsCerrada: esCerrada,
-			CausalRechazo: causalRechazo,
+            CausalRechazo: causalRechazo,
+            RechazoPorPositivo: rechazoPorPositivo,
 			Mostrar: mostrar,
 			Orden: orden
 		}
 	}
 
 	$scope.guardarPregunta = function (data, id) {
-        var pregunta = crearPregunta(id, data.lineaHorizontal, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada, data.causalRechazo, data.mostrar, data.orden);
+        var pregunta = crearPregunta(id, data.lineaHorizontal, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada,
+            data.causalRechazo, data.rechazoPorPositivo, data.mostrar, data.orden);
 		preguntasRepositorio.guardar(pregunta)
 			.then(function (result) {
 				if (result.data) {

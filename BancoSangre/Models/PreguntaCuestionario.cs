@@ -27,6 +27,7 @@ namespace BancoSangre.Models
         public bool LineaCompleta { get; set; }
         public bool NuevaLinea { get; set; }
         public Nullable<bool> LineaHorizontal { get; set; }
+        public Nullable<bool> RechazoPorPositivo { get; set; }
     
         public virtual Cuestionario Cuestionario { get; set; }
         public virtual Pregunta Pregunta { get; set; }

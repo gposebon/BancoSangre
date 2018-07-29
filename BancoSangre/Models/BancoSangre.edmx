@@ -126,6 +126,7 @@
           <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
           <Property Name="CausalRechazo" Type="bit" Nullable="false" />
+          <Property Name="RechazoPorPositivo" Type="bit" />
           <Property Name="Mostrar" Type="bit" Nullable="false" />
           <Property Name="Orden" Type="int" />
           <Property Name="EsTitulo" Type="bit" Nullable="false" />
@@ -145,6 +146,7 @@
           <Property Name="Orden" Type="int" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
           <Property Name="CausalRechazo" Type="bit" Nullable="false" />
+          <Property Name="RechazoPorPositivo" Type="bit" />
           <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" Nullable="false" />
           <Property Name="EsTitulo" Type="bit" Nullable="false" />
           <Property Name="LineaCompleta" Type="bit" Nullable="false" />
@@ -677,6 +679,7 @@
           <Property Name="NuevaLinea" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="PreguntaCuestionario" Relationship="bancosangreModel.FK_PreguntaCuestionario_Pregunta" FromRole="Pregunta" ToRole="PreguntaCuestionario" />
           <Property Name="LineaHorizontal" Type="Boolean" />
+          <Property Name="RechazoPorPositivo" Type="Boolean" />
         </EntityType>
         <EntityType Name="PreguntaCuestionario">
           <Key>
@@ -697,6 +700,7 @@
           <NavigationProperty Name="Cuestionario" Relationship="bancosangreModel.FK_PreguntaCuestionario_Cuestionario" FromRole="PreguntaCuestionario" ToRole="Cuestionario" />
           <NavigationProperty Name="Pregunta" Relationship="bancosangreModel.FK_PreguntaCuestionario_Pregunta" FromRole="PreguntaCuestionario" ToRole="Pregunta" />
           <Property Name="LineaHorizontal" Type="Boolean" />
+          <Property Name="RechazoPorPositivo" Type="Boolean" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -1062,6 +1066,7 @@
           <EntitySetMapping Name="Pregunta">
             <EntityTypeMapping TypeName="bancosangreModel.Pregunta">
               <MappingFragment StoreEntitySet="Pregunta">
+                <ScalarProperty Name="RechazoPorPositivo" ColumnName="RechazoPorPositivo" />
                 <ScalarProperty Name="LineaHorizontal" ColumnName="LineaHorizontal" />
                 <ScalarProperty Name="NuevaLinea" ColumnName="NuevaLinea" />
                 <ScalarProperty Name="LineaCompleta" ColumnName="LineaCompleta" />
@@ -1078,6 +1083,7 @@
           <EntitySetMapping Name="PreguntaCuestionario">
             <EntityTypeMapping TypeName="bancosangreModel.PreguntaCuestionario">
               <MappingFragment StoreEntitySet="PreguntaCuestionario">
+                <ScalarProperty Name="RechazoPorPositivo" ColumnName="RechazoPorPositivo" />
                 <ScalarProperty Name="LineaHorizontal" ColumnName="LineaHorizontal" />
                 <ScalarProperty Name="NuevaLinea" ColumnName="NuevaLinea" />
                 <ScalarProperty Name="LineaCompleta" ColumnName="LineaCompleta" />

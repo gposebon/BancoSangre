@@ -33,7 +33,8 @@ namespace BancoSangre.Controllers
 					x.LineaCompleta,
 					x.EsCerrada,
 					x.CausalRechazo,
-					x.Mostrar,
+                    x.RechazoPorPositivo,
+                    x.Mostrar,
 					x.Orden
 				})
 				.ToList();
@@ -99,7 +100,8 @@ namespace BancoSangre.Controllers
 					preguntaActual.LineaCompleta = pregunta.LineaCompleta;
 					preguntaActual.EsCerrada = pregunta.EsCerrada;
 					preguntaActual.CausalRechazo = pregunta.CausalRechazo;
-					preguntaActual.Mostrar = pregunta.Mostrar;
+                    preguntaActual.RechazoPorPositivo = pregunta.RechazoPorPositivo;
+                    preguntaActual.Mostrar = pregunta.Mostrar;
 					preguntaActual.Orden = pregunta.Orden;
 				}
 
