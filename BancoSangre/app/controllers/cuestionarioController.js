@@ -43,7 +43,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 				configPaginacion();
 				obtenerCuestionariosDeDonante();
                 break;
-            case "editar":
+            case "editarLuegoDonacion":
                 $scope.linkVolver = "/Donantes/Grilla";
                 $scope.editar = true;
                 obtenerCuestionarioPorId($scope.idCuestionario);
@@ -95,19 +95,9 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
-	function obtenerCuestionariosDeDonante() {
-		if ($scope.idDonante !== null) {
-			cuestionarioRepositorio.obtenerCuestionariosDeDonante($scope.idDonante)
-				.then(function (result) {
-					$scope.donante = result.data !== "" ? result.data.data.Donante : [];
-					$scope.cuestionarios = result.data !== "" ? result.data.data.Cuestionarios : [];
-					$scope.infoPagina.totalItems = result.data.cantidad;
-				});
-		}
-	}
-
 	function crearObjetoCuestionario() {
-		return {
+        return {
+            IdCuestionario: $scope.idCuestionario,
 			IdDonante: $scope.idDonante,
 			DatosDemograficos: $scope.datosDemograficos,
 			Preguntas: $scope.preguntas,
@@ -136,6 +126,8 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 						imprimirCuestionario();
 					if (accion === "donacion")
                         $window.location.href = "/Donaciones/Ingresar?idDonante=" + $scope.idDonante + "&idCuestionario=" + $scope.idCuestionario;
+                    if ($scope.accion === "editarLuegoDonacion")
+                        $window.location.href = "/Donaciones/Grilla";
 				}
 				else {
 					modalServicio.open("danger", "Error al guardar el cuestionario.");

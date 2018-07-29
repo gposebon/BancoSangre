@@ -23,7 +23,7 @@ namespace BancoSangre.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult ObtenerCuestionarioParaDonante(int idDonante)
+        public ActionResult ObtenerCuestionarioParaDonante(long idDonante)
         {
             var preguntasCuestionarioActual = _db.Pregunta.Where(x => x.Mostrar).OrderBy(x => x.Orden).ToList();
             var preguntas = preguntasCuestionarioActual.Select(x => new PreguntaCuestionario
@@ -134,30 +134,6 @@ namespace BancoSangre.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult ObtenerCuestionariosDeDonante(int idDonante)
-        {
-            var cuestionarios = _db.Cuestionario.Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).Include(x => x.Donante).Include(x => x.Donacion).ToList();
-
-            if (!cuestionarios.Any())
-                return Json(null, JsonRequestBehavior.AllowGet);
-
-            var resultado = new
-            {
-                Donante = new { cuestionarios[0].Donante.IdDonante, cuestionarios[0].Donante.Apellido, cuestionarios[0].Donante.Nombre },
-                Cuestionarios = cuestionarios.Select(x => new { x.IdCuestionario, Fecha = x.Fecha.ToString("dd/MM/yyyy"), RegistroDonacion = x.Donacion.FirstOrDefault()?.NroRegistro })
-            };
-
-            var json = new
-            {
-                cantidad = cuestionarios.Count,
-                data = resultado
-            };
-
-            return Json(json, JsonRequestBehavior.AllowGet);
-        }
-
         [HttpPost]
         [Authorize]
         public ActionResult GuardarCuestionarioParaDonante(CuestionarioDonante cuestionarioDonante)
@@ -167,18 +143,30 @@ namespace BancoSangre.Controllers
                 var idDonante = cuestionarioDonante.IdDonante;
                 var fechaCuestionario = cuestionarioDonante.DatosDemograficos.FirstOrDefault(x => x.Etiqueta == "Fecha:").Dato;
 
-                var nuevoCuestionario = new Cuestionario
-                {
-                    IdCuestionario = Guid.NewGuid(),
-                    IdDonante = cuestionarioDonante.IdDonante,
-                    Fecha = fechaCuestionario != null ? DateTime.ParseExact(fechaCuestionario, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.Now
-                };
+                var idCuestionario = cuestionarioDonante.IdCuestionario;
 
-                var ultimoCuestionario = _db.Cuestionario.Add(nuevoCuestionario);
+                if (idCuestionario == null)
+                {
+                    var nuevoCuestionario = new Cuestionario
+                    {
+                        IdCuestionario = Guid.NewGuid(),
+                        IdDonante = cuestionarioDonante.IdDonante,
+                        Fecha = fechaCuestionario != null ? DateTime.ParseExact(fechaCuestionario, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.Now
+                    };
+
+                    idCuestionario = _db.Cuestionario.Add(nuevoCuestionario).IdCuestionario;
+                }
+                else
+                {
+                    // Cuestionario existente, removemos los datos demográficos y las preguntas para volverlas a insertar actualizadas.
+                    _db.DatoDemograficoCuestionario.RemoveRange(_db.DatoDemograficoCuestionario.Where(x => x.IdCuestionario == idCuestionario));
+                    _db.PreguntaCuestionario.RemoveRange(_db.PreguntaCuestionario.Where(x => x.IdCuestionario == idCuestionario));
+                }
+
                 _db.SaveChanges();
 
                 var encriptador = new Encriptador();
-                if (ultimoCuestionario != null)
+                if (idCuestionario != null)
                 {
                     // Si al menos una pregunta "causal de rechazo" fue respondida afirmativamente, el estado del donante pasa a Rechazado.
                     if (cuestionarioDonante.Preguntas.Any(x => x.CausalRechazo && x.RespuestaCerrada == "True"))
@@ -194,14 +182,14 @@ namespace BancoSangre.Controllers
                     foreach (var datoDemografico in cuestionarioDonante.DatosDemograficos)
                     {
                         datoDemografico.IdDatoDemograficoCuestionario = Guid.NewGuid();
-                        datoDemografico.IdCuestionario = ultimoCuestionario.IdCuestionario;
+                        datoDemografico.IdCuestionario = (Guid)idCuestionario;
                         _db.DatoDemograficoCuestionario.Add(datoDemografico);
                     }
                     // Guarda preguntas y respuestas.
                     foreach (var pregunta in cuestionarioDonante.Preguntas)
                     {
                         pregunta.IdPreguntaCuestionario = Guid.NewGuid();
-                        pregunta.IdCuestionario = ultimoCuestionario.IdCuestionario;
+                        pregunta.IdCuestionario = (Guid)idCuestionario;
                         pregunta.RespuestaCerrada = encriptador.Encriptar(pregunta.RespuestaCerrada);
                         pregunta.RespuestaAbierta = encriptador.Encriptar(pregunta.RespuestaAbierta);
                         _db.PreguntaCuestionario.Add(pregunta);
@@ -213,7 +201,7 @@ namespace BancoSangre.Controllers
                 var json = new
                 {
                     Respuesta = true,
-                    ultimoCuestionario.IdCuestionario
+                    IdCuestionario = idCuestionario
                 };
                 return Json(json, JsonRequestBehavior.AllowGet);
             }

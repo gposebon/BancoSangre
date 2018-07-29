@@ -14,17 +14,39 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     }
 
     function init() {
-        $scope.idDonante = obtenerParametroPorNombre("idDonante");
-        if ($scope.idDonante === null) { // Grilla
+        var idDonante = obtenerParametroPorNombre("idDonante");
+        if (idDonante == null) { // Grilla
+            recuperarFiltro();
             configPaginacion();
             obtenerDonaciones();
             obtenerResultadosSerologia();
         } else { // Nueva donación
             cargarCalendario();
-            obtenerDonacionEnBlanco();
+            obtenerDonacionEnBlanco(idDonante);
             $scope.idCuestionario = obtenerParametroPorNombre("idCuestionario");
         }
     }
+
+    function recuperarFiltro() {
+        // Si el usuario viene desde el menú principal eliminamos la cookie de búsqueda por documento.
+        if (document.referrer.includes('Menu'))
+            localStorage.removeItem("busqDocumento");
+
+        var tipoDoc = obtenerParametroPorNombre("tipoDoc");
+        var nroDoc = obtenerParametroPorNombre("nroDoc");
+        // Si viene en url el tipo y número de doc lo tomamos de ahí porque viene desde Donante (donaciones anteriores)
+        if (tipoDoc != null && nroDoc != null) {
+            $scope.busqDocumento = tipoDoc + ": " + nroDoc;
+        } else { 
+            // De lo contrario, valida valores de búsqueda anteriores (en cookie)
+            if (localStorage.getItem("busqDocumento") != null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
+        }
+    }
+
+    //Guardar filtro - En _LoginPartial.cshtml removemos la cookie.
+    $scope.$watch("busqDocumento", function () {
+        if ($scope.busqDocumento !== undefined) localStorage.setItem("busqDocumento", $scope.busqDocumento); // Sólo para grilla
+    });
 
     function obtenerDonaciones() {
         donacionesRepositorio.obtenerDonaciones()
@@ -35,8 +57,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             });
     }
 
-    function obtenerDonacionEnBlanco() {
-        donacionesRepositorio.obtenerDonacionEnBlanco($scope.idDonante)
+    function obtenerDonacionEnBlanco(idDonante) {
+        donacionesRepositorio.obtenerDonacionEnBlanco(idDonante)
             .then(function (result) {
                 $scope.donacion = result.data.Donacion;
                 $scope.destinos = result.data.Destinos;
@@ -103,7 +125,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             .then(function (result) {
                 if (result.data) {
                     modalServicio.open("success", "La donación se ha guardado con éxito.");
-                    $window.location.href = "/Cuestionarios/Cuestionario?idCuestionario=" + $scope.idCuestionario + "&accion=editar";
+                    $window.location.href = "/Cuestionarios/Cuestionario?idCuestionario=" + $scope.idCuestionario + "&accion=editarLuegoDonacion";
                 }
                 else {
                     modalServicio.open("danger", "Error al guardar la donación.");

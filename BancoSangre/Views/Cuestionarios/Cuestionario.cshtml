@@ -12,7 +12,7 @@
             <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('guardar')">Guardar</button>
             <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('imprimir')">Guardar e imprimir</button>
             <button class="btn btn-primary" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
-            <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
+            <button class="btn btn-primary" ng-show="editar && accion != 'editarLuegoDonacion'" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
             <a href="{{ linkVolver }}" class="btn btn-success" Title="Volver al listado">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 Volver
@@ -76,7 +76,7 @@
             <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('guardar')">Guardar</button>
             <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('imprimir')">Guardar e imprimir</button>
             <button class="btn btn-primary" ng-hide="editar" ng-click="imprimirCuestionario()">Imprimir</button>
-            <button class="btn btn-primary" ng-show="editar" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
+            <button class="btn btn-primary" ng-show="editar && accion != 'editarLuegoDonacion'" ng-click="guardarCuestionario('donacion')">Guardar y donar</button>
             <a href="{{ linkVolver }}" class="btn btn-success" Title="Volver al listado">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 Volver

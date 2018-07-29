@@ -10,7 +10,7 @@
             <PropertyRef Name="IdCuestionario" />
           </Key>
           <Property Name="IdCuestionario" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IdDonante" Type="int" Nullable="false" />
+          <Property Name="IdDonante" Type="bigint" Nullable="false" />
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="DatoDemograficoCuestionario">
@@ -40,7 +40,7 @@
             <PropertyRef Name="NroRegistro" />
           </Key>
           <Property Name="NroRegistro" Type="nvarchar" MaxLength="15" Nullable="false" />
-          <Property Name="IdDonante" Type="int" Nullable="false" />
+          <Property Name="IdDonante" Type="bigint" Nullable="false" />
           <Property Name="IdDestino" Type="int" Nullable="false" />
           <Property Name="Material" Type="nvarchar" MaxLength="100" />
           <Property Name="Cantidad" Type="nvarchar" MaxLength="10" />
@@ -63,7 +63,7 @@
           <Key>
             <PropertyRef Name="IdDonante" />
           </Key>
-          <Property Name="IdDonante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDonante" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdTipoDoc" Type="int" Nullable="false" />
           <Property Name="NroDoc" Type="int" Nullable="false" />
           <Property Name="Apellido" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -565,7 +565,7 @@
             <PropertyRef Name="IdCuestionario" />
           </Key>
           <Property Name="IdCuestionario" Type="Guid" Nullable="false" />
-          <Property Name="IdDonante" Type="Int32" Nullable="false" />
+          <Property Name="IdDonante" Type="Int64" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Donante" Relationship="bancosangreModel.FK_Cuestionario_Cuestionario" FromRole="Cuestionario" ToRole="Donante" />
           <NavigationProperty Name="DatoDemograficoCuestionario" Relationship="bancosangreModel.FK_DatoDemograficoCuestionario_Cuestionario" FromRole="Cuestionario" ToRole="DatoDemograficoCuestionario" />
@@ -601,7 +601,7 @@
             <PropertyRef Name="NroRegistro" />
           </Key>
           <Property Name="NroRegistro" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="IdDonante" Type="Int32" Nullable="false" />
+          <Property Name="IdDonante" Type="Int64" Nullable="false" />
           <Property Name="IdDestino" Type="Int32" Nullable="false" />
           <Property Name="Material" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Cantidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
@@ -619,7 +619,7 @@
           <Key>
             <PropertyRef Name="IdDonante" />
           </Key>
-          <Property Name="IdDonante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDonante" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdTipoDoc" Type="Int32" Nullable="false" />
           <Property Name="NroDoc" Type="Int32" Nullable="false" />
           <Property Name="Apellido" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />

@@ -21,6 +21,7 @@
             <div class="col-md-9">
                 <form class="form-inline">
                     <input type="text" class="form-control cajaBusqueda" placeholder="Nro. Registro" ng-model="busqNroRegistro">
+                    <input type="text" class="form-control cajaBusqueda" placeholder="Documento" ng-model="busqDocumento">
                     <input type="text" class="form-control cajaBusqueda" placeholder="Donante" ng-model="busqDonante">
                     <input type="text" class="form-control cajaBusqueda" placeholder="Destino" ng-model="busqDestino">
                 </form>
@@ -51,8 +52,8 @@
             </tr>
         </thead>
         <tbody ng-cloak>
-            <tr ng-repeat="donacion in filtrados = (donaciones | filter:{NroRegistro: busqNroRegistro, NomreDonante: busqDonante, Destino: busqDestino})
-				| limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+            <tr ng-repeat="donacion in filtrados = (donaciones | filter:{NroRegistro: busqNroRegistro, DocDonante: busqDocumento, NomreDonante: busqDonante, 
+                Destino: busqDestino}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
                 <td class="celdaGrillaAdmin">
                     <span>
                         {{ donacion.NroRegistro }}

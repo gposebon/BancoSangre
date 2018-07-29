@@ -17,6 +17,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
         if ($scope.idDonante === null) {
             $scope.donacion = obtenerParametroPorNombre("accion") === "donacion";
+            $scope.textoBotonEdicion = !$scope.donacion ? 'Editar' : 'Ingresar donación';
             recuperarFiltros();
             configPaginacion();
             obtenerDonantes();

@@ -21,7 +21,7 @@ namespace BancoSangre.Models
         }
     
         public string NroRegistro { get; set; }
-        public int IdDonante { get; set; }
+        public long IdDonante { get; set; }
         public int IdDestino { get; set; }
         public string Material { get; set; }
         public string Cantidad { get; set; }

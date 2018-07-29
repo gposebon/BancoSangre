@@ -54,7 +54,7 @@ namespace BancoSangre.Controllers
         }
 
         [Authorize]
-        public ActionResult ObtenerDonacionEnBlanco(int idDonante)
+        public ActionResult ObtenerDonacionEnBlanco(long idDonante)
         {
             var donante = _db.Donante.Include(x => x.TipoDocumento).First(x => x.IdDonante == idDonante);
             var donacion = new

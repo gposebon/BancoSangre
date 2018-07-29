@@ -23,7 +23,7 @@ namespace BancoSangre.Models
         }
     
         public System.Guid IdCuestionario { get; set; }
-        public int IdDonante { get; set; }
+        public long IdDonante { get; set; }
         public System.DateTime Fecha { get; set; }
     
         public virtual Donante Donante { get; set; }

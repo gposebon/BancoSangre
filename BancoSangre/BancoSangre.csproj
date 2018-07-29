@@ -1260,7 +1260,6 @@
     <Content Include="Views\DestinoDonacions\Grilla.cshtml" />
     <Content Include="Views\Preguntas\Grilla.cshtml" />
     <Content Include="Views\Cuestionarios\Cuestionario.cshtml" />
-    <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />
     <Content Include="Views\Donaciones\Ingresar.cshtml" />
     <Content Include="Views\Donaciones\Grilla.cshtml" />
     <Content Include="Views\ExamenesSerologicos\Grilla.cshtml" />

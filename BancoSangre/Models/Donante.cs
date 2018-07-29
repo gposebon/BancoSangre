@@ -21,7 +21,7 @@ namespace BancoSangre.Models
             this.Donacion = new HashSet<Donacion>();
         }
     
-        public int IdDonante { get; set; }
+        public long IdDonante { get; set; }
         public int IdTipoDoc { get; set; }
         public int NroDoc { get; set; }
         public string Apellido { get; set; }

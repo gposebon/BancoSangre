@@ -1,44 +1,44 @@
 ﻿
 @{
-	ViewBag.Title = "Donantes";
+    ViewBag.Title = "Donantes";
 }
 
 <div>
-	<div style="display: inline-block">
-		<h2>Donantes</h2>
-	</div>
-	<div class="volverArribaPagina">
-		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Volver
-		</a>
-	</div>
+    <div style="display: inline-block">
+        <h2>Donantes</h2>
+    </div>
+    <div class="volverArribaPagina">
+        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            Volver
+        </a>
+    </div>
 </div>
 
 <div class="panel panel-default" ng-controller="donantesController">
 
-	<div class="panel-heading">
-		<div class="row">
-			<div class="col-md-9">
-				<form class="form-inline">
-					<input type="text" class="form-control cajaBusqueda" placeholder="Apellido" ng-model="busqApellido">
-					<input type="text" class="form-control cajaBusqueda" placeholder="Nombre" ng-model="busqNombre">
-					<input type="text" class="form-control cajaBusqueda" placeholder="Grupo y Rh" ng-model="busqGrupo">
-					<input type="text" class="form-control cajaBusqueda" placeholder="Localidad" ng-model="busqLocalidad">
-				</form>
-			</div>
-			<div class="col-md-pull-2">
-				<label class="control-label" style="padding-left: 1%;">Donantes: </label>
-				<label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
-				<a ng-href="@Url.Action("Ingresar")?idDonante=0" class="btn btn-primary" title="Ingresar Donante">
-					<span>Ingresar Donante</span>
-				</a>
-			</div>
-		</div>
-	</div>
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-9">
+                <form class="form-inline">
+                    <input type="text" class="form-control cajaBusqueda" placeholder="Apellido" ng-model="busqApellido">
+                    <input type="text" class="form-control cajaBusqueda" placeholder="Nombre" ng-model="busqNombre">
+                    <input type="text" class="form-control cajaBusqueda" placeholder="Grupo y Rh" ng-model="busqGrupo">
+                    <input type="text" class="form-control cajaBusqueda" placeholder="Localidad" ng-model="busqLocalidad">
+                </form>
+            </div>
+            <div class="col-md-pull-2">
+                <label class="control-label" style="padding-left: 1%;">Donantes: </label>
+                <label class="control-label" style="padding-right: 1%;" ng-bind="filtrados.length"></label>
+                <a ng-href="@Url.Action("Ingresar")?idDonante=0" class="btn btn-primary" title="Ingresar Donante">
+                    <span>Ingresar Donante</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
-	<table class="table table-striped table-bordered table-hover table-condensed">
-		<thead>
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
             <tr class="text-uppercase">
                 <th style="color: #5a5a5a;" class="text-center noEnCelular">Tipo Doc</th>
                 <th style="color: #5a5a5a;" class="text-center noEnCelular">Nro Doc</th>
@@ -90,68 +90,68 @@
                 <th style="color: #5a5a5a;" class="text-center">Estado</th>
                 <th style="color: #5a5a5a;" class="text-center">Acciones</th>
             </tr>
-		</thead>
-		<tbody ng-cloak>
-			<tr ng-repeat="d in filtrados = (donantes | filter:{Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad})
+        </thead>
+        <tbody ng-cloak>
+            <tr ng-repeat="d in filtrados = (donantes | filter:{Apellido: busqApellido, Nombre: busqNombre, DescripcionGrupoFactor: busqGrupo, NombreLocalidad: busqLocalidad})
 				| orderBy:ordenarPorCampo:ordenInvertido | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
-						{{ d.DescripcionTipoDoc || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin noEnCelular">
-					<span editable-text="d.NroDoc" e-name="NroDoc" e-form="rowform" e-required>
-						{{ d.NroDoc || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.Apellido" e-name="Apellido" e-form="rowform" e-required>
-						{{ d.Apellido || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.Nombre" e-name="Nombre" e-form="rowform" e-required>
-						{{ d.Nombre || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.DescripcionGrupoFactor" e-name="GrupoSanguineo" e-form="rowform" e-required>
-						{{ d.DescripcionGrupoFactor || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<span editable-text="d.NombreLocalidad" e-name="Localidad" e-form="rowform" e-required>
-						{{ d.NombreLocalidad || '-' }}
-					</span>
-				</td>
-				<td class="celdaGrillaAdmin">
+                <td class="celdaGrillaAdmin noEnCelular">
+                    <span editable-text="d.DescripcionTipoDoc" e-name="DescripcionTipoDoc" e-form="rowform" e-required>
+                        {{ d.DescripcionTipoDoc || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin noEnCelular">
+                    <span editable-text="d.NroDoc" e-name="NroDoc" e-form="rowform" e-required>
+                        {{ d.NroDoc || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="d.Apellido" e-name="Apellido" e-form="rowform" e-required>
+                        {{ d.Apellido || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="d.Nombre" e-name="Nombre" e-form="rowform" e-required>
+                        {{ d.Nombre || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="d.DescripcionGrupoFactor" e-name="GrupoSanguineo" e-form="rowform" e-required>
+                        {{ d.DescripcionGrupoFactor || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <span editable-text="d.NombreLocalidad" e-name="Localidad" e-form="rowform" e-required>
+                        {{ d.NombreLocalidad || '-' }}
+                    </span>
+                </td>
+                <td class="celdaGrillaAdmin">
                     <span editable-text="d.FechaUltimaDonacion" e-name="FechaUltimaDonacion" e-form="rowform" e-required>
                         {{ d.FechaUltimaDonacion | date:'dd/MM/yyyy' || '-' }}
                     </span>
-				</td>
-				<td class="celdaGrillaAdmin">
-					<button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;"
-									ng-click="verEstado(d.IdEstadoDonante, d.DescripcionEstado, d.DiferidoHasta)" title="Ver estado"></button>
-				</td>
-				<td class="celdaGrillaAdmin" style="white-space: nowrap">
+                </td>
+                <td class="celdaGrillaAdmin">
+                    <button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;"
+                            ng-click="verEstado(d.IdEstadoDonante, d.DescripcionEstado, d.DiferidoHasta)" title="Ver estado"></button>
+                </td>
+                <td class="celdaGrillaAdmin" style="white-space: nowrap">
                     <div class="buttons" ng-show="!rowform.$visible">
-                        <a ng-href="@Url.Action("Editar")?idDonante={{d.IdDonante}}" ng-class="obtenerClaseBoton()" title="Editar"></a>
-                        <button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover"></button>
-                        <a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante={{d.IdDonante}}&accion=listar" 
-                           class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionarios anteriores"></a>
-                        <a ng-href="@Url.Action("Serologia")?idDonante={{d.IdDonante}}" class="btn btn-primary fa fa-flask" title="Serologías anteriores"></a>
+                        <a ng-href="@Url.Action("Editar")?idDonante={{d.IdDonante}}" ng-class="obtenerClaseBoton()"
+                           ng-attr-title="{{textoBotonEdicion}}"></a>
+                        <button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover" ng-show="!donacion"></button>
+                        <a ng-href="/Donaciones/Grilla?tipoDoc={{d.DescripcionTipoDoc}}&nroDoc={{d.NroDoc}}" class="btn btn-primary glyphicon glyphicon-tint" title="Donaciones anteriores"
+                           ng-show="!donacion"></a>
                     </div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div style="text-align:center">
-		<uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
-										items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
-	</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="text-align:center">
+        <uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
+                        items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+    </div>
 </div>
 
 @section scripts{
-	@Scripts.Render("~/app/services/donantesServicio.js")
-	@Scripts.Render("~/app/controllers/donantesController.js")
+    @Scripts.Render("~/app/services/donantesServicio.js")
+    @Scripts.Render("~/app/controllers/donantesController.js")
 }

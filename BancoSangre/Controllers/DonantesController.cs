@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -61,7 +60,7 @@ namespace BancoSangre.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public ActionResult RemoverDonante(int idDonante)
+		public ActionResult RemoverDonante(long idDonante)
 		{
 			try
 			{
@@ -86,7 +85,7 @@ namespace BancoSangre.Controllers
 
 		[HttpGet]
 		[Authorize]
-		public ActionResult ObtenerDonante(int idDonante)
+		public ActionResult ObtenerDonante(long idDonante)
 		{
 
 			var donante = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
