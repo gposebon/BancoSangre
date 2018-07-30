@@ -140,6 +140,8 @@
                         <button class="btn btn-success glyphicon glyphicon-trash" ng-click="removerDonante(d.IdDonante)" title="Remover" ng-show="!donacion"></button>
                         <a ng-href="/Donaciones/Grilla?tipoDoc={{d.DescripcionTipoDoc}}&nroDoc={{d.NroDoc}}" class="btn btn-primary glyphicon glyphicon-tint" title="Donaciones anteriores"
                            ng-show="!donacion"></a>
+                        <a ng-href="/Cuestionarios/CuestionariosExistentes?idDonante={{d.IdDonante}}&accion=listar" class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionarios anteriores"
+                           ng-show="!donacion"></a>
                     </div>
                 </td>
             </tr>

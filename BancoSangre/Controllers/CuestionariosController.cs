@@ -136,6 +136,36 @@ namespace BancoSangre.Controllers
             return Json(json, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult ObtenerCuestionariosDeDonante(int idDonante)
+        {
+            var cuestionarios = _db.Cuestionario.Include(x => x.Donacion).Include(x => x.Donante)
+                .Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).ToList();
+
+            if (!cuestionarios.Any())
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+            var resultado = new
+            {
+                Donante = new { cuestionarios[0].Donante.IdDonante, cuestionarios[0].Donante.Apellido, cuestionarios[0].Donante.Nombre },
+                Cuestionarios = cuestionarios.Select(x => new {
+                                                                x.IdCuestionario,
+                                                                Fecha = x.Fecha.ToString("dd/MM/yyyy"),
+                                                                NroRegistroDonacion = x.Donacion.Count > 0 ? x.Donacion.First().NroRegistro : "-"
+                                                              }
+                                                    )
+            };
+
+            var json = new
+            {
+                cantidad = cuestionarios.Count,
+                data = resultado
+            };
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult GuardarCuestionarioParaDonante(CuestionarioDonante cuestionarioDonante)

@@ -1264,6 +1264,7 @@
     <Content Include="Views\Donaciones\Grilla.cshtml" />
     <Content Include="Views\ExamenesSerologicos\Grilla.cshtml" />
     <Content Include="Views\ExamenesSerologicos\Ingresar.cshtml" />
+    <Content Include="Views\Cuestionarios\CuestionariosExistentes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

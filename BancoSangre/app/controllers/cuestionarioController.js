@@ -73,7 +73,18 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
                     cargarCalendario();
 				});
 		}
-	}
+    }
+
+    function obtenerCuestionariosDeDonante() {
+        if ($scope.idDonante !== null) {
+            cuestionarioRepositorio.obtenerCuestionariosDeDonante($scope.idDonante)
+                .then(function (result) {
+                    $scope.donante = result.data !== "" ? result.data.data.Donante : [];
+                    $scope.cuestionarios = result.data !== "" ? result.data.data.Cuestionarios : [];
+                    $scope.infoPagina.totalItems = result.data.cantidad;
+                });
+        }
+    }
 
 	function obtenerCuestionarioPorId(idCuestionario) {
 		if (idCuestionario !== null) {
