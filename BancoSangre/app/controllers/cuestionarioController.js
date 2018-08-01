@@ -177,7 +177,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
         contenidoDiv = contenidoDiv.replace(/placeholder="Respuesta"/g, 'style="border:none; resize:none;"') // Quita el placeholder "Respuesta" y el borde de los textAreas
             .replace(new RegExp('<input type="text"', 'g'), '<input type="text" style="border:none; resize:none; padding-left: 0;"'); // Quita el borde a los textBoxs
 
-		html += '<body onload="window.focus(); window.print()"> ' + contenidoDiv + "</body>";
+		html += '<body onload="window.focus(); window.print()" style="font-size: 11px !important;"> ' + contenidoDiv + "</body>";
 		var w = window.open("", "print");
 		if (w) {
 			w.document.write(html);

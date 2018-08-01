@@ -123,7 +123,7 @@
             <PropertyRef Name="IdPregunta" />
           </Key>
           <Property Name="IdPregunta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" />
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
           <Property Name="CausalRechazo" Type="bit" Nullable="false" />
           <Property Name="RechazoPorPositivo" Type="bit" />
@@ -147,7 +147,7 @@
           <Property Name="EsCerrada" Type="bit" Nullable="false" />
           <Property Name="CausalRechazo" Type="bit" Nullable="false" />
           <Property Name="RechazoPorPositivo" Type="bit" />
-          <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="TextoPregunta" Type="nvarchar" MaxLength="450" />
           <Property Name="EsTitulo" Type="bit" Nullable="false" />
           <Property Name="LineaCompleta" Type="bit" Nullable="false" />
           <Property Name="NuevaLinea" Type="bit" Nullable="false" />
@@ -669,7 +669,7 @@
             <PropertyRef Name="IdPregunta" />
           </Key>
           <Property Name="IdPregunta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextoPregunta" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="TextoPregunta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
           <Property Name="CausalRechazo" Type="Boolean" Nullable="false" />
           <Property Name="Mostrar" Type="Boolean" Nullable="false" />
@@ -693,7 +693,7 @@
           <Property Name="Orden" Type="Int32" />
           <Property Name="EsCerrada" Type="Boolean" Nullable="false" />
           <Property Name="CausalRechazo" Type="Boolean" Nullable="false" />
-          <Property Name="TextoPregunta" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="TextoPregunta" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="EsTitulo" Type="Boolean" Nullable="false" />
           <Property Name="LineaCompleta" Type="Boolean" Nullable="false" />
           <Property Name="NuevaLinea" Type="Boolean" Nullable="false" />

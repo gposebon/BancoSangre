@@ -182,8 +182,12 @@ namespace BancoSangre.Controllers
 				//Donante
 				if (donante.IdDonante == 0)
 				{
-					//Insertar
-					donante.Fecha = DateTime.Now;
+                    var donanteExistente = _db.Donante.Where(x => x.IdTipoDoc == donante.IdTipoDoc && x.NroDoc == donante.NroDoc).FirstOrDefault();
+                    if(donanteExistente != null)
+                        throw new Exception("Actualmente existe un/a donante con el mismo tipo y número de documento.");
+
+                    //Insertar
+                    donante.Fecha = DateTime.Now;
 
 					_db.Donante.Add(donante);
 					_db.SaveChanges();

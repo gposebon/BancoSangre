@@ -115,19 +115,24 @@ app.controller("preguntasController", function ($scope, preguntasRepositorio, mo
 		}
 	}
 
-	$scope.guardarPregunta = function (data, id) {
-        var pregunta = crearPregunta(id, data.lineaHorizontal, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada,
-            data.causalRechazo, data.rechazoPorPositivo, data.mostrar, data.orden);
-		preguntasRepositorio.guardar(pregunta)
-			.then(function (result) {
-				if (result.data) {
-					obtenerPreguntas();
-					modalServicio.open("success", "La pregunta se ha guardado con éxito.");
-				}
-				else {
-					modalServicio.open("danger", "Error al guardar la pregunta.");
-				}
-			});
+    $scope.guardarPregunta = function (data, id) {
+        if (!data.textoPregunta && !data.lineaHorizontal) {
+            modalServicio.open("danger", "Si no es una línea horizontal la pregunta debe contener un texto.");
+            obtenerPreguntas();
+        } else {
+            var pregunta = crearPregunta(id, data.lineaHorizontal, data.textoPregunta, data.esTitulo, data.nuevaLinea, data.lineaCompleta, data.esCerrada,
+                data.causalRechazo, data.rechazoPorPositivo, data.mostrar, data.orden);
+            preguntasRepositorio.guardar(pregunta)
+                .then(function (result) {
+                    if (result.data) {
+                        modalServicio.open("success", "La pregunta se ha guardado con éxito.");
+                    }
+                    else {
+                        modalServicio.open("danger", "Error al guardar la pregunta.");
+                    }
+                    obtenerPreguntas();
+                })
+        };
 	};
 
 	function actualizarOrden(preguntaMovida, preguntaSolapa) {

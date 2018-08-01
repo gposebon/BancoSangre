@@ -242,7 +242,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
                         $window.location.href = "/Donantes/Grilla";
                 }
                 else {
-                    modalServicio.open("danger", "Error al guardar el donante.");
+                    modalServicio.open("danger", result.data.data);
                 }
             });
     };
