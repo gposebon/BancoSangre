@@ -20,6 +20,10 @@ app.factory("donantesRepositorio", function ($http) {
 		guardar: function (donante, otraLocalidad) {
 			var url = "/Donantes/GuardarDonante";
 			return $http.post(url, { 'donante': donante, 'otraLocalidad': otraLocalidad });
-		}
+        },
+        obtenerCausalesDeRechazo: function (idDonante) {
+            var url = "/Donantes/ObtenerCausalesDeRechazo";
+            return $http.get(url + "?idDonante=" + idDonante);
+        }
 	};
 });

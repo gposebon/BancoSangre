@@ -44,18 +44,18 @@ app.controller("serologiaController", function ($scope, serologiaRepositorio, mo
 			});
 	};
 
-	$scope.cancelarExamen = function (rowform, id) {
-		if (id <= 0) {
-			var i;
-			for (i = 0; i < $scope.examenes.length; ++i) {
+    $scope.cancelarExamen = function (rowform, id) {
+        if (id <= 0) {
+            var i;
+            for (i = 0; i < $scope.examenes.length; ++i) {
                 if ($scope.examenes[i].IdExamenSerologico === id) {
-					$scope.examenes.splice(i, 1);
-					break;
-				}
-			}
-		}
-		rowform.$cancel();
-	}
+                    $scope.examenes.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        rowform.$cancel();
+    };
 
 	$scope.agregarExamen = function () {
 		$scope.inserted = {
@@ -67,11 +67,11 @@ app.controller("serologiaController", function ($scope, serologiaRepositorio, mo
 	};
 
     function crearExamen(idExamenSerologico, descripcionExamen, estaActivo) {
-		return {
+        return {
             IdExamenSerologico: idExamenSerologico,
             DescripcionExamen: descripcionExamen,
             EstaActivo: estaActivo
-		}
+        };
 	}
 
 	$scope.guardarExamen = function (data, id) {
@@ -89,7 +89,7 @@ app.controller("serologiaController", function ($scope, serologiaRepositorio, mo
 	};
 		
     $scope.validarVacio = function (data) {
-        if (data === undefined || data == '') {
+        if (data === undefined || data === '') {
             return "Campo requerido.";
         }
     };

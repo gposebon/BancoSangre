@@ -10,10 +10,13 @@
 
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <form class="form-inline">
                             <div style="display: inline-block;">
                                 <input type="text" id="examenBusqueda" class="form-control" placeholder="Examen" ng-model="examenBusqueda">
+                            </div>
+                            <div style="display: inline-block; float:right;">
+                                <input type="button" value="Todos No Reactivos" ng-click="todosNoReactivo()" class="btn btn-primary">
                             </div>
                         </form>
                     </div>
@@ -62,8 +65,8 @@
         </div>
 
         <div style="width: 100%; text-align: center;">
-            <button type="button" class="btn btn-primary" data-ng-click="listo()">
-                <span>Listo</span>
+            <button type="button" class="btn btn-primary" data-ng-click="guardarSalir()">
+                <span>Guardar y salir</span>
             </button>
         </div>
     </div>

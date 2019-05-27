@@ -244,6 +244,25 @@ namespace BancoSangre.Controllers
             }
         }
 
+        public string ObtenerCausalesDeRechazo(long idDonante)
+        {
+            var UltimoCuestionario = _db.Cuestionario.Include(w => w.PreguntaCuestionario).Include(z => z.Donacion)
+                .Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
+
+            if (UltimoCuestionario == null)
+                return "";
+
+            var PreguntasCausales = UltimoCuestionario.PreguntaCuestionario
+                    .Where(x => x.CausalRechazo && (x.RechazoPorPositivo.HasValue && (bool)x.RechazoPorPositivo && x.RespuestaCerrada == "true"
+                                                        || (!x.RechazoPorPositivo.HasValue || !(bool)x.RechazoPorPositivo) && x.RespuestaCerrada == "false"))
+                    .Select(w => w.TextoPregunta);
+
+            var Razones = "";
+            if (PreguntasCausales.Count() > 0)
+                Razones += "Pregunta/s: " + string.Join(" -- ", PreguntasCausales.ToArray());
+            return Razones;
+        }
+
         #endregion
 
         // GET: Cuestionarios

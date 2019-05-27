@@ -15,7 +15,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     function init() {
         var idDonante = obtenerParametroPorNombre("idDonante");
-        if (idDonante == null) { // Grilla
+        if (idDonante === null) { // Grilla
             recuperarFiltro();
             configPaginacion();
             obtenerDonaciones();
@@ -35,11 +35,11 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
         var tipoDoc = obtenerParametroPorNombre("tipoDoc");
         var nroDoc = obtenerParametroPorNombre("nroDoc");
         // Si viene en url el tipo y número de doc lo tomamos de ahí porque viene desde Donante (donaciones anteriores)
-        if (tipoDoc != null && nroDoc != null) {
+        if (tipoDoc !== null && nroDoc !== null) {
             $scope.busqDocumento = tipoDoc + ": " + nroDoc;
         } else { 
             // De lo contrario, valida valores de búsqueda anteriores (en cookie)
-            if (localStorage.getItem("busqDocumento") != null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
+            if (localStorage.getItem("busqDocumento") !== null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
         }
     }
 
@@ -109,7 +109,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             Fecha: fecha,
             IdEstadoDonacion: idEstadoDonacion,
             IdCuestionario: idCuestionario
-        }
+        };
     }
 
     // Pantalla ingresar
@@ -135,7 +135,6 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     // Grilla
     $scope.actualizarDonacion = function (data, nroRegistro) {
-
         donacionesRepositorio.actualizarDonacion(nroRegistro, data.idEstadoDonacion)
             .then(function (result) {
                 if (result.data) {
@@ -170,10 +169,6 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                 $scope.datos = datos;
             };
 
-            $scope.listo = function () {
-                $uibModalInstance.close();
-            }
-
             $scope.actualizarSerologiaParaDonacion = function (data, nroRegistro, idExamenSerologico) {
                 serologiaRepositorio.actualizarSerologiaParaDonacion(nroRegistro, idExamenSerologico, data.idResultadoSerologia)
                     .then(function (result) {
@@ -187,6 +182,26 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                     });
             };
 
+            $scope.actualizarSerologiaParaDonacionPorLote = function (serologias) {
+                var cont = 0;
+                for(var i = 0; i < serologias.length; i++) {
+                    var serologia = serologias[i];
+                    serologiaRepositorio.actualizarSerologiaParaDonacion(serologia.NroRegistro, serologia.IdExamenSerologico, serologia.IdResultadoSerologia)
+                        .then(function (result) {
+                            if (result.data) {
+                                cont += 1;
+                                if (cont === serologias.length) {
+                                    obtenerSerologiasParaDonacion(serologia.NroRegistro); //Usamos el del último, es el mismo para todo el conjunto.
+                                    modalServicio.open("success", "Serología actualizada con éxito.");
+                                }
+                            }
+                            else {
+                                modalServicio.open("danger", "Error al actualizar la serología.");
+                            }
+                        });
+                }
+            };
+
             function obtenerSerologiasParaDonacion(nroRegistro) {
                 donacionesRepositorio.obtenerSerologiasParaDonacion(nroRegistro)
                     .then(function (resultado) {
@@ -198,6 +213,18 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                     });
             }
 
+            $scope.guardarSalir = function () {
+                $scope.actualizarSerologiaParaDonacionPorLote($scope.serologias);
+                $uibModalInstance.close();
+            };
+
+            $scope.todosNoReactivo = function () {
+                $scope.serologias.forEach(function (serologia) {
+                    serologia.IdResultadoSerologia = 2;
+                    serologia.DescripcionResultado = resultadosSerologia.find(x => x.IdResultadoSerologia === serologia.IdResultadoSerologia).TextoResultado;
+                });
+            };
+
             initModal();
         };
 
@@ -208,7 +235,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            size: dimensiones != null ? dimensiones : "lg",
+            size: dimensiones !== null ? dimensiones : "lg",
             resolve: {
                 datos: function () {
                     return {
@@ -224,7 +251,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     $scope.obtenerClaseSerologia = function (tieneSerologia) {
         var clase = tieneSerologia ? "btn btn-primary" : "btn btn-success";
         return clase + " fa fa-flask";
-    }
+    };
 
     function obtenerResultadosSerologia() {
         serologiaRepositorio.obtenerResultadosSerologia()

@@ -103,7 +103,8 @@ namespace BancoSangre.Controllers
 				IdProvincia = donante == null ? -1 : donante.IdProvincia,
 				IdLocalidad = donante == null ? -2 : donante.IdLocalidad,
 				IdEstadoDonante = donante == null ? -1 : donante.IdEstadoDonante,
-				DiferidoHasta = donante == null ? null : donante.DiferidoHasta,
+                RazonesRechazo = new DonacionesController().ObtenerCausalesDeRechazo(idDonante) + new CuestionariosController().ObtenerCausalesDeRechazo(idDonante),
+                DiferidoHasta = donante == null ? null : donante.DiferidoHasta,
 				LugarNacimiento = donante == null ? "" : donante.LugarNacimiento,
 				OtraLocalidad = "",
 				Edad = "",
@@ -111,7 +112,7 @@ namespace BancoSangre.Controllers
 				FechaNacimiento = donante == null ? null : donante.FechaNacimiento,
 				Telefono = donante == null ? "" : donante.Telefono,
 				Ocupacion = donante == null ? "" : donante.Ocupacion,
-                FechaUltimaDonacion = donante != null && donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
+                FechaUltimaDonacion = donante != null && donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null
             };
 
 			if (idDonante != 0 && donante == null)
@@ -241,10 +242,22 @@ namespace BancoSangre.Controllers
 			}
 		}
 
-		#endregion
+        [HttpGet]
+        [Authorize]
+        public ActionResult ObtenerCausalesDeRechazo(int idDonante)
+        {
+            var json = new
+            {
+                Razones = new DonacionesController().ObtenerCausalesDeRechazo(idDonante) + new CuestionariosController().ObtenerCausalesDeRechazo(idDonante)
+            };
 
-		// GET: Donantes
-		[Authorize]
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        // GET: Donantes
+        [Authorize]
 		public ActionResult Grilla()
 		{
 			return View();

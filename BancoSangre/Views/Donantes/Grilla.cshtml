@@ -131,7 +131,7 @@
                 </td>
                 <td class="celdaGrillaAdmin">
                     <button class="btn glyphicon glyphicon-eye-open btn-{{d.IdEstadoDonante}}" style="width: 80%;"
-                            ng-click="verEstado(d.IdEstadoDonante, d.DescripcionEstado, d.DiferidoHasta)" title="Ver estado"></button>
+                            ng-click="verEstado(d.IdEstadoDonante, d.DescripcionEstado, d.DiferidoHasta, d.IdDonante)" title="Ver estado"></button>
                 </td>
                 <td class="celdaGrillaAdmin" style="white-space: nowrap">
                     <div class="buttons" ng-show="!rowform.$visible">
@@ -156,4 +156,6 @@
 @section scripts{
     @Scripts.Render("~/app/services/donantesServicio.js")
     @Scripts.Render("~/app/controllers/donantesController.js")
+    @Scripts.Render("~/app/services/donacionesServicio.js")
+    @Scripts.Render("~/app/services/cuestionarioServicio.js")
 }

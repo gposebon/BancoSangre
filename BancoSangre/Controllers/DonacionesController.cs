@@ -38,7 +38,7 @@ namespace BancoSangre.Controllers
                 Destino = x.DestinoDonacion.DescripcionDestino,
                 x.IdEstadoDonacion,
                 Estado = x.EstadoDonacion != null ? x.EstadoDonacion.DescripcionEstado : "",
-                TieneSerologia = x.DonacionExamenSerologico.Count() > 0
+                TieneSerologia = x.DonacionExamenSerologico.Any(es => es.IdResultadoSerologia != 1)
             }).ToList();
 
             var estadosDonacion = _db.EstadoDonacion.Select(x => new { x.IdEstadoDonacion, x.DescripcionEstado }).ToList();
@@ -199,6 +199,24 @@ namespace BancoSangre.Controllers
 
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public string ObtenerCausalesDeRechazo(long idDonante)
+        {
+            var UltimaDonacion = _db.Donacion.Include(w => w.DonacionExamenSerologico)
+                .Where(x => x.IdDonante == idDonante).OrderByDescending(x => x.Fecha).FirstOrDefault();
+
+            if (UltimaDonacion == null)
+                return "";
+
+            var SerologiaCausal = UltimaDonacion.DonacionExamenSerologico
+                    .Where(x => x.IdResultadoSerologia == 3)
+                    .Select(w => w.DescripcionExamen);
+
+            var Razones = "Nro registro: " + UltimaDonacion.NroRegistro;
+            if (SerologiaCausal.Count() > 0)
+                Razones = "Serología causal: " + string.Join(" -- ", SerologiaCausal.ToArray());
+            return Razones;
         }
 
         #endregion

@@ -62,22 +62,22 @@
                     </span>
                 </td>
                 <td class="celdaGrillaAdmin">
-                    <span editable-text="p.Ciudad" e-name="ciudad" e-form="rowform">
+                    <span editable-text="p.Ciudad" e-name="ciudad" e-form="rowform" ng-model="p.Ciudad">
                         {{ p.Ciudad || '-' }}
                     </span>
                 </td>
                 <td class="celdaGrillaAdmin">
-                    <span editable-text="p.Provincia" e-name="provincia" e-form="rowform">
+                    <span editable-text="p.Provincia" e-name="provincia" e-form="rowform" e-solo-letras ng-model="p.Provincia">
                         {{ p.Provincia || '-' }}
                     </span>
                 </td>
                 <td class="celdaGrillaAdmin">
-                    <span editable-text="p.Prefijo" e-name="prefijo" onbeforesave="validarPrefijo(p.IdDestino, $data)" e-form="rowform" e-required>
+                    <span editable-text="p.Prefijo" e-name="prefijo" onbeforesave="validarPrefijo(p.IdDestino, $data)" e-form="rowform" e-required e-maxlength="4">
                         {{ p.Prefijo || '-' }}
                     </span>
                 </td>
                 <td class="celdaGrillaAdmin">
-                    <span editable-text="p.Telefono" e-name="telefono" e-form="rowform">
+                    <span editable-text="p.Telefono" e-name="telefono" e-form="rowform" e-solo-numeros>
                         {{ p.Telefono || '-' }}
                     </span>
                 </td>

@@ -14,7 +14,6 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
     function init() {
         $scope.idDonante = obtenerParametroPorNombre("idDonante");
-
         if ($scope.idDonante === null) {
             $scope.donacion = obtenerParametroPorNombre("accion") === "donacion";
             $scope.textoBotonEdicion = !$scope.donacion ? 'Editar' : 'Ingresar donación';
@@ -36,10 +35,10 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     }
 
     function recuperarFiltros() {
-        if (localStorage.getItem("busqApellido") != null) $scope.busqApellido = localStorage.getItem("busqApellido");
-        if (localStorage.getItem("busqNombre") != null) $scope.busqNombre = localStorage.getItem("busqNombre");
-        if (localStorage.getItem("busqGrupo") != null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
-        if (localStorage.getItem("busqLocalidad") != null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
+        if (localStorage.getItem("busqApellido") !== null) $scope.busqApellido = localStorage.getItem("busqApellido");
+        if (localStorage.getItem("busqNombre") !== null) $scope.busqNombre = localStorage.getItem("busqNombre");
+        if (localStorage.getItem("busqGrupo") !== null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
+        if (localStorage.getItem("busqLocalidad") !== null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
     }
 
     //Guardar filtros - En _LoginPartial.cshtml removemos las cookies.
@@ -60,11 +59,11 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     });
 
     function obtenerFechaSinFormato(fechaJson) {
-        return fechaJson != undefined && fechaJson !== "" ? new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", ""))) : "";
+        return fechaJson !== undefined && fechaJson !== "" ? new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", ""))) : "";
     }
 
     function obtenerFechaConFormato(fechaJson) {
-        if (fechaJson == undefined || fechaJson == "") return "";
+        if (fechaJson === undefined || fechaJson === "") return "";
 
         var fecha = new Date(parseInt(fechaJson.replace("/Date(", "").replace(")", "")));
         var dia = fecha.getDate();
@@ -106,23 +105,31 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             });
     };
 
-    $scope.verEstado = function (idEstadoDonante, descripcionEstado, diferidoHasta) {
-        var textoSecundario = "";
-        if (idEstadoDonante === 2)
-            textoSecundario = ": (Razones)";
-        if (idEstadoDonante === 3 && diferidoHasta != null)
-            textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ". (Razones)";
-        modalServicio.open("info", descripcionEstado + textoSecundario);
-    }
+    $scope.verEstado = function (idEstadoDonante, descripcionEstado, diferidoHasta, idDonante) {
+        if (idEstadoDonante === 2) {
+            donantesRepositorio.obtenerCausalesDeRechazo(idDonante).then(function (result) {
+                if (result.data.Razones) {
+                    modalServicio.open("info", descripcionEstado + ": " + result.data.Razones);
+                } else {
+                    modalServicio.open("info", descripcionEstado + ". No se han podido recuperar las razones.");
+                }
+            });
+        } else {
+            var textoSecundario = "";
+            if (idEstadoDonante === 3 && diferidoHasta !== null)
+                textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ".";
+            modalServicio.open("info", descripcionEstado + textoSecundario);
+        }
+    };
 
     $scope.obtenerClaseBoton = function () {
         return "btn btn-primary glyphicon glyphicon-" + ($scope.donacion ? "tint" : "pencil");
-    }
+    };
 
     $scope.ordenarGrilla = function (columna) {
         $scope.ordenInvertido = $scope.ordenarPorCampo === columna && !$scope.ordenInvertido;
         $scope.ordenarPorCampo = columna;
-    }
+    };
 
     //Creación y edición
 
@@ -130,13 +137,15 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         donantesRepositorio.obtenerDonante($scope.idDonante)
             .then(function (result) {
                 $scope.donante = result.data.data.Donante;
-
-                if ($scope.donante.FechaNacimiento != null)
+                if ($scope.donante.FechaNacimiento !== null)
                     $scope.calcularEdad(obtenerFechaSinFormato($scope.donante.FechaNacimiento));
 
-                $scope.donante.FechaNacimiento = obtenerFechaConFormato($scope.donante.FechaNacimiento);
-                $scope.donante.DiferidoHasta = obtenerFechaConFormato($scope.donante.DiferidoHasta);
-                $scope.donante.FechaUltimaDonacion = obtenerFechaConFormato($scope.donante.FechaUltimaDonacion);
+                if ($scope.donante.FechaNacimiento !== null)
+                    $scope.donante.FechaNacimiento = obtenerFechaConFormato($scope.donante.FechaNacimiento);
+                if ($scope.donante.DiferidoHasta !== null)
+                    $scope.donante.DiferidoHasta = obtenerFechaConFormato($scope.donante.DiferidoHasta);
+                if ($scope.donante.FechaUltimaDonacion !== null)
+                    $scope.donante.FechaUltimaDonacion = obtenerFechaConFormato($scope.donante.FechaUltimaDonacion);
 
                 $scope.tiposDocumentos = result.data.data.TiposDocumentos;
                 $scope.gruposFactores = result.data.data.GruposFactores;
@@ -148,9 +157,9 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     }
 
     $scope.calcularEdad = function (fecha) {
-        var fechaNac = fecha != null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
+        var fechaNac = fecha !== null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
 
-        if (fechaNac != null) {
+        if (fechaNac !== null) {
             var edad = "";
             var hoy = new Date(Date.now());
             var anioHoy = hoy.getFullYear();
@@ -171,7 +180,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
             $scope.donante.Edad = edad;
         }
-    }
+    };
 
     function cargarCalendarios() {
         $.datepicker.setDefaults($.datepicker.regional['es']);
@@ -198,7 +207,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             .then(function (result) {
                 $scope.localidades = result.data;
             });
-    }
+    };
 
     function crearDonante() {
         return {
@@ -219,7 +228,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             Fecha: $scope.donante.Fecha,
             Ocupacion: $scope.donante.Ocupacion,
             FechaUltimaDonacion: $scope.donante.FechaUltimaDonacion
-        }
+        };
     }
 
     $scope.guardar = function (crearCuestionario) {
@@ -250,7 +259,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     $scope.$watch('donante.OtraLocalidad', function () {
         if ($scope.localidades !== undefined) {
             for (var i = 0; i < $scope.localidades.length; i++) {
-                if ($scope.donante.OtraLocalidad == $scope.localidades[i].NombreLocalidad) {
+                if ($scope.donante.OtraLocalidad === $scope.localidades[i].NombreLocalidad) {
                     $scope.localidadExistente = true;
                     return;
                 }
@@ -258,4 +267,5 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         }
         $scope.localidadExistente = false;
     });
+
 });
