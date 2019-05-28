@@ -27,7 +27,7 @@ namespace BancoSangre.Controllers
 		public ActionResult ObtenerDonantes()
 		{
 			var donantes = _db.Donante.Include(t => t.TipoDocumento).Include(t => t.Localidad).Include(t => t.Provincia).Include(t => t.EstadoDonante)
-				.Include(t => t.Donacion)
+				.Include(t => t.Donacion).Include(g => g.GrupoFactor)
                 .Select(x => new
 				{
 					x.IdDonante,
@@ -49,11 +49,15 @@ namespace BancoSangre.Controllers
 			if (!donantes.Any())
 				return Json(null, JsonRequestBehavior.AllowGet);
 
-			var json = new
+            var estadosDonantes = _db.EstadoDonante.Select(x => new { x.IdEstadoDonante, x.DescripcionEstado }).ToList();
+            estadosDonantes.Add(new { IdEstadoDonante = -1, DescripcionEstado = "Todos" });
+
+            var json = new
 			{
-				cantidad = donantes.Count,
-				data = donantes
-			};
+				Cantidad = donantes.Count,
+				Donantes = donantes,
+                EstadosDonantes = estadosDonantes.OrderBy(x => x.IdEstadoDonante)
+            };
 
 			return Json(json, JsonRequestBehavior.AllowGet);
 		}

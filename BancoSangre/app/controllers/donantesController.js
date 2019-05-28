@@ -39,6 +39,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         if (localStorage.getItem("busqNombre") !== null) $scope.busqNombre = localStorage.getItem("busqNombre");
         if (localStorage.getItem("busqGrupo") !== null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
         if (localStorage.getItem("busqLocalidad") !== null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
+        if (localStorage.getItem("busqEstado") !== null) $scope.busqEstado = localStorage.getItem("busqEstado");
     }
 
     //Guardar filtros - En _LoginPartial.cshtml removemos las cookies.
@@ -56,6 +57,10 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
 
     $scope.$watch("busqLocalidad", function () {
         if ($scope.idDonante === null && $scope.busqLocalidad !== undefined) localStorage.setItem("busqLocalidad", $scope.busqLocalidad); // Sólo para grilla
+    });
+
+    $scope.$watch("busqEstado", function () {
+        if ($scope.idDonante === null && $scope.busqEstado !== undefined) localStorage.setItem("busqEstado", $scope.busqEstado); // Sólo para grilla
     });
 
     function obtenerFechaSinFormato(fechaJson) {
@@ -77,9 +82,12 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     function obtenerDonantes() {
         donantesRepositorio.obtenerDonantes()
             .then(function (result) {
-                $scope.donantes = result.data.data;
-                $scope.infoPagina.totalItems = result.data.cantidad;
-
+                $scope.donantes = result.data.Donantes;
+                $scope.infoPagina.totalItems = result.data.Cantidad;
+                $scope.estadosDonantes = result.data.EstadosDonantes;
+                if ($scope.busqEstado !== null) {
+                    $scope.busqEstado = -1;
+                }
                 for (var i = 0; i < $scope.donantes.length; i++) {
                     $scope.donantes[i].FechaUltimaDonacion = obtenerFechaSinFormato($scope.donantes[i].FechaUltimaDonacion);
                 }
@@ -129,6 +137,35 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     $scope.ordenarGrilla = function (columna) {
         $scope.ordenInvertido = $scope.ordenarPorCampo === columna && !$scope.ordenInvertido;
         $scope.ordenarPorCampo = columna;
+    };
+
+    $scope.filtroEstado = function (donante) {
+        return ($scope.busqApellido == null || donante.Apellido.toLowerCase().includes($scope.busqApellido.toLowerCase()))
+            && ($scope.busqNombre == null || donante.Nombre.toLowerCase().includes($scope.busqNombre.toLowerCase()))
+            && ($scope.busqGrupo == null || donante.DescripcionGrupoFactor.toLowerCase().includes($scope.busqGrupo.toLowerCase()))
+            && ($scope.busqLocalidad == null || donante.NombreLocalidad.toLowerCase().includes($scope.busqLocalidad.toLowerCase()))
+            && ($scope.busqEstado === -1 || donante.IdEstadoDonante === $scope.busqEstado);
+    };
+
+    $scope.imprimirListado = function () {
+        var html = "";
+        $("link").each(function () {
+            if ($(this).attr("rel").indexOf("stylesheet") !== -1) {
+                html += '<link rel="stylesheet" href="' + $(this).attr("href") + '" />';
+            }
+        });
+
+        var contenidoDiv = $("#listadoDonantes").html();
+
+        contenidoDiv = contenidoDiv.replace(/<th id="thAcciones" style="color: #5a5a5a;"/g, '<th id="thAcciones" style="color: #5a5a5a; visibility:hidden;"')
+            .replace(/<td id="tdAcciones" style="white-space: nowrap"/g, '<td id="tdAcciones" style="white-space: nowrap; visibility:hidden;"');
+
+        html += '<body onload="window.focus(); window.print()" style="font-size: 11px !important;"> ' + contenidoDiv + "</body>";
+        var w = window.open("", "print");
+        if (w) {
+            w.document.write(html);
+            w.document.close();
+        }
     };
 
     //Creación y edición

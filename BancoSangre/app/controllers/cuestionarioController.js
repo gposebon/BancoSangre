@@ -109,11 +109,11 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 	function crearObjetoCuestionario() {
         return {
             IdCuestionario: $scope.idCuestionario,
-			IdDonante: $scope.idDonante,
-			DatosDemograficos: $scope.datosDemograficos,
-			Preguntas: $scope.preguntas,
-			Fecha: $scope.fecha
-		}
+            IdDonante: $scope.idDonante,
+            DatosDemograficos: $scope.datosDemograficos,
+            Preguntas: $scope.preguntas,
+            Fecha: $scope.fecha
+        };
 	}
 
 	function configPaginacion() {
@@ -146,9 +146,9 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 			});
 	};
 
-	$scope.imprimirCuestionario = function () {
-		imprimirCuestionario();
-	}
+    $scope.imprimirCuestionario = function () {
+        imprimirCuestionario();
+    };
 
 	function imprimirCuestionario() {
 		$("input").each(function () {
@@ -185,17 +185,17 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 		}
 	}
 
-	$scope.obtenerClaseContenedor = function (pregunta) {
+    $scope.obtenerClaseContenedor = function (pregunta) {
         var claseContenedor = "contenedorPreguntaRespuesta" + ((pregunta.LineaCompleta || pregunta.LineaHorizontal) ? "-LineaEntera" : "");
-		if (pregunta.NuevaLinea)
-			claseContenedor += " nuevaLinea";
-		return claseContenedor;
-	}
+        if (pregunta.NuevaLinea)
+            claseContenedor += " nuevaLinea";
+        return claseContenedor;
+    };
 
-	$scope.obtenerClasePregunta = function (pregunta) {
+    $scope.obtenerClasePregunta = function (pregunta) {
         var clasePregunta = "preguntaRespuesta" + ((pregunta.EsTitulo || pregunta.LineaHorizontal) ? "-Titulo" : "");
-		return clasePregunta;
-    }
+        return clasePregunta;
+    };
 
     function cargarCalendario() {
         $.datepicker.setDefaults($.datepicker.regional['es']);
