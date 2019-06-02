@@ -1,9 +1,12 @@
 ﻿
 using System;
 using System.Data.Entity;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using BancoSangre.Models;
+using Zen.Barcode;
 
 namespace BancoSangre.Controllers
 {
@@ -121,7 +124,7 @@ namespace BancoSangre.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Guardar(Donacion donacion)
+        public ActionResult Guardar(Donacion donacion, bool imprimirEtiquetas, int cantidadEtiquetasExtras)
         {
             try
             {
@@ -129,6 +132,8 @@ namespace BancoSangre.Controllers
                     donacion.Fecha = DateTime.Now;
 
                 _db.Donacion.Add(donacion);
+                if(imprimirEtiquetas)
+                    ImprimirEtiquetas(donacion.NroRegistro, 1 + cantidadEtiquetasExtras);
                 _db.SaveChanges();
 
                 return Json(true, JsonRequestBehavior.AllowGet);
@@ -217,6 +222,86 @@ namespace BancoSangre.Controllers
             if (SerologiaCausal.Count() > 0)
                 Razones = "Serología causal: " + string.Join(" -- ", SerologiaCausal.ToArray());
             return Razones;
+        }
+
+        private void ImprimirEtiquetas(string nroRegistro, int cantidad)
+        {
+            try
+            {
+                // Genera la imagen del código de barra.
+                var maxheight = nroRegistro.Length;
+                var barcode128 = BarcodeDrawFactory.Code128WithChecksum;
+                var codigoBarra = barcode128.Draw(nroRegistro, maxheight);
+                using (var memStream = new MemoryStream())
+                {
+                    codigoBarra.Save(memStream, ImageFormat.Png);
+
+                    var file = new FileStream(Server.MapPath("~/Content/Imagenes/codigoBarra.png"), FileMode.Create, FileAccess.Write);
+                    memStream.WriteTo(file);
+                    file.Close();
+                    memStream.Close();
+                }
+
+                // Genera las etiquetas.
+                ImprimirEtiquetasEstandar(nroRegistro);
+                ImprimirEtiquetasExtras(nroRegistro, cantidad);
+
+                // Elimina la imagen del código de barra.
+                System.IO.File.Delete(Server.MapPath("~/Content/Imagenes/codigoBarra.png"));
+            }
+            catch (Exception)
+            {}
+        }
+
+        private void ImprimirEtiquetasEstandar(string nroRegistro)
+        {
+            var archivos = new []{ Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
+            var etiqueta = new bpac.Document();
+            foreach (string archivo in archivos) {
+                if (etiqueta.Open(archivo))
+                {
+                    var txtNroRegistro = etiqueta.GetObject("txtValorRegistro");
+                    if(txtNroRegistro != null)
+                        txtNroRegistro.Text = nroRegistro;
+
+                    var imgCodigo = etiqueta.GetObject("imgCodigo");
+                    if (imgCodigo != null)
+                    {
+                        imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
+                    }
+
+                    etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
+                    etiqueta.PrintOut(1, bpac.PrintOptionConstants.bpoDefault);
+                    etiqueta.EndPrint();
+                    etiqueta.Close();
+                }
+            }
+        }
+
+        private void ImprimirEtiquetasExtras(string nroRegistro, int cantidad)
+        {
+            var archivos = new[] { Server.MapPath("~/Content/Imagenes/Etiqueta3.lbx") };
+            var etiqueta = new bpac.Document();
+            foreach (string archivo in archivos)
+            {
+                if (etiqueta.Open(archivo))
+                {
+                    var txtNroRegistro = etiqueta.GetObject("txtValorRegistro");
+                    if (txtNroRegistro != null)
+                        txtNroRegistro.Text = nroRegistro;
+
+                    var imgCodigo = etiqueta.GetObject("imgCodigo");
+                    if (imgCodigo != null)
+                    {
+                        imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
+                    }
+
+                    etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
+                    etiqueta.PrintOut(cantidad, bpac.PrintOptionConstants.bpoDefault);
+                    etiqueta.EndPrint();
+                    etiqueta.Close();
+                }
+            }
         }
 
         #endregion

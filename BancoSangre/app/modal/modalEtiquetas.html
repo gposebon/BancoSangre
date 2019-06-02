@@ -1,0 +1,27 @@
+﻿<div class="modal-body" style="padding:0px">
+    <div class="alert alert-{{datos.modo}}" style="margin-bottom: 0">
+        <div>
+            <div style="display: inline-block; width:100%; text-align: center;">
+                <h3>{{datos.texto}}</h3>
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <span class="control-label col-md-6">Cantidad de etiquetas extras</span>
+                <div class="col-md-offset-3">
+                    <input type="text" ng-model="cantidadEtiquetasExtras" style="width: 20%;" Class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%; text-align: center;">
+            <button type="button" class="btn btn-primary" data-ng-click="cerrar(true)">
+                <span>Sí</span>
+            </button>
+            <button type="button" class="btn btn-success" data-ng-click="cerrar(false)">
+                <span>No</span>
+            </button>
+        </div>
+    </div>
+</div>

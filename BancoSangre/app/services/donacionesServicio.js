@@ -13,9 +13,9 @@ app.factory("donacionesRepositorio", function ($http) {
 			var url = "/Donaciones/ObtenerNroRegistro";
 			return $http.get(url + "?idDestino=" + idDestino);
 		},
-		guardar: function (donacion) {
+        guardar: function (donacion, imprimirEtiquetas, cantidadEtiquetasExtras) {
 			var url = "/Donaciones/Guardar";
-			return $http.post(url, donacion);
+            return $http.post(url, { 'donacion': donacion, 'imprimirEtiquetas': imprimirEtiquetas, 'cantidadEtiquetasExtras': cantidadEtiquetasExtras });
         },
         actualizarDonacion: function (nroRegistro, idEstadoDonacion) {
             var url = "/Donaciones/ActualizarDonacion";

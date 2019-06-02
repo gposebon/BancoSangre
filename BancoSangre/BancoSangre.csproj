@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -112,6 +113,9 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Zen.Barcode.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b5ae55aa76d2d9de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zen.Barcode.Rendering.Framework.3.1.10729.1\lib\Zen.Barcode.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +320,7 @@
     <Content Include="app\directivas\modalDirectiva.js" />
     <Content Include="app\modal\modalController.js" />
     <Content Include="app\modal\modalContenido.html" />
+    <Content Include="app\modal\modalEtiquetas.html" />
     <Content Include="app\modal\modalSerologia.html" />
     <Content Include="app\modal\modalServicio.js" />
     <Content Include="app\services\serologiaServicio.js" />
@@ -1193,6 +1198,9 @@
     <Content Include="Models\BancoSangre.edmx.diagram">
       <DependentUpon>BancoSangre.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\Imagenes\Etiqueta1.lbx" />
+    <Content Include="Content\Imagenes\Etiqueta2.lbx" />
+    <Content Include="Content\Imagenes\Etiqueta3.lbx" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\i18n\datapicker-es.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -1283,6 +1291,17 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="bpac">
+      <Guid>{90359D74-B7D9-467F-B938-3883F4CAB582}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

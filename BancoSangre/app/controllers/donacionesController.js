@@ -113,25 +113,71 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     }
 
     // Pantalla ingresar
-    $scope.guardar = function () {
-        if ($scope.donacion.NroRegistro === "" || $scope.donacion.IdDestino === "-1") {
-            $scope.validaciones = true;
-            return;
-        }
-
-        var donacion = crearDonacion($scope.donacion.NroRegistro, $scope.donacion.IdDonante, $scope.donacion.IdDestino, $scope.donacion.Material,
-            $scope.donacion.Cantidad, $scope.donacion.Peso, $("#calendarioFecha").datepicker("getDate"), $scope.donacion.IdEstadoDonacion, $scope.idCuestionario);
-        donacionesRepositorio.guardar(donacion)
-            .then(function (result) {
-                if (result.data) {
-                    modalServicio.open("success", "La donación se ha guardado con éxito.");
-                    $window.location.href = "/Cuestionarios/Cuestionario?idCuestionario=" + $scope.idCuestionario + "&accion=editarLuegoDonacion";
-                }
-                else {
-                    modalServicio.open("danger", "Error al guardar la donación.");
-                }
-            });
+    
+    $scope.impresionEtiquetas = function () {
+        abrirPopupEtiquetas("/app/modal/modalEtiquetas.html", "¿Desea imprimir etiquetas?", "", null, $scope.donacion, $scope.idCuestionario);
     };
+
+    function abrirPopupEtiquetas(url, texto, modo, dimensiones, donacionScope, idCuestionario) {
+        var ctrlr = function ($scope, $uibModalInstance, datos) {
+
+            var initModal = function () {
+                $scope.modalTmpStep = {
+                    pos: 0,
+                    body: ""
+                };
+                $scope.datos = datos;
+            };
+
+            $scope.guardarDonacion = function (imprimirEtiquetas) {
+                if (donacionScope.NroRegistro === "" || donacionScope.IdDestino === "-1") {
+                    $scope.validaciones = true;
+                    return;
+                }
+
+                var donacion = crearDonacion(donacionScope.NroRegistro, donacionScope.IdDonante, donacionScope.IdDestino, donacionScope.Material,
+                    donacionScope.Cantidad, donacionScope.Peso, $("#calendarioFecha").datepicker("getDate"), donacionScope.IdEstadoDonacion, $scope.idCuestionario);
+                if ($scope.cantidadEtiquetasExtras == null) {
+                    $scope.cantidadEtiquetasExtras = 0;
+                }
+                donacionesRepositorio.guardar(donacion, imprimirEtiquetas, $scope.cantidadEtiquetasExtras)
+                    .then(function (result) {
+                        if (result.data) {
+                            modalServicio.open("success", "La donación se ha guardado con éxito.");
+                            setTimeout(function () { $window.location.href = "/Cuestionarios/Cuestionario?idCuestionario=" + idCuestionario + "&accion=editarLuegoDonacion"; }, 1500);
+                        }
+                        else {
+                            modalServicio.open("danger", "Error al guardar la donación.");
+                        }
+                    });
+            };
+
+            $scope.cerrar = function (imprimirEtiquetas) {
+                $uibModalInstance.close();
+                $scope.guardarDonacion(imprimirEtiquetas);
+            };
+
+            initModal();
+        };
+
+        return $uibModal.open({
+            animation: true,
+            templateUrl: url,
+            controller: ctrlr,
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            size: dimensiones !== null ? dimensiones : "lg",
+            resolve: {
+                datos: function () {
+                    return {
+                        texto: texto,
+                        modo: modo
+                    };
+                }
+            }
+        });
+    }
 
     // Grilla
     $scope.actualizarDonacion = function (data, nroRegistro) {

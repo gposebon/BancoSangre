@@ -1,7 +1,7 @@
 ﻿
 var InstanciaModalCtrl = function ($scope, $uibModalInstance, data) {
 	$scope.data = data;
-	$scope.close = function () {
+	$scope.cerrar = function () {
 		$uibModalInstance.close();
 	};
 };
