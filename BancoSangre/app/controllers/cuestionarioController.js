@@ -62,7 +62,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
     }
 
 	function obtenerCuestionarioEnBlanco() {
-		if ($scope.idDonante !== null) {
+		if ($scope.idDonante != null) {
 			cuestionarioRepositorio.obtenerCuestionarioParaDonante($scope.idDonante)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
@@ -76,7 +76,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
     }
 
     function obtenerCuestionariosDeDonante() {
-        if ($scope.idDonante !== null) {
+        if ($scope.idDonante != null) {
             cuestionarioRepositorio.obtenerCuestionariosDeDonante($scope.idDonante)
                 .then(function (result) {
                     $scope.donante = result.data !== "" ? result.data.data.Donante : [];
@@ -87,7 +87,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
     }
 
 	function obtenerCuestionarioPorId(idCuestionario) {
-		if (idCuestionario !== null) {
+		if (idCuestionario != null) {
 			cuestionarioRepositorio.obtenerCuestionarioPorId(idCuestionario)
 				.then(function (result) {
 					$scope.datosDemograficos = result.data !== "" ? result.data.data.DatosDemograficos : [];
@@ -97,7 +97,7 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 					//Las respuestas (abiertas y encriptadas) se persisten encripatas en BD. VUelven como string, las pasamos a bool.
 					var i;
 					for (i = 0; i < $scope.preguntas.length; ++i) {
-						if ($scope.preguntas[i].RespuestaCerrada !== null) {
+						if ($scope.preguntas[i].RespuestaCerrada != null) {
 							var esVerdadero = ($scope.preguntas[i].RespuestaCerrada === "True");
 							$scope.preguntas[i].RespuestaCerrada = esVerdadero;
 						}
@@ -155,13 +155,13 @@ app.controller("cuestionarioController", function ($scope, cuestionarioRepositor
 			if ($(this).prop("type") === "radio") {
 				$(this).attr("checked", $(this).filter(':checked').val());
             }
-            if ($(this).prop("type") === "text" && $(this).val() !== null) {
+            if ($(this).prop("type") === "text" && $(this).val() != null) {
                 $(this).attr("value", $(this).val());
             }
         });
 
 		$("textarea").each(function () {
-			if ($(this).val() !== null) {
+			if ($(this).val() != null) {
                 $(this).html($(this).val());
 			}
         });

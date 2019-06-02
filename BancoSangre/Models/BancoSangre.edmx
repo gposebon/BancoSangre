@@ -79,6 +79,7 @@
           <Property Name="Fecha" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DiferidoHasta" Type="datetime2" Precision="7" />
           <Property Name="LugarNacimiento" Type="nvarchar" MaxLength="100" />
+          <Property Name="CausasIngresadasRechazoDiferido" Type="nvarchar" MaxLength="350" />
         </EntityType>
         <EntityType Name="EstadoDonacion">
           <Key>
@@ -644,6 +645,7 @@
           <NavigationProperty Name="Provincia" Relationship="bancosangreModel.FK_Donante_Provincia" FromRole="Donante" ToRole="Provincia" />
           <NavigationProperty Name="TipoDocumento" Relationship="bancosangreModel.FK_Donante_TipoDoc" FromRole="Donante" ToRole="TipoDocumento" />
           <NavigationProperty Name="EstadoDonante" Relationship="bancosangreModel.FK_Donante_EstadoDonante" FromRole="Donante" ToRole="EstadoDonante" />
+          <Property Name="CausasIngresadasRechazoDiferido" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GrupoFactor">
           <Key>
@@ -1026,6 +1028,7 @@
           <EntitySetMapping Name="Donante">
             <EntityTypeMapping TypeName="bancosangreModel.Donante">
               <MappingFragment StoreEntitySet="Donante">
+                <ScalarProperty Name="CausasIngresadasRechazoDiferido" ColumnName="CausasIngresadasRechazoDiferido" />
                 <ScalarProperty Name="LugarNacimiento" ColumnName="LugarNacimiento" />
                 <ScalarProperty Name="DiferidoHasta" ColumnName="DiferidoHasta" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />

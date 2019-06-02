@@ -220,7 +220,7 @@ namespace BancoSangre.Controllers
 
             var Razones = "Nro registro: " + UltimaDonacion.NroRegistro;
             if (SerologiaCausal.Count() > 0)
-                Razones = "Serología causal: " + string.Join(" -- ", SerologiaCausal.ToArray());
+                Razones += " | Serología causal: " + string.Join(" -- ", SerologiaCausal.ToArray()) + " |";
             return Razones;
         }
 

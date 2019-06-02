@@ -173,7 +173,7 @@ namespace BancoSangre.Controllers
             try
             {
                 var idDonante = cuestionarioDonante.IdDonante;
-                var fechaCuestionario = cuestionarioDonante.DatosDemograficos.FirstOrDefault(x => x.Etiqueta == "Fecha:").Dato;
+                var fechaCuestionario = cuestionarioDonante.DatosDemograficos.FirstOrDefault(x => x.Etiqueta == "Fecha:").Dato + DateTime.Now.ToString(" HH:mm:ss");
 
                 var idCuestionario = cuestionarioDonante.IdCuestionario;
 
@@ -183,7 +183,7 @@ namespace BancoSangre.Controllers
                     {
                         IdCuestionario = Guid.NewGuid(),
                         IdDonante = cuestionarioDonante.IdDonante,
-                        Fecha = fechaCuestionario != null ? DateTime.ParseExact(fechaCuestionario, "dd/MM/yyyy", CultureInfo.InvariantCulture) : DateTime.Now
+                        Fecha = fechaCuestionario != null ? DateTime.ParseExact(fechaCuestionario, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) : DateTime.Now
                     };
 
                     idCuestionario = _db.Cuestionario.Add(nuevoCuestionario).IdCuestionario;
@@ -197,7 +197,6 @@ namespace BancoSangre.Controllers
 
                 _db.SaveChanges();
 
-                var encriptador = new Encriptador();
                 if (idCuestionario != null)
                 {
                     // Si al menos una pregunta "causal de rechazo" fue respondida de acuerdo a "rechazo por positivo", el estado del donante pasa a Rechazado.
@@ -212,6 +211,7 @@ namespace BancoSangre.Controllers
                         }
                     }
                     // Guarda datos demográficos.
+                    var encriptador = new Encriptador();
                     foreach (var datoDemografico in cuestionarioDonante.DatosDemograficos)
                     {
                         datoDemografico.IdDatoDemograficoCuestionario = Guid.NewGuid();
@@ -252,14 +252,16 @@ namespace BancoSangre.Controllers
             if (UltimoCuestionario == null)
                 return "";
 
+            var encriptador = new Encriptador();
+
             var PreguntasCausales = UltimoCuestionario.PreguntaCuestionario
-                    .Where(x => x.CausalRechazo && (x.RechazoPorPositivo.HasValue && (bool)x.RechazoPorPositivo && x.RespuestaCerrada == "true"
-                                                        || (!x.RechazoPorPositivo.HasValue || !(bool)x.RechazoPorPositivo) && x.RespuestaCerrada == "false"))
+                    .Where(x => x.CausalRechazo && (x.RechazoPorPositivo.HasValue && (bool)x.RechazoPorPositivo && !string.IsNullOrEmpty(x.RespuestaCerrada) && encriptador.Desencriptar(x.RespuestaCerrada).ToLower() == "true"
+                                                        || (!x.RechazoPorPositivo.HasValue || !(bool)x.RechazoPorPositivo) && !string.IsNullOrEmpty(x.RespuestaCerrada) && encriptador.Desencriptar(x.RespuestaCerrada).ToLower() == "false"))
                     .Select(w => w.TextoPregunta);
 
             var Razones = "";
             if (PreguntasCausales.Count() > 0)
-                Razones += "Pregunta/s: " + string.Join(" -- ", PreguntasCausales.ToArray());
+                Razones += " Pregunta/s: " + string.Join(" -- ", PreguntasCausales.ToArray());
             return Razones;
         }
 

@@ -35,11 +35,11 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
         var tipoDoc = obtenerParametroPorNombre("tipoDoc");
         var nroDoc = obtenerParametroPorNombre("nroDoc");
         // Si viene en url el tipo y número de doc lo tomamos de ahí porque viene desde Donante (donaciones anteriores)
-        if (tipoDoc !== null && nroDoc !== null) {
+        if (tipoDoc != null && nroDoc != null) {
             $scope.busqDocumento = tipoDoc + ": " + nroDoc;
         } else { 
             // De lo contrario, valida valores de búsqueda anteriores (en cookie)
-            if (localStorage.getItem("busqDocumento") !== null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
+            if (localStorage.getItem("busqDocumento") != null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
         }
     }
 
@@ -167,7 +167,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            size: dimensiones !== null ? dimensiones : "lg",
+            size: dimensiones != null ? dimensiones : "lg",
             resolve: {
                 datos: function () {
                     return {
@@ -281,7 +281,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             backdrop: true,
             keyboard: true,
             backdropClick: true,
-            size: dimensiones !== null ? dimensiones : "lg",
+            size: dimensiones != null ? dimensiones : "lg",
             resolve: {
                 datos: function () {
                     return {

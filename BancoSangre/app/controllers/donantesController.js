@@ -35,11 +35,11 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     }
 
     function recuperarFiltros() {
-        if (localStorage.getItem("busqApellido") !== null) $scope.busqApellido = localStorage.getItem("busqApellido");
-        if (localStorage.getItem("busqNombre") !== null) $scope.busqNombre = localStorage.getItem("busqNombre");
-        if (localStorage.getItem("busqGrupo") !== null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
-        if (localStorage.getItem("busqLocalidad") !== null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
-        if (localStorage.getItem("busqEstado") !== null) $scope.busqEstado = localStorage.getItem("busqEstado");
+        if (localStorage.getItem("busqApellido") != null) $scope.busqApellido = localStorage.getItem("busqApellido");
+        if (localStorage.getItem("busqNombre") != null) $scope.busqNombre = localStorage.getItem("busqNombre");
+        if (localStorage.getItem("busqGrupo") != null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
+        if (localStorage.getItem("busqLocalidad") != null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
+        if (localStorage.getItem("busqEstado") != null) $scope.busqEstado = localStorage.getItem("busqEstado");
     }
 
     //Guardar filtros - En _LoginPartial.cshtml removemos las cookies.
@@ -85,7 +85,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
                 $scope.donantes = result.data.Donantes;
                 $scope.infoPagina.totalItems = result.data.Cantidad;
                 $scope.estadosDonantes = result.data.EstadosDonantes;
-                if ($scope.busqEstado !== null) {
+                if ($scope.busqEstado != null) {
                     $scope.busqEstado = -1;
                 }
                 for (var i = 0; i < $scope.donantes.length; i++) {
@@ -114,7 +114,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     };
 
     $scope.verEstado = function (idEstadoDonante, descripcionEstado, diferidoHasta, idDonante) {
-        if (idEstadoDonante === 2) {
+        if (idEstadoDonante === 2 || idEstadoDonante === 3) {
             donantesRepositorio.obtenerCausalesDeRechazo(idDonante).then(function (result) {
                 if (result.data.Razones) {
                     modalServicio.open("info", descripcionEstado + ": " + result.data.Razones);
@@ -124,7 +124,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             });
         } else {
             var textoSecundario = "";
-            if (idEstadoDonante === 3 && diferidoHasta !== null)
+            if (idEstadoDonante === 3 && diferidoHasta != null)
                 textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ".";
             modalServicio.open("info", descripcionEstado + textoSecundario);
         }
@@ -174,14 +174,14 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         donantesRepositorio.obtenerDonante($scope.idDonante)
             .then(function (result) {
                 $scope.donante = result.data.data.Donante;
-                if ($scope.donante.FechaNacimiento !== null)
+                if ($scope.donante.FechaNacimiento != null)
                     $scope.calcularEdad(obtenerFechaSinFormato($scope.donante.FechaNacimiento));
 
-                if ($scope.donante.FechaNacimiento !== null)
+                if ($scope.donante.FechaNacimiento != null)
                     $scope.donante.FechaNacimiento = obtenerFechaConFormato($scope.donante.FechaNacimiento);
-                if ($scope.donante.DiferidoHasta !== null)
+                if ($scope.donante.DiferidoHasta != null)
                     $scope.donante.DiferidoHasta = obtenerFechaConFormato($scope.donante.DiferidoHasta);
-                if ($scope.donante.FechaUltimaDonacion !== null)
+                if ($scope.donante.FechaUltimaDonacion != null)
                     $scope.donante.FechaUltimaDonacion = obtenerFechaConFormato($scope.donante.FechaUltimaDonacion);
 
                 $scope.tiposDocumentos = result.data.data.TiposDocumentos;
@@ -194,9 +194,9 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     }
 
     $scope.calcularEdad = function (fecha) {
-        var fechaNac = fecha !== null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
+        var fechaNac = fecha != null ? fecha : $("#calendarioFechaNacimiento").datepicker("getDate");
 
-        if (fechaNac !== null) {
+        if (fechaNac != null) {
             var edad = "";
             var hoy = new Date(Date.now());
             var anioHoy = hoy.getFullYear();
@@ -264,13 +264,14 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             FechaNacimiento: $("#calendarioFechaNacimiento").datepicker("getDate"),
             Fecha: $scope.donante.Fecha,
             Ocupacion: $scope.donante.Ocupacion,
-            FechaUltimaDonacion: $scope.donante.FechaUltimaDonacion
+            FechaUltimaDonacion: $scope.donante.FechaUltimaDonacion,
+            CausasIngresadasRechazoDiferido: $scope.donante.CausasIngresadasRechazoDiferido
         };
     }
 
     $scope.guardar = function (crearCuestionario) {
         if ($scope.donante.IdTipoDoc === -1 || $scope.donante.NroDoc === "" || $scope.donante.Apellido === "" || $scope.donante.Nombre === "" || $scope.donante.IdGrupoFactor === -1 ||
-            $scope.donante.IdProvincia === -1 || $scope.donante.IdLocalidad === -2 || ($scope.donante.IdLocalidad === -1 && $scope.donante.OtraLocalidad === "") ||
+            $scope.donante.IdProvincia === -1 || $scope.donante.IdLocalidad === -2 || $scope.donante.IdLocalidad === -1 && $scope.donante.OtraLocalidad === "" ||
             $scope.donante.IdEstadoDonante === -1 || $scope.localidadExistente)
         {
             $scope.validar = true;

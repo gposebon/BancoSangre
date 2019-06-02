@@ -41,7 +41,8 @@ namespace BancoSangre.Controllers
 					FechaUltimaDonacion = x.Donacion.Any() ? (DateTime?)x.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
 					x.IdEstadoDonante,
 					x.EstadoDonante.DescripcionEstado,
-					x.DiferidoHasta
+					x.DiferidoHasta,
+                    x.CausasIngresadasRechazoDiferido
 				})
                 .OrderByDescending(d => d.FechaUltimaDonacion).ThenBy(x => x.Apellido).ThenBy(x => x.Nombre)
                 .ToList();
@@ -116,7 +117,8 @@ namespace BancoSangre.Controllers
 				FechaNacimiento = donante == null ? null : donante.FechaNacimiento,
 				Telefono = donante == null ? "" : donante.Telefono,
 				Ocupacion = donante == null ? "" : donante.Ocupacion,
-                FechaUltimaDonacion = donante != null && donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null
+                FechaUltimaDonacion = donante != null && donante.Donacion.Any() ? (DateTime?)donante.Donacion.OrderByDescending(w => w.Fecha).FirstOrDefault().Fecha : null,
+                CausasIngresadasRechazoDiferido = donante == null ? "" : donante.CausasIngresadasRechazoDiferido
             };
 
 			if (idDonante != 0 && donante == null)
@@ -222,6 +224,7 @@ namespace BancoSangre.Controllers
 					donanteActual.NroDoc = donante.NroDoc;
 					donanteActual.Telefono = donante.Telefono;
 					donanteActual.Ocupacion = donante.Ocupacion;
+                    donanteActual.CausasIngresadasRechazoDiferido = donante.CausasIngresadasRechazoDiferido;
 				}
 
 				_db.SaveChanges();
@@ -250,9 +253,13 @@ namespace BancoSangre.Controllers
         [Authorize]
         public ActionResult ObtenerCausalesDeRechazo(int idDonante)
         {
+            var donante = _db.Donante.FirstOrDefault(x => x.IdDonante == idDonante);
+            var razones = donante.CausasIngresadasRechazoDiferido;
+            if (donante.IdEstadoDonante == 2)
+                razones += " | " + new DonacionesController().ObtenerCausalesDeRechazo(idDonante) + new CuestionariosController().ObtenerCausalesDeRechazo(idDonante);
             var json = new
             {
-                Razones = new DonacionesController().ObtenerCausalesDeRechazo(idDonante) + new CuestionariosController().ObtenerCausalesDeRechazo(idDonante)
+                Razones =  razones
             };
 
             return Json(json, JsonRequestBehavior.AllowGet);
