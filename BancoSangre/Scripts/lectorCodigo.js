@@ -283,12 +283,13 @@ $(function() {
     Quagga.onDetected(function(result) {
         var code = result.codeResult.code;
         //console.log(code);
-        if (App.lastResult !== code) {
-            App.lastResult = code;
-            
-            $("#busquedaNroRegistro").val(code);
-            $("#busquedaNroRegistro").change();
-        }
+        //if (App.lastResult !== code) {
+        //    App.lastResult = code;
+        $("#busquedaNroRegistro").val("");
+        $("#busquedaNroRegistro").change();
+        $("#busquedaNroRegistro").val(code);
+        $("#busquedaNroRegistro").change();
+        //}
     });
 
 });

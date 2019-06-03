@@ -133,7 +133,7 @@ namespace BancoSangre.Controllers
 
                 _db.Donacion.Add(donacion);
                 if(imprimirEtiquetas)
-                    ImprimirEtiquetas(donacion.NroRegistro, 1 + cantidadEtiquetasExtras);
+                    ImprimirEtiquetas(donacion.NroRegistro, 3 + cantidadEtiquetasExtras);
                 _db.SaveChanges();
 
                 return Json(true, JsonRequestBehavior.AllowGet);
@@ -243,7 +243,7 @@ namespace BancoSangre.Controllers
                 }
 
                 // Genera las etiquetas.
-                ImprimirEtiquetasEstandar(nroRegistro);
+                // ImprimirEtiquetasEstandar(nroRegistro);
                 ImprimirEtiquetasExtras(nroRegistro, cantidad);
 
                 // Elimina la imagen del código de barra.
