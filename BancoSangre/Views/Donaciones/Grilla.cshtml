@@ -4,125 +4,139 @@
     ViewBag.Title = "Donaciones";
 }
 
-<div class="contenedorTituloCrearEditar">
-    <div class="tituloCrearEditar">Donaciones</div>
-    <div class="botonesCrearEditar">
-        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            Volver
-        </a>
-    </div>
-</div>
-
-<div class="panel panel-default" ng-controller="donacionesController">
-
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-9">
-                <form class="form-inline">
-                    <input type="text" class="form-control cajaBusqueda" placeholder="Nro. Registro" ng-model="busqNroRegistro">
-                    <input type="text" class="form-control cajaBusqueda" placeholder="Documento" ng-model="busqDocumento">
-                    <input type="text" class="form-control cajaBusqueda" placeholder="Donante" ng-model="busqDonante">
-                    <input type="text" class="form-control cajaBusqueda" placeholder="Destino" ng-model="busqDestino">
-                </form>
+<div class="panel panel-default" ng-controller="donacionesController" ng-cloak>
+    <div id="contenidoGrilla" ng-show="!mostrarLectorCodigo">
+        <div>
+            <div style="display:inline-block;">
+                <h3>Donaciones</h3>
             </div>
-            <div class="col-md-pull-2">
-                <label class="control-label" style="padding-left: 1%;">Donaciones: </label>
-                <label class="control-label" style="padding-right: 1%;" ng-bind="donaciones.length"></label>
-                <a ng-href="@Url.Action("Grilla", "Donantes")?accion=donacion" class="btn btn-primary" title="Ingresar Donación">
-                    <span>Ingresar Donación</span>
+            <div class="volverArribaPagina">
+                <button class="btn btn-primary" ng-click="leerCodigo()">Leer código</button>
+                <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    Volver
                 </a>
             </div>
         </div>
+
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-9">
+                    <form class="form-inline">
+                        <input type="text" class="form-control cajaBusqueda" placeholder="Nro. Registro" ng-model="busqNroRegistro" id="busquedaNroRegistro" ng-change="mostrarLectorCodigo = false">
+                        <input type="text" class="form-control cajaBusqueda" placeholder="Documento" ng-model="busqDocumento">
+                        <input type="text" class="form-control cajaBusqueda" placeholder="Donante" ng-model="busqDonante">
+                        <input type="text" class="form-control cajaBusqueda" placeholder="Destino" ng-model="busqDestino">
+                    </form>
+                </div>
+                <div class="col-md-pull-2">
+                    <label class="control-label" style="padding-left: 1%;">Donaciones: </label>
+                    <label class="control-label" style="padding-right: 1%;" ng-bind="donaciones.length"></label>
+                    <a ng-href="@Url.Action("Grilla", "Donantes")?accion=donacion" class="btn btn-primary" title="Ingresar Donación">
+                        <span>Ingresar Donación</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-center">Nro. Registro</th>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Documento</th>
+                    <th class="text-center">Donante</th>
+                    <th class="text-center">Material</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-center">Peso</th>
+                    <th class="text-center">Destino</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody ng-cloak>
+                <tr ng-repeat="donacion in filtrados = (donaciones | filter:{NroRegistro: busqNroRegistro, DocDonante: busqDocumento, NomreDonante: busqDonante,
+                    Destino: busqDestino}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.NroRegistro }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.Fecha }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.DocDonante }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.NomreDonante }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.Material }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.Cantidad }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.Peso }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span>
+                            {{ donacion.Destino }}
+                        </span>
+                    </td>
+                    <td class="celdaGrillaAdmin">
+                        <span editable-select="donacion.IdEstadoDonacion" e-name="idEstadoDonacion" e-form="rowform" e-ng-options="e.IdEstadoDonacion as e.DescripcionEstado for e in estadosDonacion">
+                            {{ donacion.Estado }}
+                        </span>
+                    </td>
+
+                    <td class="celdaGrillaAdmin" style="white-space: nowrap">
+                        <!-- form -->
+                        <form editable-form name="rowform" onbeforesave="actualizarDonacion($data, donacion.NroRegistro)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == donacion">
+                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                Guardar
+                            </button>
+                            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();" class="btn btn-default">
+                                Cancelar
+                            </button>
+                        </form>
+                        <div class="buttons" ng-show="!rowform.$visible">
+                            <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
+                            <a ng-href="/Cuestionarios/Cuestionario?idCuestionario={{donacion.IdCuestionario}}&accion=verDesdeDonaciones"
+                               class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionario" ng-hide="donacion.IdCuestionario == null"></a>
+                            <button ng-class="obtenerClaseSerologia(donacion.TieneSerologia)" ng-click="editarSerologia(donacion)" title="Serología"></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center">
+            <uib-pagination ng-show="true" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
+                            items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+        </div>
     </div>
 
-    <table class="table table-striped table-bordered table-hover table-condensed">
-        <thead>
-            <tr>
-                <th class="text-center">Nro. Registro</th>
-                <th class="text-center">Fecha</th>
-                <th class="text-center">Documento</th>
-                <th class="text-center">Donante</th>
-                <th class="text-center">Material</th>
-                <th class="text-center">Cantidad</th>
-                <th class="text-center">Peso</th>
-                <th class="text-center">Destino</th>
-                <th class="text-center">Estado</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody ng-cloak>
-            <tr ng-repeat="donacion in filtrados = (donaciones | filter:{NroRegistro: busqNroRegistro, DocDonante: busqDocumento, NomreDonante: busqDonante, 
-                Destino: busqDestino}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.NroRegistro }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.Fecha }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.DocDonante }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.NomreDonante }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.Material }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.Cantidad }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.Peso }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span>
-                        {{ donacion.Destino }}
-                    </span>
-                </td>
-                <td class="celdaGrillaAdmin">
-                    <span editable-select="donacion.IdEstadoDonacion" e-name="idEstadoDonacion" e-form="rowform" e-ng-options="e.IdEstadoDonacion as e.DescripcionEstado for e in estadosDonacion">
-                        {{ donacion.Estado }}
-                    </span>
-                </td>
-
-                <td class="celdaGrillaAdmin" style="white-space: nowrap">
-                    <!-- form -->
-                    <form editable-form name="rowform" onbeforesave="actualizarDonacion($data, donacion.NroRegistro)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == donacion">
-                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                            Guardar
-                        </button>
-                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();" class="btn btn-default">
-                            Cancelar
-                        </button>
-                    </form>
-                    <div class="buttons" ng-show="!rowform.$visible">
-                        <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
-                        <a ng-href="/Cuestionarios/Cuestionario?idCuestionario={{donacion.IdCuestionario}}&accion=verDesdeDonaciones"
-                           class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionario" ng-hide="donacion.IdCuestionario == null"></a>
-                        <button ng-class="obtenerClaseSerologia(donacion.TieneSerologia)" ng-click="editarSerologia(donacion)" title="Serología"></button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div style="text-align: center">
-        <uib-pagination ng-show="true" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
-                        items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
+    <div id="lectorCodigo" ng-show="mostrarLectorCodigo">
+        <section id="container" class="container">
+            <div id="result_strip">
+                <ul class="thumbnails"></ul>
+                <ul class="collector"></ul>
+            </div>
+            <div id="interactive" class="viewport"></div>
+        </section>
     </div>
 
 </div>
@@ -131,4 +145,8 @@
     @Scripts.Render("~/app/services/donacionesServicio.js")
     @Scripts.Render("~/app/controllers/donacionesController.js")
     @Scripts.Render("~/app/services/serologiaServicio.js")
+    @Scripts.Render("~/Scripts/adapter-latest.js")
+    @Scripts.Render("~/Scripts/quagga.js")
+    @Scripts.Render("~/Scripts/lectorCodigo.js")
+    @Styles.Render("~/Content/estiloLectorCodigo.css")
 }

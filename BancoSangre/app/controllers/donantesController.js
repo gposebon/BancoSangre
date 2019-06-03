@@ -39,26 +39,22 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
         if (localStorage.getItem("busqNombre") != null) $scope.busqNombre = localStorage.getItem("busqNombre");
         if (localStorage.getItem("busqGrupo") != null) $scope.busqGrupo = localStorage.getItem("busqGrupo");
         if (localStorage.getItem("busqLocalidad") != null) $scope.busqLocalidad = localStorage.getItem("busqLocalidad");
-        if (localStorage.getItem("busqEstado") != null) $scope.busqEstado = localStorage.getItem("busqEstado");
+        if (localStorage.getItem("busqEstado") != null) $scope.busqEstado = parseInt(localStorage.getItem("busqEstado"));
     }
 
     //Guardar filtros - En _LoginPartial.cshtml removemos las cookies.
     $scope.$watch("busqApellido", function () {
         if ($scope.idDonante === null && $scope.busqApellido !== undefined) localStorage.setItem("busqApellido", $scope.busqApellido); // Sólo para grilla
     });
-
     $scope.$watch("busqNombre", function () {
         if ($scope.idDonante === null && $scope.busqNombre !== undefined) localStorage.setItem("busqNombre", $scope.busqNombre); // Sólo para grilla
     });
-
     $scope.$watch("busqGrupo", function () {
         if ($scope.idDonante === null && $scope.busqGrupo !== undefined) localStorage.setItem("busqGrupo", $scope.busqGrupo); // Sólo para grilla
     });
-
     $scope.$watch("busqLocalidad", function () {
         if ($scope.idDonante === null && $scope.busqLocalidad !== undefined) localStorage.setItem("busqLocalidad", $scope.busqLocalidad); // Sólo para grilla
     });
-
     $scope.$watch("busqEstado", function () {
         if ($scope.idDonante === null && $scope.busqEstado !== undefined) localStorage.setItem("busqEstado", $scope.busqEstado); // Sólo para grilla
     });
@@ -80,14 +76,14 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
     //Grilla
 
     function obtenerDonantes() {
+        if ($scope.busqEstado == null) {
+            $scope.busqEstado = -1;
+        }
         donantesRepositorio.obtenerDonantes()
             .then(function (result) {
                 $scope.donantes = result.data.Donantes;
                 $scope.infoPagina.totalItems = result.data.Cantidad;
                 $scope.estadosDonantes = result.data.EstadosDonantes;
-                if ($scope.busqEstado != null) {
-                    $scope.busqEstado = -1;
-                }
                 for (var i = 0; i < $scope.donantes.length; i++) {
                     $scope.donantes[i].FechaUltimaDonacion = obtenerFechaSinFormato($scope.donantes[i].FechaUltimaDonacion);
                 }

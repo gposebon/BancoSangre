@@ -28,9 +28,13 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     }
 
     function recuperarFiltro() {
-        // Si el usuario viene desde el menú principal eliminamos la cookie de búsqueda por documento.
-        if (document.referrer.includes('Menu'))
+        // Si el usuario viene desde el menú principal eliminamos las cookies de búsqueda.
+        if (document.referrer.includes('Menu')) {
+            localStorage.removeItem("busqNroRegistro");
             localStorage.removeItem("busqDocumento");
+            localStorage.removeItem("busqDonante");
+            localStorage.removeItem("busqDestino");
+        }
 
         var tipoDoc = obtenerParametroPorNombre("tipoDoc");
         var nroDoc = obtenerParametroPorNombre("nroDoc");
@@ -39,13 +43,25 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             $scope.busqDocumento = tipoDoc + ": " + nroDoc;
         } else { 
             // De lo contrario, valida valores de búsqueda anteriores (en cookie)
+            if (localStorage.getItem("busqNroRegistro") != null) $scope.busqNroRegistro = localStorage.getItem("busqNroRegistro");
             if (localStorage.getItem("busqDocumento") != null) $scope.busqDocumento = localStorage.getItem("busqDocumento");
+            if (localStorage.getItem("busqDonante") != null) $scope.busqDonante = localStorage.getItem("busqDonante");
+            if (localStorage.getItem("busqDestino") != null) $scope.busqDestino = localStorage.getItem("busqDestino");
         }
     }
 
-    //Guardar filtro - En _LoginPartial.cshtml removemos la cookie.
+    //Guardar filtro - En _LoginPartial.cshtml removemos las cookies. --- Sólo para grilla
+    $scope.$watch("busqNroRegistro", function () {
+        if ($scope.busqNroRegistro !== undefined) localStorage.setItem("busqNroRegistro", $scope.busqNroRegistro);
+    });
     $scope.$watch("busqDocumento", function () {
-        if ($scope.busqDocumento !== undefined) localStorage.setItem("busqDocumento", $scope.busqDocumento); // Sólo para grilla
+        if ($scope.busqDocumento !== undefined) localStorage.setItem("busqDocumento", $scope.busqDocumento);
+    });
+    $scope.$watch("busqDonante", function () {
+        if ($scope.busqDonante !== undefined) localStorage.setItem("busqDonante", $scope.busqDonante);
+    });
+    $scope.$watch("busqDestino", function () {
+        if ($scope.busqDestino !== undefined) localStorage.setItem("busqDestino", $scope.busqDestino);
     });
 
     function obtenerDonaciones() {
@@ -305,5 +321,9 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                 $scope.resultadosSerologia = resultado.data !== "" ? resultado.data.datos : [];
             });
     }
+
+    $scope.leerCodigo = function () {
+        $scope.mostrarLectorCodigo = true;
+    };
 
 });

@@ -331,6 +331,7 @@
     <Content Include="app\services\donantesServicio.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\estiloLectorCodigo.css" />
     <Content Include="Content\Imagenes\bancosangre.jpg" />
     <Content Include="Content\Imagenes\logo.png" />
     <Content Include="Content\loading-bar.css" />
@@ -400,6 +401,7 @@
       <DependentUpon>SeguridadBancoSangre.edmx</DependentUpon>
       <LastGenOutput>SeguridadBancoSangre.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\adapter-latest.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -1215,8 +1217,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Auxiliares\lanzamiento.js" />
+    <Content Include="Scripts\lectorCodigo.js" />
     <Content Include="Scripts\loading-bar.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\quagga.js" />
+    <Content Include="Scripts\quagga.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\smart-table.min.js" />
