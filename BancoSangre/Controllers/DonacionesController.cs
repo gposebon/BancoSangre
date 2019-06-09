@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using BancoSangre.Models;
+using bpac;
 using Zen.Barcode;
 
 namespace BancoSangre.Controllers
@@ -230,8 +231,8 @@ namespace BancoSangre.Controllers
             {
                 // Genera la imagen del código de barra.
                 var maxheight = nroRegistro.Length;
-                var barcode128 = BarcodeDrawFactory.Code128WithChecksum;
-                var codigoBarra = barcode128.Draw(nroRegistro, maxheight);
+                var barcode39 = BarcodeDrawFactory.Code39WithChecksum;
+                var codigoBarra = barcode39.Draw(nroRegistro, maxheight);
                 using (var memStream = new MemoryStream())
                 {
                     codigoBarra.Save(memStream, ImageFormat.Png);
@@ -249,58 +250,79 @@ namespace BancoSangre.Controllers
                 // Elimina la imagen del código de barra.
                 System.IO.File.Delete(Server.MapPath("~/Content/Imagenes/codigoBarra.png"));
             }
-            catch (Exception)
-            {}
+            catch (Exception e)
+            {
+                System.IO.File.WriteAllText(Server.MapPath("~/Content/log.txt"), e.Message);
+            }
         }
 
         private void ImprimirEtiquetasEstandar(string nroRegistro)
         {
             var archivos = new []{ Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
-            var etiqueta = new bpac.Document();
+            var etiqueta = new Document();
             foreach (string archivo in archivos) {
-                if (etiqueta.Open(archivo))
-                {
-                    var txtNroRegistro = etiqueta.GetObject("txtValorRegistro");
-                    if(txtNroRegistro != null)
-                        txtNroRegistro.Text = nroRegistro;
-
-                    var imgCodigo = etiqueta.GetObject("imgCodigo");
-                    if (imgCodigo != null)
-                    {
-                        imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
-                    }
-
-                    etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
-                    etiqueta.PrintOut(1, bpac.PrintOptionConstants.bpoDefault);
-                    etiqueta.EndPrint();
-                    etiqueta.Close();
-                }
+                ImprimirEtiqueta(etiqueta, archivo, nroRegistro, 1);
             }
         }
 
         private void ImprimirEtiquetasExtras(string nroRegistro, int cantidad)
         {
             var archivos = new[] { Server.MapPath("~/Content/Imagenes/Etiqueta3.lbx") };
-            var etiqueta = new bpac.Document();
+            var etiqueta = new Document();
             foreach (string archivo in archivos)
             {
-                if (etiqueta.Open(archivo))
+                ImprimirEtiqueta(etiqueta, archivo, nroRegistro, cantidad);
+            }
+        }
+
+        private void ImprimirEtiqueta(Document etiqueta, string archivo, string nroRegistro, int cantidad)
+        {
+            if (etiqueta.Open(archivo))
+            {
+                var txtNroRegistro = etiqueta.GetObject("txtValorRegistro");
+                if (txtNroRegistro != null)
+                    txtNroRegistro.Text = nroRegistro;
+
+                var imgCodigo = etiqueta.GetObject("imgCodigo");
+                if (imgCodigo != null)
                 {
-                    var txtNroRegistro = etiqueta.GetObject("txtValorRegistro");
-                    if (txtNroRegistro != null)
-                        txtNroRegistro.Text = nroRegistro;
-
-                    var imgCodigo = etiqueta.GetObject("imgCodigo");
-                    if (imgCodigo != null)
-                    {
-                        imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
-                    }
-
-                    etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
-                    etiqueta.PrintOut(cantidad, bpac.PrintOptionConstants.bpoDefault);
-                    etiqueta.EndPrint();
-                    etiqueta.Close();
+                    imgCodigo.Width = ObtenerAnchoCodigo(nroRegistro.Length);
+                    imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
                 }
+
+                etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
+                etiqueta.PrintOut(1, bpac.PrintOptionConstants.bpoDefault);
+                etiqueta.EndPrint();
+                etiqueta.Close();
+            }
+        }
+
+        private int ObtenerAnchoCodigo(int cantidadCaracteres)
+        {
+            switch (cantidadCaracteres)
+            {
+                case 5:
+                    return 151;
+                case 6:
+                    return 170;
+                case 7:
+                    return 189;
+                case 8:
+                    return 208;
+                case 9:
+                    return 227;
+                case 10:
+                    return 246;
+                case 11:
+                    return 265;
+                case 12:
+                    return 284;
+                case 13:
+                    return 303;
+                case 14:
+                    return 322;
+                default:
+                    return cantidadCaracteres > 14 ? 322 : 151;
             }
         }
 
