@@ -134,7 +134,7 @@ namespace BancoSangre.Controllers
 
                 _db.Donacion.Add(donacion);
                 if(imprimirEtiquetas)
-                    ImprimirEtiquetas(donacion.NroRegistro, 3 + cantidadEtiquetasExtras);
+                    ImprimirEtiquetasDonacion(donacion.NroRegistro, 3 + cantidadEtiquetasExtras);
                 _db.SaveChanges();
 
                 return Json(true, JsonRequestBehavior.AllowGet);
@@ -207,6 +207,21 @@ namespace BancoSangre.Controllers
             }
         }
 
+        [Authorize]
+        public ActionResult ImprimirEtiquetas(string nroRegistro, int cantidadEtiquetasExtras)
+        {
+            try
+            {
+                ImprimirEtiquetasDonacion(nroRegistro, 1 + cantidadEtiquetasExtras);
+
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public string ObtenerCausalesDeRechazo(long idDonante)
         {
             var UltimaDonacion = _db.Donacion.Include(w => w.DonacionExamenSerologico)
@@ -225,7 +240,7 @@ namespace BancoSangre.Controllers
             return Razones;
         }
 
-        private void ImprimirEtiquetas(string nroRegistro, int cantidad)
+        private void ImprimirEtiquetasDonacion(string nroRegistro, int cantidad)
         {
             try
             {
@@ -290,8 +305,8 @@ namespace BancoSangre.Controllers
                     imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
                 }
 
-                etiqueta.StartPrint("", bpac.PrintOptionConstants.bpoDefault);
-                etiqueta.PrintOut(1, bpac.PrintOptionConstants.bpoDefault);
+                etiqueta.StartPrint("", PrintOptionConstants.bpoDefault);
+                etiqueta.PrintOut(cantidad, PrintOptionConstants.bpoDefault);
                 etiqueta.EndPrint();
                 etiqueta.Close();
             }

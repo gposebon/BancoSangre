@@ -24,6 +24,10 @@ app.factory("donacionesRepositorio", function ($http) {
         obtenerSerologiasParaDonacion: function (nroRegistro) {
             var url = "/Donaciones/ObtenerSerologiaParaDonacion";
             return $http.get(url + "?nroRegistro=" + nroRegistro);
+        },
+        imprimirEtiquetas: function (nroRegistro, cantidadEtiquetasExtras) {
+            var url = "/Donaciones/ImprimirEtiquetas";
+            return $http.get(url + "?nroRegistro=" + nroRegistro + "&cantidadEtiquetasExtras=" + cantidadEtiquetasExtras);
         }
 	};
 });

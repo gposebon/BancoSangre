@@ -118,6 +118,7 @@
                             <a ng-href="/Cuestionarios/Cuestionario?idCuestionario={{donacion.IdCuestionario}}&accion=verDesdeDonaciones"
                                class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionario" ng-hide="donacion.IdCuestionario == null"></a>
                             <button ng-class="obtenerClaseSerologia(donacion.TieneSerologia)" ng-click="editarSerologia(donacion)" title="Serología"></button>
+                            <button class="btn btn-primary glyphicon glyphicon-tags" ng-click="impresionEtiquetas(donacion.NroRegistro)" title="Imprimir etiquetas"></button>
                         </div>
                     </td>
                 </tr>

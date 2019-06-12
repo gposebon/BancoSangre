@@ -130,11 +130,13 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     // Pantalla ingresar
     
-    $scope.impresionEtiquetas = function () {
-        abrirPopupEtiquetas("/app/modal/modalEtiquetas.html", "¿Desea imprimir etiquetas?", "", null, $scope.donacion, $scope.idCuestionario);
+    $scope.impresionEtiquetas = function (nroRegistro) {
+        //Si viene desde la donación en curso tendremos donación en el scope, si viene desde la grilla de Donaciones tendremos nroRegistro.
+        abrirPopupEtiquetas("/app/modal/modalEtiquetas.html", "¿Desea imprimir etiquetas?", "", null, $scope.donacion, nroRegistro, $scope.idCuestionario);
     };
 
-    function abrirPopupEtiquetas(url, texto, modo, dimensiones, donacionScope, idCuestionario) {
+    function abrirPopupEtiquetas(url, texto, modo, dimensiones, donacionScope, nroRegistro, idCuestionario) {
+        //Si viene desde la donación en curso tendremos donación en el scope, si viene desde la grilla de Donaciones tendremos nroRegistro.
         var ctrlr = function ($scope, $uibModalInstance, datos) {
 
             var initModal = function () {
@@ -152,10 +154,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                 }
 
                 var donacion = crearDonacion(donacionScope.NroRegistro, donacionScope.IdDonante, donacionScope.IdDestino, donacionScope.Material,
-                    donacionScope.Cantidad, donacionScope.Peso, $("#calendarioFecha").datepicker("getDate"), donacionScope.IdEstadoDonacion, $scope.idCuestionario);
-                if ($scope.cantidadEtiquetasExtras == null) {
-                    $scope.cantidadEtiquetasExtras = 0;
-                }
+                    donacionScope.Cantidad, donacionScope.Peso, $("#calendarioFecha").datepicker("getDate"), donacionScope.IdEstadoDonacion, idCuestionario);
+
                 donacionesRepositorio.guardar(donacion, imprimirEtiquetas, $scope.cantidadEtiquetasExtras)
                     .then(function (result) {
                         if (result.data) {
@@ -170,7 +170,14 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
             $scope.cerrar = function (imprimirEtiquetas) {
                 $uibModalInstance.close();
-                $scope.guardarDonacion(imprimirEtiquetas);
+                if ($scope.cantidadEtiquetasExtras == null) {
+                    $scope.cantidadEtiquetasExtras = 0;
+                }
+                if (nroRegistro == null) {
+                    $scope.guardarDonacion(imprimirEtiquetas);
+                } else {
+                    donacionesRepositorio.imprimirEtiquetas(nroRegistro, $scope.cantidadEtiquetasExtras);
+                }
             };
 
             initModal();
