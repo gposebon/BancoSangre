@@ -245,9 +245,8 @@ namespace BancoSangre.Controllers
             try
             {
                 // Genera la imagen del código de barra.
-                var maxheight = nroRegistro.Length;
                 var barcode39 = BarcodeDrawFactory.Code39WithChecksum;
-                var codigoBarra = barcode39.Draw(nroRegistro, maxheight);
+                var codigoBarra = barcode39.Draw(nroRegistro, 30);
                 using (var memStream = new MemoryStream())
                 {
                     codigoBarra.Save(memStream, ImageFormat.Png);
@@ -271,14 +270,14 @@ namespace BancoSangre.Controllers
             }
         }
 
-        private void ImprimirEtiquetasEstandar(string nroRegistro)
-        {
-            var archivos = new []{ Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
-            var etiqueta = new Document();
-            foreach (string archivo in archivos) {
-                ImprimirEtiqueta(etiqueta, archivo, nroRegistro, 1);
-            }
-        }
+        //private void ImprimirEtiquetasEstandar(string nroRegistro)
+        //{
+        //    var archivos = new []{ Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
+        //    var etiqueta = new Document();
+        //    foreach (string archivo in archivos) {
+        //        ImprimirEtiqueta(etiqueta, archivo, nroRegistro, 1);
+        //    }
+        //}
 
         private void ImprimirEtiquetasExtras(string nroRegistro, int cantidad)
         {
@@ -302,6 +301,7 @@ namespace BancoSangre.Controllers
                 if (imgCodigo != null)
                 {
                     imgCodigo.Width = ObtenerAnchoCodigo(nroRegistro.Length);
+                    imgCodigo.Height = 30;
                     imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
                 }
 
