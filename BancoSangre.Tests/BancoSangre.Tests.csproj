@@ -100,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BancoSangre\BancoSangre.csproj">
-      <Project>{8840B742-08C3-423A-ACE9-EFC908F01F29}</Project>
+      <Project>{8840b742-08c3-423a-ace9-efc908f01f29}</Project>
       <Name>BancoSangre</Name>
     </ProjectReference>
   </ItemGroup>
