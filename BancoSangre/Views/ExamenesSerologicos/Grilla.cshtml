@@ -4,17 +4,7 @@
     ViewBag.Title = "Serología";
 }
 
-<div>
-    <div style="display: inline-block">
-        <h2>Exámenes serológicos</h2>
-    </div>
-    <div class="volverArribaPagina">
-        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            Volver
-        </a>
-    </div>
-</div>
+@Html.Partial("_HeaderTitulo", new ViewDataDictionary { { "titulo", "Exámenes serológicos" } })
 
 <div class="panel panel-default" ng-controller="serologiaController">
 

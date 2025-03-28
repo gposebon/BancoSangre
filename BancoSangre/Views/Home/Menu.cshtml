@@ -2,33 +2,31 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron jumbotronAgregado">
-    <div class="col-md-4 divBotonMenu">
-        <h3>Donantes</h3>
-        <p><a class="btn btn-primary glyphicon glyphicon-user botonMenu" href="../Donantes/Grilla"></a></p>
+<div class="container-fluid" style="padding-top: 50px">
+    <div class="row gy-4">
+        <div class="col-sm-6 col-md-4 col-lg-3 grid-item divBotonMenu">
+            <h3>Donantes</h3>
+            <p><a class="btn btn-primary glyphicon glyphicon-user botonMenu" href="../Donantes/Grilla"></a></p>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 grid-item divBotonMenu">
+            <h3>Donaciones</h3>
+            <p><a class="btn btn-primary glyphicon glyphicon-tint botonMenu" href="../Donaciones/Grilla"></a></p>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 grid-item divBotonMenu">
+            <h3>Destinos</h3>
+            <p><a class="btn btn-primary glyphicon glyphicon-map-marker botonMenu" href="../DestinoDonacions/Grilla"></a></p>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 grid-item divBotonMenu">
+            <h3>Cuestionario</h3>
+            <p><a class="btn btn-primary glyphicon glyphicon-list-alt botonMenu" href="../Preguntas/Grilla"></a></p>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3 grid-item divBotonMenu">
+            <h3>Exámenes serológicos</h3>
+            <p><a class="btn btn-primary fa fa-flask botonMenu" href="../ExamenesSerologicos/Grilla"></a></p>
+        </div>
     </div>
-    <div class="col-md-4 divBotonMenu">
-        <h3>Donaciones</h3>
-        <p><a class="btn btn-primary glyphicon glyphicon-tint botonMenu" href="../Donaciones/Grilla"></a></p>
-    </div>
-    <div class="col-md-4 divBotonMenu">
-        <h3>Destinos</h3>
-        <p><a class="btn btn-primary glyphicon glyphicon-map-marker botonMenu" href="../DestinoDonacions/Grilla"></a></p>
-    </div>
-    <div class="col-md-4 divBotonMenu">
-        <h3>Cuestionario</h3>
-        <p><a class="btn btn-primary glyphicon glyphicon-list-alt botonMenu" href="../Preguntas/Grilla"></a></p>
-    </div>
-    <div class="col-md-4 divBotonMenu">
-        <h3>Exámenes serológicos</h3>
-        <p><a class="btn btn-primary fa fa-flask botonMenu" href="../ExamenesSerologicos/Grilla"></a></p>
-    </div>
-</div>
-
-<div class="row">
-    
 </div>
 
 @section Scripts {
-	@Scripts.Render("~/Scripts/Auxiliares/barraLateral.js")
+    @Scripts.Render("~/Scripts/Auxiliares/barraLateral.js")
 }

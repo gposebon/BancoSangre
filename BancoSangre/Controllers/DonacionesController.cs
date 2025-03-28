@@ -246,7 +246,7 @@ namespace BancoSangre.Controllers
             {
                 // Genera la imagen del código de barra.
                 var barcode39 = BarcodeDrawFactory.Code39WithChecksum;
-                var codigoBarra = barcode39.Draw(nroRegistro, 30);
+                var codigoBarra = barcode39.Draw(nroRegistro, 35);
                 using (var memStream = new MemoryStream())
                 {
                     codigoBarra.Save(memStream, ImageFormat.Png);
@@ -258,7 +258,7 @@ namespace BancoSangre.Controllers
                 }
 
                 // Genera las etiquetas.
-                // ImprimirEtiquetasEstandar(nroRegistro);
+                ImprimirEtiquetasEstandar(nroRegistro);
                 ImprimirEtiquetasExtras(nroRegistro, cantidad);
 
                 // Elimina la imagen del código de barra.
@@ -270,14 +270,14 @@ namespace BancoSangre.Controllers
             }
         }
 
-        //private void ImprimirEtiquetasEstandar(string nroRegistro)
-        //{
-        //    var archivos = new []{ Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
-        //    var etiqueta = new Document();
-        //    foreach (string archivo in archivos) {
-        //        ImprimirEtiqueta(etiqueta, archivo, nroRegistro, 1);
-        //    }
-        //}
+        private void ImprimirEtiquetasEstandar(string nroRegistro)
+        {
+            var archivos = new [] { Server.MapPath("~/Content/Imagenes/Etiqueta1.lbx"), Server.MapPath("~/Content/Imagenes/Etiqueta2.lbx") };
+            var etiqueta = new Document();
+            foreach (string archivo in archivos) {
+                ImprimirEtiqueta(etiqueta, archivo, nroRegistro, 1);
+            }
+        }
 
         private void ImprimirEtiquetasExtras(string nroRegistro, int cantidad)
         {
@@ -300,11 +300,10 @@ namespace BancoSangre.Controllers
                 var imgCodigo = etiqueta.GetObject("imgCodigo");
                 if (imgCodigo != null)
                 {
-                    imgCodigo.Width = ObtenerAnchoCodigo(nroRegistro.Length);
-                    imgCodigo.Height = 30;
+                    // imgCodigo.Width = ObtenerAnchoCodigo(nroRegistro.Length);
+                    imgCodigo.Height = 600;
                     imgCodigo.SetData(0, Server.MapPath("~/Content/Imagenes/codigoBarra.png"), 4);
                 }
-
                 etiqueta.StartPrint("", PrintOptionConstants.bpoDefault);
                 etiqueta.PrintOut(cantidad, PrintOptionConstants.bpoDefault);
                 etiqueta.EndPrint();

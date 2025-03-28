@@ -17,14 +17,14 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="containerNav">
+        <div class="containerNav" style="padding-right: 30px">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Banco de solidaridad 2.0", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Banco de solidaridad 2.5", "Login", "Account", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -40,7 +40,7 @@
         @RenderBody()
         <!--footer>
             <hr />
-            <p>&copy; @DateTime.Now.Year - Banco de solidaridad 2.0</p>
+            <p>&copy; @DateTime.Now.Year - Banco de solidaridad 2.5</p>
         </footer-->
     </div>
     <div class="col-md-2 barraLateralDerecha">
@@ -48,7 +48,7 @@
 
     @*@Scripts.Render("~/bundles/bootstrap")*@
 
-    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.13.2.js")
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/angular-sanitize.js")
     @Scripts.Render("~/Scripts/bootstrap.min.js")

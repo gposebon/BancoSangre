@@ -5,6 +5,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    display: flex;
+    flex-direction: column;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -84,7 +86,7 @@ textarea {
 
 .logoBancoSangre {
     display: none;
-    background: url('../../Content/Imagenes/bancosangre.jpg') no-repeat center;
+    background: url('../Content/Imagenes/bancosangre.jpg') no-repeat center;
     background-size: contain;
     margin-top: -1.2%;
     position: relative;
@@ -114,6 +116,8 @@ textarea {
 .botonMenu {
     padding: .25em;
     font-size: 5.2em !important;
+    min-width: 126px;
+    line-height: 104px !important;
 }
 
 .divBotonMenu {
@@ -128,6 +132,7 @@ textarea {
 
 table.table-striped td.celdaGrillaAdmin {
     text-align: center;
+    vertical-align: middle;
 }
 
 .contenedorTituloCrearEditar {
@@ -225,8 +230,9 @@ hr.hrGris {
 }
 
 .volverArribaPagina {
-    display: inline-block;
-    float: right;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
     margin: 20px 0 10px 0;
 }
 
@@ -309,4 +315,52 @@ hr.hrGris {
 
 @page {
     margin: 15px;
+}
+
+.btn-1 {
+    color: #ffffff;
+    background-color: #9d44f9;
+    border-color: #b473f7;
+}
+
+.btn-1:hover,
+.btn-1:focus,
+.btn-1:active,
+.btn-1.active,
+.open .dropdown-toggle.btn-1 {
+    color: #ffffff;
+    background-color: #751fce;
+    border-color: #b473f7;
+}
+
+.btn-2 {
+    color: #ffffff;
+    background-color: #fbaa3d;
+    border-color: #fbb352;
+}
+
+.btn-2:hover,
+.btn-2:focus,
+.btn-2:active,
+.btn-2.active,
+.open .dropdown-toggle.btn-2 {
+    color: #ffffff;
+    background-color: #fb950c;
+    border-color: #fbb352;
+}
+
+.btn-3 {
+    color: #ffffff;
+    background-color: #f949c8;
+    border-color: #fb6dd3;
+}
+
+.btn-3:hover,
+.btn-3:focus,
+.btn-3:active,
+.btn-3.active,
+.open .dropdown-toggle.btn-3 {
+    color: #ffffff;
+    background-color: #f90cb7;
+    border-color: #fb6dd3;
 }

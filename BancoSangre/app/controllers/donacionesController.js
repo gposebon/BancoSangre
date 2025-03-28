@@ -131,7 +131,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
     // Pantalla ingresar
     
     $scope.impresionEtiquetas = function (nroRegistro) {
-        //Si viene desde la donación en curso tendremos donación en el scope, si viene desde la grilla de Donaciones tendremos nroRegistro.
+        // Si viene desde la donación en curso tendremos donación en el scope, si viene desde la grilla de Donaciones tendremos nroRegistro.
         abrirPopupEtiquetas("/app/modal/modalEtiquetas.html", "¿Desea imprimir etiquetas?", "", null, $scope.donacion, nroRegistro, $scope.idCuestionario);
     };
 
@@ -198,7 +198,7 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
                         modo: modo
                     };
                 }
-            }
+            },
         });
     }
 
@@ -218,7 +218,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
 
     $scope.editarSerologia = function (donacion) {
         var instancia = abrirPopupSerologia("/app/modal/modalSerologia.html", "Serologías para donación: " + donacion.NroRegistro, donacion.NroRegistro,
-                                                $scope.resultadosSerologia, "", null);
+            $scope.resultadosSerologia, "", null);
+
         instancia.result.then(function () {
             obtenerDonaciones();
         }, function () {
@@ -329,8 +330,8 @@ app.controller("donacionesController", function ($scope, donacionesRepositorio, 
             });
     }
 
-    $scope.leerCodigo = function () {
-        $scope.mostrarLectorCodigo = true;
+    $scope.abrirLector = function () {
+        $scope.mostrarLectorCodigo = !$scope.mostrarLectorCodigo;
     };
 
 });

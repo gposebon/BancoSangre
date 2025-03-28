@@ -120,7 +120,7 @@ app.controller("donantesController", function ($scope, donantesRepositorio, moda
             });
         } else {
             var textoSecundario = "";
-            if (idEstadoDonante === 3 && diferidoHasta != null)
+            if (diferidoHasta != null)
                 textoSecundario = " hasta " + new Date(diferidoHasta.match(/\d+/)[0] * 1).toLocaleDateString() + ".";
             modalServicio.open("info", descripcionEstado + textoSecundario);
         }

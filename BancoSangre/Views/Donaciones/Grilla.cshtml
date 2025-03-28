@@ -4,21 +4,21 @@
     ViewBag.Title = "Donaciones";
 }
 
-<div class="panel panel-default" ng-controller="donacionesController" ng-cloak>
-    <div id="contenidoGrilla" ng-show="!mostrarLectorCodigo">
-        <div>
-            <div style="display:inline-block;">
-                <h3>Donaciones</h3>
-            </div>
-            <div class="volverArribaPagina">
-                <button class="btn btn-primary" ng-click="leerCodigo()">Leer código</button>
-                <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    Volver
-                </a>
-            </div>
+<div ng-controller="donacionesController" style="display: flex; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between; padding: 0 15px">
+        <div style="display:inline-block;">
+            <h3>Donaciones</h3>
         </div>
+        <div class="volverArribaPagina">
+            <button class="btn btn-primary" style="margin-right: .5rem" ng-click="abrirLector()">{{ mostrarLectorCodigo ? "Cerrar lector" : "Leer código" }}</button>
+            <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                Volver
+            </a>
+        </div>
+    </div>
 
+    <div class="panel panel-default" ng-cloak>
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-9">
@@ -56,7 +56,7 @@
             </thead>
             <tbody ng-cloak>
                 <tr ng-repeat="donacion in filtrados = (donaciones | filter:{NroRegistro: busqNroRegistro, DocDonante: busqDocumento, NomreDonante: busqDonante,
-                    Destino: busqDestino}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
+            Destino: busqDestino}) | limitTo:infoPagina.itemsPorPagina:infoPagina.itemsPorPagina*(infoPagina.pagina-1)">
                     <td class="celdaGrillaAdmin">
                         <span>
                             {{ donacion.NroRegistro }}
@@ -117,7 +117,7 @@
                             <button class="btn btn-primary glyphicon glyphicon-pencil" ng-click="rowform.$show()" title="Editar"></button>
                             <a ng-href="/Cuestionarios/Cuestionario?idCuestionario={{donacion.IdCuestionario}}&accion=verDesdeDonaciones"
                                class="btn btn-primary glyphicon glyphicon-list-alt" title="Cuestionario" ng-hide="donacion.IdCuestionario == null"></a>
-                            <button ng-class="obtenerClaseSerologia(donacion.TieneSerologia)" ng-click="editarSerologia(donacion)" title="Serología"></button>
+                            <button ng-class="obtenerClaseSerologia(donacion.TieneSerologia)" style="line-height: 20px; margin-top: 2px;" ng-click="editarSerologia(donacion)" title="Serología"></button>
                             <button class="btn btn-primary glyphicon glyphicon-tags" ng-click="impresionEtiquetas(donacion.NroRegistro)" title="Imprimir etiquetas"></button>
                         </div>
                     </td>
@@ -135,7 +135,6 @@
             <div id="interactive" class="viewport"></div>
         </section>
     </div>
-
 </div>
 
 @section scripts{

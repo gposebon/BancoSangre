@@ -63,6 +63,7 @@ app.controller("serologiaController", function ($scope, serologiaRepositorio, mo
             DescripcionExamen: "",
             EstaActivo: false
 		};
+		if (!$scope.examenes?.length) $scope.examenes = [];
 		$scope.examenes.push($scope.inserted);
 	};
 

@@ -31,7 +31,7 @@ namespace BancoSangre.Tests.Controllers
             ViewResult result = controller.Sobre() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.AreEqual("Banco de sangre", result.ViewBag.Message);
         }
 
         [TestMethod]

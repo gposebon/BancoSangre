@@ -67,7 +67,8 @@ app.controller("destinosController", function ($scope, destinosRepositorio, moda
 			Prefijo: "",
 			Telefono: "",
         };
-        $scope.destinoBusqueda = '';
+		$scope.destinoBusqueda = '';
+		if (!$scope.destinos?.length) $scope.destinos = [];
         $scope.destinos.push($scope.inserted);
         $scope.infoPagina.pagina = Math.ceil($scope.destinos.length / $scope.infoPagina.itemsPorPagina); //Siempre va a la última página (por si se agregara en una nueva página)
 	};

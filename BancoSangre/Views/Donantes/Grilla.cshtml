@@ -3,20 +3,9 @@
     ViewBag.Title = "Donantes";
 }
 
-<div class="panel panel-default" ng-controller="donantesController" ng-cloak>
-    <div>
-        <div style="display: inline-block">
-            <h2>Donantes</h2>
-        </div>
-        <div class="volverArribaPagina">
-            <button class="btn btn-primary" ng-hide="editar" ng-click="imprimirListado()">Imprimir</button>
-            <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                Volver
-            </a>
-        </div>
-    </div>
+@Html.Partial("_HeaderTitulo", new ViewDataDictionary { { "titulo", "Donantes" } })
 
+<div class="panel panel-default" ng-controller="donantesController" ng-cloak>
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-9">
@@ -38,7 +27,7 @@
         </div>
     </div>
 
-    <div id="listadoDonantes" >
+    <div id="listadoDonantes">
         <table class="table table-striped table-bordered table-hover table-condensed">
             <thead>
                 <tr class="text-uppercase">
@@ -150,9 +139,9 @@
             </tbody>
         </table>
     </div>
-    
+
     <div style="text-align:center">
-        <uib-pagination ng-show="infoPagina.totalItems > infoPagina.itemsPorPagina" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
+        <uib-pagination ng-show="true" total-items="filtrados.length" boundary-links="true" ng-model="infoPagina.pagina"
                         items-per-page="infoPagina.itemsPorPagina"></uib-pagination>
     </div>
 </div>

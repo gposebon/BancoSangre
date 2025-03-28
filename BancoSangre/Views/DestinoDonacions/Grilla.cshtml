@@ -4,20 +4,9 @@
     ViewBag.Title = "Destinos";
 }
 
-<div>
-    <div style="display: inline-block">
-        <h2>Destinos de donaciones</h2>
-    </div>
-    <div class="volverArribaPagina">
-        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            Volver
-        </a>
-    </div>
-</div>
+@Html.Partial("_HeaderTitulo", new ViewDataDictionary { { "titulo", "Destinos de donaciones" } })
 
 <div class="panel panel-default" ng-controller="destinosController">
-
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-9">

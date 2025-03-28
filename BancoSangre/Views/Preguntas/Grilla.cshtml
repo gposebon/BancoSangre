@@ -3,23 +3,22 @@
 	ViewBag.Title = "Cuestionario";
 }
 
-<div>
-	<div style="display: inline-block">
-		<h2>Cuestionario</h2>
-	</div>
-	<div class="volverArribaPagina">
-		<a ng-href="@Url.Action("Cuestionario", "Cuestionarios")?idDonante=-1&accion=vistaPrevia" class="btn btn-primary" Title="Vista previa">
-			Vista previa
-		</a>
-		<a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al menú">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-			Volver
-		</a>
-	</div>
+<div style="display: flex; justify-content: space-between; padding: 0 15px">
+    <div style="display:inline-block;">
+        <h3>Cuestionario</h3>
+    </div>
+    <div class="volverArribaPagina">
+        <a ng-href="@Url.Action("Cuestionario", "Cuestionarios")?idDonante=-1&accion=vistaPrevia" class="btn btn-primary" style="margin-right: .5rem" Title="Vista previa">
+            Vista previa
+        </a>
+        <a href="@Url.Action("Menu", "Home")" class="btn btn-success" Title="Volver al listado">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            Volver
+        </a>
+    </div>
 </div>
 
 <div class="panel panel-default" ng-controller="preguntasController">
-
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-md-9">
